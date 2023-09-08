@@ -567,7 +567,7 @@ std::string talker_character_const::short_description() const
 
 bool talker_character_const::has_activity() const
 {
-    return !me_chr_const->activity.is_null();
+    return me_chr_const->activity.has_activity();
 }
 
 bool talker_character_const::is_mounted() const

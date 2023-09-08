@@ -1476,30 +1476,30 @@ bool Character::can_stash_partial( const item &it, bool ignore_pkt_settings )
 
 void Character::cancel_stashed_activity()
 {
-    stashed_outbounds_activity = player_activity();
-    stashed_outbounds_backlog = player_activity();
+    activity.stashed_outbounds_activity.set_to_null();
+    activity.stashed_outbounds_backlog.set_to_null();
 }
 
 player_activity Character::get_stashed_activity() const
 {
-    return stashed_outbounds_activity;
+    return activity.stashed_outbounds_activity;
 }
 
 void Character::set_stashed_activity( const player_activity &act, const player_activity &act_back )
 {
-    stashed_outbounds_activity = act;
-    stashed_outbounds_backlog = act_back;
+   activity.stashed_outbounds_activity = act;
+    activity.stashed_outbounds_backlog = act_back;
 }
 
 bool Character::has_stashed_activity() const
 {
-    return static_cast<bool>( stashed_outbounds_activity );
+    return static_cast<bool>( activity.stashed_outbounds_activity );
 }
 
 void Character::assign_stashed_activity()
 {
-    activity = stashed_outbounds_activity;
-    backlog.push_front( stashed_outbounds_backlog );
+    activity.activity = activity.stashed_outbounds_activity;
+    activity.backlog.push_front( activity.stashed_outbounds_backlog );
     cancel_stashed_activity();
 }
 
@@ -1511,11 +1511,11 @@ bool Character::check_outbounds_activity( const player_activity &act, bool check
                   !here.inbounds( here.getlocal( act.coords.back() ) ) ) ) {
         if( is_npc() && !check_only ) {
             // stash activity for when reloaded.
-            stashed_outbounds_activity = act;
-            if( !backlog.empty() ) {
-                stashed_outbounds_backlog = backlog.front();
+            activity.stashed_outbounds_activity = act;
+            if( !activity.backlog.empty() ) {
+                activity.stashed_outbounds_backlog = activity.backlog.front();
             }
-            activity = player_activity();
+            activity.halt_active();
         }
         add_msg_debug( debugmode::DF_CHARACTER,
                        "npc %s at pos %s, activity target is not inbounds at %s therefore "
@@ -1784,7 +1784,7 @@ void Character::forced_dismount()
         }
         g->update_map( player_character );
     }
-    if( activity ) {
+    if( activity.has_activity() ) {
         cancel_activity();
     }
     moves -= 150;
@@ -2269,7 +2269,7 @@ void Character::process_turn()
 
     // If we're actively handling something we can't just drop it on the ground
     // in the middle of handling it
-    if( activity.targets.empty() && activity.do_drop_invalid_inventory() ) {
+    if( activity.raw().targets.empty() && activity.raw().do_drop_invalid_inventory() ) {
         drop_invalid_inventory();
     }
     if( leak_level_dirty ) {
@@ -3570,8 +3570,8 @@ int Character::calc_focus_equilibrium( bool ignore_pain ) const
 {
     int focus_equilibrium = 100;
 
-    if( activity.id() == ACT_READ ) {
-        const item_location book = activity.targets[0];
+    if( activity.active_id() == ACT_READ ) {
+        const item_location book = activity.raw().targets[0];
         if( book && book->is_book() ) {
             const cata::value_ptr<islot_book> &bt = book->type->book;
             // apply a penalty when we're actually learning something
@@ -4870,7 +4870,7 @@ void Character::update_needs( int rate_multiplier )
     // No food/thirst, capped fatigue clock (only up to tired)
     const bool asleep = !sleep.is_null();
     const bool lying = asleep || has_effect( effect_lying_down ) ||
-                       activity.id() == ACT_TRY_SLEEP;
+                       activity.active_id() == ACT_TRY_SLEEP;
 
     needs_rates rates = calc_needs_rates();
 
@@ -4947,7 +4947,7 @@ void Character::update_needs( int rate_multiplier )
         }
     }
     if( is_avatar() && wasnt_fatigued && get_fatigue() > fatigue_levels::DEAD_TIRED && !lying ) {
-        if( !activity ) {
+        if( !activity.has_activity() ) {
             add_msg_if_player( m_warning, _( "You're feeling tired.  %s to lie down for sleep." ),
                                press_x( ACTION_SLEEP ) );
         } else {
@@ -5360,8 +5360,8 @@ void Character::toolmod_add( item_location tool, item_location mod )
     }
 
     assign_activity( ACT_TOOLMOD_ADD, 1, -1 );
-    activity.targets.emplace_back( std::move( tool ) );
-    activity.targets.emplace_back( std::move( mod ) );
+    activity.raw().targets.emplace_back( std::move( tool ) );
+    activity.raw().targets.emplace_back( std::move( mod ) );
 }
 
 void Character::temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 )
@@ -6589,9 +6589,9 @@ void Character::mend_item( item_location &&obj, bool interactive )
 
         const fault_fix &fix = opt.fix;
         assign_activity( ACT_MEND_ITEM, to_moves<int>( opt.time_to_fix ) );
-        activity.name = opt.fault.str();
-        activity.str_values.emplace_back( fix.id_ );
-        activity.targets.push_back( std::move( obj ) );
+        activity.raw().name = opt.fault.str();
+        activity.raw().str_values.emplace_back( fix.id_ );
+        activity.raw().targets.push_back( std::move( obj ) );
     }
 }
 
@@ -8565,43 +8565,43 @@ void Character::assign_activity( const activity_actor &actor )
 void Character::assign_activity( const player_activity &act )
 {
     bool resuming = false;
-    if( !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
+    if( !activity.backlog.empty() && activity.backlog.front().can_resume_with( act, *this ) ) {
         resuming = true;
         add_msg_if_player( _( "You resume your task." ) );
-        activity = backlog.front();
-        backlog.pop_front();
+        activity.activity= activity.backlog.front();
+        activity.backlog.pop_front();
     } else {
-        if( activity ) {
-            backlog.push_front( activity );
+        if( activity.has_activity() ) {
+            activity.backlog.push_front( activity.activity );
         }
 
-        activity = act;
+        activity.activity = act;
     }
 
-    activity.start_or_resume( *this, resuming );
+    activity.activity.start_or_resume( *this, resuming );
 
     if( is_npc() ) {
         cancel_stashed_activity();
         npc *guy = dynamic_cast<npc *>( this );
         guy->set_attitude( NPCATT_ACTIVITY );
         guy->set_mission( NPC_MISSION_ACTIVITY );
-        guy->current_activity_id = activity.id();
+        guy->current_activity_id = activity.active_id();
     }
 }
 
 bool Character::has_activity( const activity_id &type ) const
 {
-    return activity.id() == type;
+    return activity.active_id() == type;
 }
 
 bool Character::has_activity( const std::vector<activity_id> &types ) const
 {
-    return std::find( types.begin(), types.end(), activity.id() ) != types.end();
+    return std::find( types.begin(), types.end(), activity.active_id() ) != types.end();
 }
 
 void Character::cancel_activity()
 {
-    activity.canceled( *this );
+    activity.activity.canceled( *this );
     if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() ) {
         stop_hauling();
     }
@@ -8609,13 +8609,13 @@ void Character::cancel_activity()
     // but keep only one instance of ACT_ADV_INVENTORY
     // FIXME: this is required by the legacy code in advanced_inventory::move_all_items()
     bool has_adv_inv = has_activity( ACT_ADV_INVENTORY );
-    for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
+    for( auto backlog_item = activity.backlog.begin(); backlog_item != activity.backlog.end(); ) {
         if( backlog_item->auto_resume &&
             ( !has_adv_inv || backlog_item->id() != ACT_ADV_INVENTORY ) ) {
             has_adv_inv |= backlog_item->id() == ACT_ADV_INVENTORY;
             backlog_item++;
         } else {
-            backlog_item = backlog.erase( backlog_item );
+            backlog_item = activity.backlog.erase( backlog_item );
         }
     }
 
@@ -8623,25 +8623,25 @@ void Character::cancel_activity()
     // and automatically puts auto_resume = true on it
     // we don't want that to persist if there is another interruption.
     // and player moves elsewhere.
-    if( has_activity( ACT_WAIT_STAMINA ) && !backlog.empty() &&
-        backlog.front().auto_resume ) {
-        backlog.front().auto_resume = false;
+    if( has_activity( ACT_WAIT_STAMINA ) && !activity.backlog.empty() &&
+        activity.backlog.front().auto_resume ) {
+        activity.backlog.front().auto_resume = false;
     }
-    if( activity && activity.is_suspendable() ) {
-        activity.allow_distractions();
-        backlog.push_front( activity );
+    if( activity.has_activity() && activity.activity.is_suspendable() ) {
+        activity.activity.allow_distractions();
+        activity.backlog.push_front( activity.activity );
     }
     sfx::end_activity_sounds(); // kill activity sounds when canceled
-    activity = player_activity();
+    activity.halt_active();
 }
 
 void Character::resume_backlog_activity()
 {
-    if( !backlog.empty() && backlog.front().auto_resume ) {
-        activity = backlog.front();
-        activity.auto_resume = false;
-        activity.allow_distractions();
-        backlog.pop_front();
+    if( !activity.backlog.empty() && activity.backlog.front().auto_resume ) {
+        activity.activity = activity.backlog.front();
+        activity.activity.auto_resume = false;
+        activity.activity.allow_distractions();
+        activity.backlog.pop_front();
     }
 }
 
@@ -8685,9 +8685,9 @@ void Character::fall_asleep()
 
 void Character::fall_asleep( const time_duration &duration )
 {
-    if( activity ) {
-        if( activity.id() == ACT_TRY_SLEEP ) {
-            activity.set_to_null();
+    if( activity.has_activity() ) {
+        if( activity.active_id() == ACT_TRY_SLEEP ) {
+            activity.halt_active();
         } else {
             cancel_activity();
         }
@@ -8936,7 +8936,7 @@ int Character::temp_corrected_by_climate_control( int temperature,
 
 bool Character::in_sleep_state() const
 {
-    return Creature::in_sleep_state() || activity.id() == ACT_TRY_SLEEP;
+    return Creature::in_sleep_state() || activity.active_id() == ACT_TRY_SLEEP;
 }
 
 void Character::cache_visit_items_with( const itype_id &type,

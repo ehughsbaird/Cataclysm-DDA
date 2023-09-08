@@ -372,7 +372,7 @@ bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
             // Currently activities can only store item position in the players inventory,
             // not on ground or similar. TODO: implement storing arbitrary container locations.
             if( target.item_loc && create_activity() ) {
-                serialize_liquid_target( player_character.activity, target.item_loc );
+                serialize_liquid_target( player_character.activity.raw(), target.item_loc );
             } else if( player_character.pour_into( target.item_loc, liquid, true ) ) {
                 target.item_loc.make_active();
                 player_character.mod_moves( -100 );
@@ -399,7 +399,7 @@ bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
             }
 
             if( create_activity() ) {
-                serialize_liquid_target( player_character.activity, *vpr );
+                serialize_liquid_target( player_character.activity.raw(), *vpr );
                 return true;
             } else if( player_character.pour_into( *vpr, liquid ) ) {
                 // this branch is used in milking and magiclysm butchery blood draining
@@ -413,7 +413,7 @@ bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
         case LD_KEG:
         case LD_GROUND:
             if( create_activity() ) {
-                serialize_liquid_target( player_character.activity, target.pos );
+                serialize_liquid_target( player_character.activity.raw(), target.pos );
             } else {
                 if( target.dest_opt == LD_KEG ) {
                     iexamine::pour_into_keg( target.pos, liquid );

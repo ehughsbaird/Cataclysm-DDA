@@ -661,7 +661,7 @@ class atm_menu
                     default:
                         return;
                 }
-                if( !you.activity.is_null() ) {
+                if( you.activity.has_activity() ) {
                     break;
                 }
             }
@@ -675,8 +675,8 @@ class atm_menu
         }
 
         options choose_option() {
-            if( you.activity.id() == ACT_ATM ) {
-                return static_cast<options>( you.activity.index );
+            if( you.activity.active_id() == ACT_ATM ) {
+                return static_cast<options>( you.activity.raw().index );
             }
             amenu.query();
             uistate.iexamine_atm_selected = amenu.selected;
@@ -857,9 +857,9 @@ class atm_menu
         //!Deposit pre-Cataclysm currency and receive equivalent amount minus fees on a card.
         bool do_exchange_cash() {
             item *dst;
-            if( you.activity.id() == ACT_ATM ) {
-                dst = you.activity.targets.front().get_item();
-                you.activity.set_to_null();
+            if( you.activity.active_id() == ACT_ATM ) {
+                dst = you.activity.raw().targets.front().get_item();
+                you.activity.halt_active();
                 if( dst->is_null() || dst->typeId() != itype_cash_card ) {
                     debugmsg( "do_exchange_cash lost the destination card" );
                     return false;
@@ -906,7 +906,7 @@ class atm_menu
             }
             dst->ammo_set( dst->ammo_default(), dst->ammo_remaining() + value );
             you.assign_activity( ACT_ATM, 0, exchange_cash );
-            you.activity.targets.emplace_back( you, dst );
+            you.activity.raw().targets.emplace_back( you, dst );
             return true;
         }
 
@@ -915,9 +915,9 @@ class atm_menu
             item *dst;
             std::vector<item *> cash_cards_on_hand = you.cache_get_items_with( "is_cash_card",
                     &item::is_cash_card );
-            if( you.activity.id() == ACT_ATM ) {
-                dst = you.activity.targets.front().get_item();
-                you.activity.set_to_null(); // stop for now, if required, it will be created again.
+            if( you.activity.active_id() == ACT_ATM ) {
+                dst = you.activity.raw().targets.front().get_item();
+                you.activity.halt_active(); // stop for now, if required, it will be created again.
                 if( dst->is_null() || dst->typeId() != itype_cash_card ) {
                     debugmsg( "do_transfer_all_money lost the destination card" );
                     return false;
@@ -939,7 +939,7 @@ class atm_menu
                     // the next turn. Putting this here makes sure there will be something to be
                     // done next turn.
                     you.assign_activity( ACT_ATM, 0, transfer_all_money );
-                    you.activity.targets.emplace_back( you, dst );
+                    you.activity.raw().targets.emplace_back( you, dst );
                     break;
                 }
                 // should we check for max capacity here?
@@ -1351,7 +1351,7 @@ bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
     } else {
         you.use_charges( itype_electrohack, 25 );
         you.assign_activity( hacking_activity_actor() );
-        you.activity.placement = get_map().getglobal( examp );
+        you.activity.raw().placement = get_map().getglobal( examp );
         return true;
     }
 }
@@ -1453,7 +1453,7 @@ void iexamine::rubble( Character &you, const tripoint &examp )
         return;
     }
     you.assign_activity( clear_rubble_activity_actor( moves ) );
-    you.activity.placement = here.getglobal( examp );
+    you.activity.raw().placement = here.getglobal( examp );
 }
 
 /**
@@ -4197,8 +4197,8 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint &examp )
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, you.per_cur ), 4 + you.per_cur * 2 );
     you.assign_activity( forage_activity_actor( move_cost ) );
-    you.activity.placement = here.getglobal( examp );
-    you.activity.auto_resume = true;
+    you.activity.raw().placement = here.getglobal( examp );
+    you.activity.raw().auto_resume = true;
 }
 
 void trap::examine( const tripoint &examp ) const
@@ -4316,7 +4316,7 @@ void iexamine::part_con( Character &you, tripoint const &examp )
             }
         } else {
             you.assign_activity( ACT_BUILD );
-            you.activity.placement = here.getglobal( examp );
+            you.activity.raw().placement = here.getglobal( examp );
         }
         return;
     }
@@ -5335,9 +5335,9 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
             popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
             return;
         }
-    } else if( patient.activity.id() == ACT_OPERATION ) {
+    } else if( patient.activity.active_id() == ACT_OPERATION ) {
         popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
-               to_string( time_duration::from_moves( patient.activity.moves_left ) ) );
+               to_string( time_duration::from_moves( patient.activity.raw().moves_left ) ) );
         you.add_msg_if_player( m_info, _( "The Autodoc is working on %s." ), patient.disp_name() );
         return;
     }

@@ -159,20 +159,20 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
     }
 
     if( u.has_activity( consuming ) ) {
-        if( !u.activity.str_values.empty() ) {
-            inv_s.set_filter( u.activity.str_values[0] );
+        if( !u.activity.raw().str_values.empty() ) {
+            inv_s.set_filter( u.activity.raw().str_values[0] );
         }
         // Set position after filter to keep cursor at the right position
         bool position_set = false;
-        if( !u.activity.targets.empty() ) {
-            bool const hidden = u.activity.values.size() >= 3 && static_cast<bool>( u.activity.values[2] );
-            position_set = inv_s.highlight_one_of( u.activity.targets, hidden );
+        if( !u.activity.raw().targets.empty() ) {
+            bool const hidden = u.activity.raw().values.size() >= 3 && static_cast<bool>( u.activity.raw().values[2] );
+            position_set = inv_s.highlight_one_of( u.activity.raw().targets, hidden );
             if( !position_set && hidden ) {
-                position_set = inv_s.highlight_one_of( u.activity.targets );
+                position_set = inv_s.highlight_one_of( u.activity.raw().targets );
             }
         }
-        if( !position_set && u.activity.values.size() >= 2 ) {
-            inv_s.highlight_position( std::make_pair( u.activity.values[0], u.activity.values[1] ) );
+        if( !position_set && u.activity.raw().values.size() >= 2 ) {
+            inv_s.highlight_position( std::make_pair( u.activity.raw().values[0], u.activity.raw().values[1] ) );
         }
     }
 
@@ -189,14 +189,14 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
     if( u.has_activity( consuming ) ) {
         inventory_entry const &e = inv_s.get_highlighted();
         bool const collated = e.is_collation_entry();
-        u.activity.values.clear();
+        u.activity.raw().values.clear();
         const auto init_pair = inv_s.get_highlighted_position();
-        u.activity.values.push_back( init_pair.first );
-        u.activity.values.push_back( init_pair.second );
-        u.activity.values.push_back( collated );
-        u.activity.str_values.clear();
-        u.activity.str_values.emplace_back( inv_s.get_filter() );
-        u.activity.targets = collated ? std::vector<item_location> { location, inv_s.get_collation_next() }
+        u.activity.raw().values.push_back( init_pair.first );
+        u.activity.raw().values.push_back( init_pair.second );
+        u.activity.raw().values.push_back( collated );
+        u.activity.raw().str_values.clear();
+        u.activity.raw().str_values.emplace_back( inv_s.get_filter() );
+        u.activity.raw().targets = collated ? std::vector<item_location> { location, inv_s.get_collation_next() }
                              :
                              inv_s.get_highlighted().locations;
     }
@@ -963,7 +963,7 @@ item_location game_menus::inv::consume( avatar &you, const item_location &loc )
         you.assign_activity( ACT_EAT_MENU );
         container_location = loc;
     }
-    std::string none_message = you.activity.str_values.size() == 2 ?
+    std::string none_message = you.activity.raw().str_values.size() == 2 ?
                                _( "You have nothing else to consume." ) : _( "You have nothing to consume." );
     return inv_internal( you, comestible_inventory_preset( you ),
                          _( "Consume item" ), 1,
@@ -992,7 +992,7 @@ item_location game_menus::inv::consume_food( avatar &you )
     if( !you.has_activity( ACT_CONSUME_FOOD_MENU ) ) {
         you.assign_activity( ACT_CONSUME_FOOD_MENU );
     }
-    std::string none_message = you.activity.str_values.size() == 2 ?
+    std::string none_message = you.activity.raw().str_values.size() == 2 ?
                                _( "You have nothing else to eat." ) : _( "You have nothing to eat." );
     return inv_internal( you, comestible_filtered_inventory_preset( you, []( const item & it ) {
         return ( it.is_comestible() && it.get_comestible()->comesttype == "FOOD" ) ||
@@ -1008,7 +1008,7 @@ item_location game_menus::inv::consume_drink( avatar &you )
     if( !you.has_activity( ACT_CONSUME_DRINK_MENU ) ) {
         you.assign_activity( ACT_CONSUME_DRINK_MENU );
     }
-    std::string none_message = you.activity.str_values.size() == 2 ?
+    std::string none_message = you.activity.raw().str_values.size() == 2 ?
                                _( "You have nothing else to drink." ) : _( "You have nothing to drink." );
     return inv_internal( you, comestible_filtered_inventory_preset( you, []( const item & it ) {
         return it.is_comestible() && it.get_comestible()->comesttype == "DRINK" &&
@@ -1024,7 +1024,7 @@ item_location game_menus::inv::consume_meds( avatar &you )
     if( !you.has_activity( ACT_CONSUME_MEDS_MENU ) ) {
         you.assign_activity( ACT_CONSUME_MEDS_MENU );
     }
-    std::string none_message = you.activity.str_values.size() == 2 ?
+    std::string none_message = you.activity.raw().str_values.size() == 2 ?
                                _( "You have no more medication to consume." ) : _( "You have no medication to consume." );
     return inv_internal( you, comestible_filtered_inventory_preset( you, []( const item & it ) {
         return it.is_medication() || it.is_medical_tool();

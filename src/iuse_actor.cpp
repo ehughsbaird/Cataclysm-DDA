@@ -1370,9 +1370,9 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
     const int potential_skill_gain = moves_modifier * ( std::min( 10.0, moves_cost_fast / 100.0 ) + 2 );
     p->assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
                         0, it.tname() );
-    p->activity.targets.emplace_back( *p, &it );
-    p->activity.values.push_back( g->natural_light_level( pos.z() ) );
-    p->activity.placement = get_map().getglobal( pos );
+    p->activity.raw().targets.emplace_back( *p, &it );
+    p->activity.raw().values.push_back( g->natural_light_level( pos.z() ) );
+    p->activity.raw().placement = get_map().getglobal( pos );
     // charges to use are handled by the activity
     return 0;
 }
@@ -2386,7 +2386,7 @@ std::optional<int> cast_spell_actor::use( Character *p, item &it, const tripoint
         cast_spell.values.emplace_back( 0 );
     }
     p->assign_activity( cast_spell );
-    p->activity.targets.emplace_back( *p, &it );
+    p->activity.raw().targets.emplace_back( *p, &it );
     // Actual handling of charges_to_use is in activity_handlers::spellcasting_finish
     return 0;
 }
@@ -2669,9 +2669,9 @@ std::optional<int> repair_item_actor::use( Character *p, item &it,
 
     p->assign_activity( ACT_REPAIR_ITEM, 0, p->get_item_position( &it ), INT_MIN );
     // We also need to store the repair actor subtype in the activity
-    p->activity.str_values.push_back( type );
+    p->activity.raw().str_values.push_back( type );
     // storing of item_location to support repairs by tools on the ground
-    p->activity.targets.emplace_back( get_item_location( *p, it, position ) );
+    p->activity.raw().targets.emplace_back( get_item_location( *p, it, position ) );
     // All repairs are done in the activity, including charge cost and target item selection
     return 0;
 }
@@ -3262,8 +3262,8 @@ std::optional<int> heal_actor::use( Character *p, item &it, const tripoint &pos 
     // container from the inventory window, so an item_on_person impl is all that is needed.
     // Otherwise the proper item_location provided by menu selection supercedes it in consume::finish().
     // NPC: Will only use its inventory for first aid items.
-    p->activity.targets.emplace_back( *p, &it );
-    p->activity.str_values.emplace_back( hpp.c_str() );
+    p->activity.raw().targets.emplace_back( *p, &it );
+    p->activity.raw().str_values.emplace_back( hpp.c_str() );
     p->moves = 0;
     return 0;
 }
@@ -3566,7 +3566,7 @@ bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient,
         }
     } else if( patient.is_avatar() ) {
         // Player healing self - let player select
-        if( healer.activity.id() != ACT_FIRSTAID ) {
+        if( healer.activity.active_id() != ACT_FIRSTAID ) {
             const std::string menu_header = _( "Select a body part for: " ) + it.tname();
             healed = pick_part_to_heal( healer, patient, menu_header, limb_power, head_bonus, torso_bonus,
                                         get_stopbleed_level( healer ), bite, infect, force, get_bandaged_level( healer ),
@@ -3578,7 +3578,7 @@ bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient,
             return healed;
         } else {
             // Completed activity, extract body part from it.
-            healed =  bodypart_id( healer.activity.str_values[0] );
+            healed =  bodypart_id( healer.activity.raw().str_values[0] );
         }
     } else {
         // Player healing NPC
@@ -4586,7 +4586,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
 
         // Reopen the menu after respooling.
         p->assign_activity( invoke_item_activity_actor( item_location{*p, &it}, "link_up" ) );
-        p->activity.auto_resume = true;
+        p->activity.raw().auto_resume = true;
 
         if( it.link->t_veh_safe ) {
             // Cancel out the linked device's power draw so the vehicle's power display will be accurate.

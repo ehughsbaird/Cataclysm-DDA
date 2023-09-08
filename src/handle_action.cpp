@@ -847,7 +847,7 @@ static void smash()
     if( should_pulp ) {
         // do activity forever. ACT_PULP stops itself
         player_character.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-        player_character.activity.placement = here.getglobal( smashp );
+        player_character.activity.raw().placement = here.getglobal( smashp );
         return; // don't smash terrain if we've smashed a corpse
     }
 

@@ -2728,7 +2728,7 @@ void migration_cancel_activity_actor::do_turn( player_activity &act, Character &
     } else {
         avatar &avatar_who = dynamic_cast<avatar &>( who );
         avatar_who.clear_destination();
-        avatar_who.backlog.clear();
+        avatar_who.clear_backlog();
     }
 }
 
@@ -5965,7 +5965,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
 
     tripoint direction;
     if( !who.is_npc() &&
-        ( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) ) {
+        ( who.activity.backlog.empty() || who.activity.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) ) {
         while( true ) {
             if( const std::optional<tripoint> dir = choose_direction(
                     _( "Select a direction for the tree to fall in." ) ) ) {
@@ -6187,7 +6187,7 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     act.values.clear();
 
     // Return to first eat or consume meds menu activity in the backlog.
-    for( player_activity &backlog_act : who.backlog ) {
+    for( player_activity &backlog_act : who.activity.backlog ) {
         if( backlog_act.id() == ACT_EAT_MENU ||
             backlog_act.id() == ACT_CONSUME_MEDS_MENU ) {
             backlog_act.auto_resume = true;
@@ -6195,13 +6195,7 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         }
     }
     // Clear the backlog of any activities that will not auto resume.
-    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ) {
-        if( !iter->auto_resume ) {
-            iter = who.backlog.erase( iter );
-        } else {
-            ++iter;
-        }
-    }
+    who.activity.clean_backlog();
 }
 
 void firstaid_activity_actor::serialize( JsonOut &jsout ) const
@@ -6696,7 +6690,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                 }
                 stage = DO;
                 you.set_destination( route, act );
-                you.activity.set_to_null();
+                you.activity.halt_active();
                 return;
             }
 
@@ -6752,7 +6746,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                 // player arrives on destination tile
                 stage = DO;
                 you.set_destination( route, act );
-                you.activity.set_to_null();
+                you.activity.halt_active();
                 return;
             }
             stage = DO;

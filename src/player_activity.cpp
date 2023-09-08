@@ -188,7 +188,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
 
         if( type == ACT_BUILD ) {
             partial_con *pc =
-                get_map().partial_con_at( get_map().bub_from_abs( u.activity.placement ) );
+                get_map().partial_con_at( get_map().bub_from_abs( u.activity.raw().placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
                 const int percentage = counter / 100000;
@@ -383,7 +383,7 @@ void player_activity::do_turn( Character &you )
     }
     if( !*this ) {
         // Make sure data of previous activity is cleared
-        you.activity = player_activity();
+        you.activity.halt_active();
         you.resume_backlog_activity();
 
         // If whatever activity we were doing forced us to pick something up to

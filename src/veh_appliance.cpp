@@ -647,7 +647,7 @@ void veh_app_interact::app_loop()
             app_actions[ret]();
         }
         // Player activity queued up, close interaction menu
-        if( !act.is_null() || !get_player_character().activity.is_null() ) {
+        if( !act.is_null() || get_player_character().activity.has_activity() ) {
             done = true;
         }
     }

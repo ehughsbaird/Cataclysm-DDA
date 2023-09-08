@@ -850,9 +850,9 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
     }
     if( !autodrive ) {
         player_character.assign_activity( ACT_START_ENGINES, to_moves<int>( start_time ) );
-        player_character.activity.relative_placement =
+        player_character.activity.raw().relative_placement =
             starting_engine_position - player_character.pos_bub();
-        player_character.activity.values.push_back( take_control );
+        player_character.activity.raw().values.push_back( take_control );
     }
     refresh();
 }
@@ -1814,7 +1814,7 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
     get_player_character().invoke_item( &tool );
 
     // HACK: Evil hack incoming
-    player_activity &act = get_player_character().activity;
+    player_activity &act = get_player_character().activity.raw();
     if( act.id() == ACT_REPAIR_ITEM &&
         ( tool_type == itype_welder ||
           tool_type == itype_welder_crude ||

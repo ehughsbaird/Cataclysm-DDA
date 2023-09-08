@@ -628,7 +628,7 @@ void talk_function::lesser_give_aid( npc &p )
     }
     const int moves = to_moves<int>( 15_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
+    player_character.activity.raw().str_values.push_back( p.get_name() );
     p.add_effect( effect_currently_busy, 60_minutes );
 }
 
@@ -651,7 +651,7 @@ void talk_function::lesser_give_all_aid( npc &p )
 
     const int moves = to_moves<int>( 30_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
+    player_character.activity.raw().str_values.push_back( p.get_name() );
     p.add_effect( effect_currently_busy, 120_minutes );
 }
 
@@ -674,7 +674,7 @@ void talk_function::give_aid( npc &p )
 
     const int moves = to_moves<int>( 30_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
+    player_character.activity.raw().str_values.push_back( p.get_name() );
     p.add_effect( effect_currently_busy, 120_minutes );
 }
 
@@ -703,7 +703,7 @@ void talk_function::give_all_aid( npc &p )
 
     const int moves = to_moves<int>( 60_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
+    player_character.activity.raw().str_values.push_back( p.get_name() );
     p.add_effect( effect_currently_busy, 240_minutes );
 }
 
@@ -757,7 +757,7 @@ void talk_function::buy_haircut( npc &p )
     player_character.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
     const int moves = to_moves<int>( 20_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
+    player_character.activity.raw().str_values.push_back( p.get_name() );
     add_msg( m_good, _( "%s gives you a decent haircut…" ), p.get_name() );
 }
 
@@ -767,7 +767,7 @@ void talk_function::buy_shave( npc &p )
     player_character.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
     const int moves = to_moves<int>( 5_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
+    player_character.activity.raw().str_values.push_back( p.get_name() );
     add_msg( m_good, _( "%s gives you a decent shave…" ), p.get_name() );
 }
 
@@ -782,7 +782,7 @@ void talk_function::morale_chat_activity( npc &p )
     Character &player_character = get_player_character();
     const int moves = to_moves<int>( 10_minutes );
     player_character.assign_activity( ACT_SOCIALIZE, moves );
-    player_character.activity.str_values.push_back( p.get_name() );
+    player_character.activity.raw().str_values.push_back( p.get_name() );
     if( one_in( 3 ) ) {
         p.say( SNIPPET.random_from_category( "npc_socialize" ).value_or( translation() ).translated() );
     }

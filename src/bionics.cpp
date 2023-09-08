@@ -2186,17 +2186,17 @@ bool Character::uninstall_bionic( const bionic &bio, Character &installer, bool 
     }
     assign_activity( ACT_OPERATION, to_moves<int>( difficulty * 20_minutes ) );
 
-    activity.values.push_back( difficulty );
-    activity.values.push_back( success );
-    activity.values.push_back( bio.get_uid() );
-    activity.values.push_back( pl_skill );
-    activity.str_values.emplace_back( "uninstall" );
-    activity.str_values.push_back( bio.id.str() );
-    activity.str_values.emplace_back( "" ); // installer_name is unused for uninstall
+    activity.raw().values.push_back( difficulty );
+    activity.raw().values.push_back( success );
+    activity.raw().values.push_back( bio.get_uid() );
+    activity.raw().values.push_back( pl_skill );
+    activity.raw().str_values.emplace_back( "uninstall" );
+    activity.raw().str_values.push_back( bio.id.str() );
+    activity.raw().str_values.emplace_back( "" ); // installer_name is unused for uninstall
     if( autodoc ) {
-        activity.str_values.emplace_back( "true" );
+        activity.raw().str_values.emplace_back( "true" );
     } else {
-        activity.str_values.emplace_back( "false" );
+        activity.raw().str_values.emplace_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, size_t> &elem : bio.id->occupied_bodyparts ) {
         add_effect( effect_under_operation, difficulty * 20_minutes, elem.first.id(), true, difficulty );
@@ -2489,22 +2489,22 @@ bool Character::install_bionics( const itype &type, Character &installer, bool a
         return true;
     }
     assign_activity( ACT_OPERATION, to_moves<int>( difficulty * 20_minutes ) );
-    activity.values.push_back( difficulty );
-    activity.values.push_back( success );
-    activity.values.push_back( upbio_uid );
-    activity.values.push_back( pl_skill );
-    activity.str_values.emplace_back( "install" );
-    activity.str_values.push_back( bioid.str() );
+    activity.raw().values.push_back( difficulty );
+    activity.raw().values.push_back( success );
+    activity.raw().values.push_back( upbio_uid );
+    activity.raw().values.push_back( pl_skill );
+    activity.raw().str_values.emplace_back( "install" );
+    activity.raw().str_values.push_back( bioid.str() );
 
     if( installer.has_trait( trait_PROF_MED ) || installer.has_trait( trait_PROF_AUTODOC ) ) {
-        activity.str_values.push_back( installer.disp_name( true ) );
+        activity.raw().str_values.push_back( installer.disp_name( true ) );
     } else {
-        activity.str_values.emplace_back( "NOT_MED" );
+        activity.raw().str_values.emplace_back( "NOT_MED" );
     }
     if( autodoc ) {
-        activity.str_values.emplace_back( "true" );
+        activity.raw().str_values.emplace_back( "true" );
     } else {
-        activity.str_values.emplace_back( "false" );
+        activity.raw().str_values.emplace_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, size_t> &elem : bioid->occupied_bodyparts ) {
         add_effect( effect_under_operation, difficulty * 20_minutes, elem.first.id(), true, difficulty );

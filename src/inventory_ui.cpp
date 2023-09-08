@@ -4003,7 +4003,7 @@ bool pickup_selector::wear()
 void pickup_selector::add_reopen_activity()
 {
     u.assign_activity( pickup_menu_activity_actor( where, to_use ) );
-    u.activity.auto_resume = true;
+    u.activity.raw().auto_resume = true;
 }
 
 void pickup_selector::remove_from_to_use( item_location &it )

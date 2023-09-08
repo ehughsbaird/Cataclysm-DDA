@@ -1772,8 +1772,8 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, const tripoint & )
     }
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
-    p->activity.targets.emplace_back( *p, it );
-    p->activity.coord_set = g->get_fishable_locations( 60, *found );
+    p->activity.raw().targets.emplace_back( *p, it );
+    p->activity.raw().coord_set = g->get_fishable_locations( 60, *found );
     return 0;
 }
 
@@ -2148,7 +2148,7 @@ class exosuit_interact
                     int nmoves = insert_replace_activate_mod(
                                      suit->get_all_contained_pockets()[cur_pocket], suit );
                     moves = moves > nmoves ? moves : nmoves;
-                    if( !get_player_character().activity.is_null() ) {
+                    if( get_player_character().activity.has_activity() ) {
                         done = true;
                     }
                 } else if( navigate_ui_list( action, cur_pocket, 5, pocket_count, true ) ) {
@@ -2859,7 +2859,7 @@ std::optional<int> iuse::makemound( Character *p, item *it, const tripoint & )
         !here.has_flag( ter_furn_flag::TFLAG_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
         p->assign_activity( churn_activity_actor( 18000, item_location( *p, it ) ) );
-        p->activity.placement = here.getglobal( pnt );
+        p->activity.raw().placement = here.getglobal( pnt );
         return 1;
     } else {
         p->add_msg_if_player( _( "You can't churn up this ground." ) );
@@ -3245,8 +3245,8 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint &pos,
     }
 
     p->assign_activity( activity, moves );
-    p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = here.getglobal( pnt );
+    p->activity.raw().targets.emplace_back( *p, it );
+    p->activity.raw().placement = here.getglobal( pnt );
 
     // You can mine either furniture or terrain, and furniture goes first,
     // according to @ref map::bash_ter_furn()
@@ -4317,19 +4317,19 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint &
                     return i.ammo_sufficient( nullptr );
                 } );
                 n->assign_activity( game_act );
-                n->activity.targets.emplace_back( *n, nit.front() );
-                n->activity.position = n->get_item_position( nit.front() );
+                n->activity.raw().targets.emplace_back( *n, nit.front() );
+                n->activity.raw().position = n->get_item_position( nit.front() );
             }
         } else {
             p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
         }
         if( loaded_software == "null" ) {
             p->assign_activity( game_act );
-            p->activity.targets.emplace_back( *p, it );
+            p->activity.raw().targets.emplace_back( *p, it );
             return 0;
         }
         p->assign_activity( ACT_GAME, moves, -1, 0, "gaming" );
-        p->activity.targets.emplace_back( *p, it );
+        p->activity.raw().targets.emplace_back( *p, it );
         std::map<std::string, std::string> game_data;
         game_data.clear();
         int game_score = 0;
@@ -4429,7 +4429,7 @@ std::optional<int> iuse::hand_crank( Character *p, item *it, const tripoint & )
             p->add_msg_if_player( _( "You start cranking the %s to charge its %s." ), it->tname(),
                                   it->magazine_current()->tname() );
             p->assign_activity( ACT_HAND_CRANK, moves, -1, 0, "hand-cranking" );
-            p->activity.targets.emplace_back( *p, it );
+            p->activity.raw().targets.emplace_back( *p, it );
         } else {
             p->add_msg_if_player( _( "You could use the %s to charge its %s, but it's already charged." ),
                                   it->tname(), magazine->tname() );
@@ -4475,7 +4475,7 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint & )
                                   it->tname() );
         }
         p->assign_activity( ACT_VIBE, moves, -1, 0, "de-stressing" );
-        p->activity.targets.emplace_back( *p, it );
+        p->activity.raw().targets.emplace_back( *p, it );
     }
     return 1;
 }
@@ -4679,7 +4679,7 @@ void iuse::cut_log_into_planks( Character &p )
     p.add_msg_if_player( _( "You cut the log into planks." ) );
 
     p.assign_activity( chop_planks_activity_actor( moves ) );
-    p.activity.placement = get_map().getglobal( p.pos() );
+    p.activity.raw().placement = get_map().getglobal( p.pos() );
 }
 
 std::optional<int> iuse::lumber( Character *p, item *it, const tripoint & )
@@ -4773,7 +4773,7 @@ std::optional<int> iuse::chop_tree( Character *p, item *it, const tripoint & )
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( chop_tree_activity_actor( moves, item_location( *p, it ) ) );
-    p->activity.placement = here.getglobal( pnt );
+    p->activity.raw().placement = here.getglobal( pnt );
 
     return 1;
 }
@@ -4817,7 +4817,7 @@ std::optional<int> iuse::chop_logs( Character *p, item *it, const tripoint & )
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( chop_logs_activity_actor( moves, item_location( *p, it ) ) );
-    p->activity.placement = here.getglobal( pnt );
+    p->activity.raw().placement = here.getglobal( pnt );
 
     return 1;
 }
@@ -5077,7 +5077,7 @@ static bool heat_item( Character &p )
     }
     p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
     p.assign_activity( ACT_HEATING, duration );
-    p.activity.targets.emplace_back( p, heat );
+    p.activity.raw().targets.emplace_back( p, heat );
     return true;
 }
 

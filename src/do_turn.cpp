@@ -190,14 +190,14 @@ void handle_key_blocking_activity()
     }
     avatar &u = get_avatar();
     const bool has_unfinished_activity = u.activity && (
-            u.activity.id()->based_on() == based_on_type::NEITHER
-            || u.activity.moves_left > 0 );
+            u.activity.active_id()->based_on() == based_on_type::NEITHER
+            || u.activity.raw().moves_left > 0 );
     if( has_unfinished_activity || u.has_destination() ) {
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         bool refresh = true;
         if( action == "pause" ) {
-            if( u.activity.is_interruptible_with_kb() ) {
+            if( u.activity.raw().is_interruptible_with_kb() ) {
                 g->cancel_activity_query( _( "Confirm:" ) );
             }
         } else if( action == "player_data" ) {
@@ -312,7 +312,7 @@ void monmove()
         if( !guy.has_effect( effect_npc_suspend ) ) {
             guy.process_turn();
         }
-        while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.id() == ACT_OPERATION ) &&
+        while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.active_id() == ACT_OPERATION ) &&
                guy.moves > 0 && turns < 10 ) {
             const int moves = guy.moves;
             const bool has_destination = guy.has_destination_activity();
@@ -329,7 +329,7 @@ void monmove()
             // there will be no meaningful debug output.
             if( turns == 9 ) {
                 debugmsg( "NPC '%s' entered infinite loop, npc activity id: '%s'",
-                          guy.get_name(), guy.activity.id().str() );
+                          guy.get_name(), guy.activity.active_id().str() );
             }
         }
 
@@ -480,11 +480,11 @@ bool do_turn()
     g->reset_light_level();
 
     g->perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
-    while( u.moves > 0 && u.activity ) {
-        u.activity.do_turn( u );
+    while( u.moves > 0 && u.activity.has_active() ) {
+        u.activity.raw().do_turn( u );
     }
     // FIXME: hack needed due to the legacy code in advanced_inventory::move_all_items()
-    if( !u.activity ) {
+    if( !u.activity.has_active() ) {
         kill_advanced_inv();
     }
 
@@ -517,7 +517,7 @@ bool do_turn()
                 }
                 explosion_handler::process_explosions();
                 sounds::process_sound_markers( &u );
-                if( !u.activity && g->uquit != QUIT_WATCH
+                if( !u.activity.has_activity() && g->uquit != QUIT_WATCH
                     && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
                     g->wait_popup.reset();
                     ui_manager::redraw();
@@ -540,8 +540,8 @@ bool do_turn()
                 if( g->uquit == QUIT_WATCH ) {
                     break;
                 }
-                while( u.moves > 0 && u.activity ) {
-                    u.activity.do_turn( u );
+                while( u.moves > 0 && u.activity.has_active() ) {
+                    u.activity.raw().do_turn( u );
                 }
             }
             // Reset displayed sound markers now that the turn is over.
@@ -563,8 +563,8 @@ bool do_turn()
             // If player is performing a task, a monster is dangerously close,
             // and monster can reach to the player or it has some sort of a ranged attack,
             // warn them regardless of previous safemode warnings
-            if( u.activity ) {
-                for( std::pair<const distraction_type, std::string> &dist : u.activity.get_distractions() ) {
+            if( u.activity.has_activity() ) {
+                for( std::pair<const distraction_type, std::string> &dist : u.activity.raw().get_distractions() ) {
                     if( g->cancel_activity_or_ignore_query( dist.first, dist.second ) ) {
                         break;
                     }
@@ -643,15 +643,15 @@ bool do_turn()
         wait_redraw = true;
         wait_message = _( "Wait till you wake up…" );
         wait_refresh_rate = 30_minutes;
-    } else if( const std::optional<std::string> progress = u.activity.get_progress_message( u ) ) {
+    } else if( const std::optional<std::string> progress = u.activity.raw().get_progress_message( u ) ) {
         wait_redraw = true;
         wait_message = *progress;
-        if( u.activity.is_interruptible() && u.activity.interruptable_with_kb ) {
+        if( u.activity.raw().is_interruptible() && u.activity.raw().interruptable_with_kb ) {
             wait_message += string_format( _( "\n%s to interrupt" ), press_x( ACTION_PAUSE ) );
         }
-        if( u.activity.id() == ACT_AUTODRIVE ) {
+        if( u.activity.active_id() == ACT_AUTODRIVE ) {
             wait_refresh_rate = 1_turns;
-        } else if( u.activity.id() == ACT_FIRSTAID ) {
+        } else if( u.activity.active_id() == ACT_FIRSTAID ) {
             wait_refresh_rate = 5_turns;
         } else {
             wait_refresh_rate = 5_minutes;

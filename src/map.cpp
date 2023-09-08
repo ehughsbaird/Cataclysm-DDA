@@ -940,7 +940,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     }
     // Redraw scene, but only if the player is not engaged in an activity and
     // the vehicle was seen before or after the move.
-    if( !player_character.activity && ( seen || sees_veh( player_character, veh, true ) ) ) {
+    if( !player_character.activity.has_activity() && ( seen ||
+            sees_veh( player_character, veh, true ) ) ) {
         g->invalidate_main_ui_adaptor();
         ui_manager::redraw_invalidated();
         handle_key_blocking_activity();

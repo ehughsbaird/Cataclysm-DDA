@@ -2618,10 +2618,8 @@ class Character : public Creature, public visitable
         bool hauling = false;
         tripoint view_offset;
 
-        player_activity stashed_outbounds_activity;
-        player_activity stashed_outbounds_backlog;
-        player_activity activity;
-        std::list<player_activity> backlog;
+        activity_list activity;
+
         std::optional<tripoint> destination_point;
         pimpl<inventory> inv;
         itype_id last_item;

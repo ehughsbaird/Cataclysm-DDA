@@ -184,4 +184,53 @@ class player_activity
         std::map<distraction_type, std::string> get_distractions() const;
 };
 
+class activity_list
+{
+    public:
+        player_activity stashed_outbounds_activity;
+        player_activity stashed_outbounds_backlog;
+        player_activity activity;
+        std::list<player_activity> backlog;
+
+        // Remove me, eventually :)
+        player_activity &raw();
+        const player_activity &raw() const;
+
+        // Are we currently engaged in an activity?
+        bool has_activity() const;
+        // What is the id of the activity we are currently engaged in
+        activity_id active_id() const;
+
+        // Halt and remove current activity
+        void halt_active() {
+		activity.set_to_null();
+	}
+        void ignore_distraction( distraction_type type ) {
+            activity.ignore_distraction( type );
+            for( player_activity &activity : backlog ) {
+                activity.ignore_distraction( type );
+            }
+        }
+
+	// Remove all activities which do not automatically resume
+	void clean_backlog() {
+    for( auto iter = backlog.begin(); iter != backlog.end(); ) {
+        if( !iter->auto_resume ) {
+            iter = backlog.erase( iter );
+        } else {
+            ++iter;
+        }
+    }
+	}
+	void clear_backlog() {
+		backlog.clear();
+	}
+
+        // Clear the data stored here
+        void reset();
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( const JsonObject &data ) const;
+};
+
 #endif // CATA_SRC_PLAYER_ACTIVITY_H

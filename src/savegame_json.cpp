@@ -721,8 +721,8 @@ void Character::load( const JsonObject &data )
     }
     data.read( "consumption_history", consumption_history );
     data.read( "destination_activity", destination_activity );
-    data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
-    data.read( "stashed_outbounds_backlog", stashed_outbounds_backlog );
+    data.read( "stashed_outbounds_activity", activity.stashed_outbounds_activity );
+    data.read( "stashed_outbounds_backlog", activity.stashed_outbounds_backlog );
 
     // npc activity on vehicles.
     data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
@@ -1082,14 +1082,14 @@ void Character::load( const JsonObject &data )
 
     data.read( "activity", activity );
     if( data.has_array( "backlog" ) ) {
-        data.read( "backlog", backlog );
+        data.read( "backlog", activity.backlog );
     }
-    if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
-                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
+    if( !activity.backlog.empty() && !activity.backlog.front().str_values.empty() &&
+        ( ( activity.has_activity() && activity.active_id() == ACT_FETCH_REQUIRED ) ||
+          ( destination_activity && destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
         requirement_data fetch_reqs;
         data.read( "fetch_data", fetch_reqs );
-        const requirement_id req_id( backlog.front().str_values.back() );
+        const requirement_id req_id( activity.backlog.front().str_values.back() );
         requirement_data::save_requirement( fetch_reqs, req_id );
     }
 
@@ -1337,16 +1337,17 @@ void Character::store( JsonOut &json ) const
     // crafting etc
     json.member( "destination_activity", destination_activity );
     json.member( "activity", activity );
-    json.member( "stashed_outbounds_activity", stashed_outbounds_activity );
-    json.member( "stashed_outbounds_backlog", stashed_outbounds_backlog );
-    json.member( "backlog", backlog );
+    json.member( "stashed_outbounds_activity", activity.stashed_outbounds_activity );
+    json.member( "stashed_outbounds_backlog", activity.stashed_outbounds_backlog );
+    json.member( "backlog", activity.backlog );
     json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
 
     // handling for storing activity requirements
-    if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
-                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
-        requirement_data things_to_fetch = requirement_id( backlog.front().str_values.back() ).obj();
+    if( !activity.backlog.empty() && !activity.backlog.front().str_values.empty() &&
+        ( ( activity.has_activity() && activity.active_id() == ACT_FETCH_REQUIRED ) ||
+          ( destination_activity && destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
+        requirement_data things_to_fetch = requirement_id(
+                                               activity.backlog.front().str_values.back() ).obj();
         json.member( "fetch_data", things_to_fetch );
     }
 
@@ -2245,8 +2246,8 @@ void npc::load( const JsonObject &data )
 
     if( data.read( "current_activity_id", act_id ) ) {
         current_activity_id = activity_id( act_id );
-    } else if( activity ) {
-        current_activity_id = activity.id();
+    } else if( activity.has_activity() ) {
+        current_activity_id = activity.active_id();
     }
 
     data.read( "assigned_camp", assigned_camp );

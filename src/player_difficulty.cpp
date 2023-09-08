@@ -75,7 +75,7 @@ void player_difficulty::reset_npc( Character &dummy )
     dummy.martial_arts_data->clear_styles();
     dummy.clear_morale();
     dummy.clear_bionics();
-    dummy.activity.set_to_null();
+    dummy.activity.reset();
     dummy.reset_chargen_attributes();
     dummy.set_pain( 0 );
     dummy.reset_bonuses();

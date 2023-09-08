@@ -785,7 +785,7 @@ std::string talker_npc::evaluation_by( const talker &alpha ) const
 
 bool talker_npc::has_activity() const
 {
-    return !me_npc->activity.is_null();
+    return me_npc->activity.has_activity();
 }
 
 bool talker_npc::is_myclass( const npc_class_id &class_to_check ) const

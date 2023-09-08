@@ -1139,10 +1139,10 @@ void npc::revert_after_activity()
 {
     mission = previous_mission;
     attitude = previous_attitude;
-    activity = player_activity();
+    activity.halt_active();
     current_activity_id = activity_id::NULL_ID();
     clear_destination();
-    backlog.clear();
+    activity.clear_backlog();
 }
 
 npc_mission npc::get_previous_mission() const
@@ -1579,7 +1579,7 @@ void npc::drop( const drop_locations &what, const tripoint &target,
     Character::drop( what, target, stash );
     // TODO: Remove the hack. Its here because npcs didn't process activities, but they do now
     // so is this necessary?
-    activity.do_turn( *this );
+    activity.raw().do_turn( *this );
 }
 
 void npc::invalidate_range_cache()
@@ -2534,7 +2534,7 @@ bool npc::is_patrolling() const
 
 bool npc::has_player_activity() const
 {
-    return activity && mission == NPC_MISSION_ACTIVITY && attitude == NPCATT_ACTIVITY;
+    return activity.has_activity() && mission == NPC_MISSION_ACTIVITY && attitude == NPCATT_ACTIVITY;
 }
 
 bool npc::is_travelling() const
@@ -2940,7 +2940,7 @@ void npc::reboot()
     ai_cache.dangerous_explosives.clear();
     ai_cache.threat_map.clear();
     ai_cache.searched_tiles.clear();
-    activity = player_activity();
+    activity.halt_active();
     clear_destination();
     add_effect( effect_npc_suspend, 24_hours, true, 1 );
 }
@@ -3236,7 +3236,7 @@ void npc::on_load()
         // Otherwise NPCs try to eat rotten food and fail
         process_items();
         // give NPCs that are doing activities a pile of moves
-        if( has_destination() || activity ) {
+        if( has_destination() || activity.has_activity() ) {
             mod_moves( to_moves<int>( dt ) );
         }
     }
@@ -3645,7 +3645,7 @@ void npc::set_mission( npc_mission new_mission )
         mission = new_mission;
     }
     if( mission == NPC_MISSION_ACTIVITY ) {
-        current_activity_id = activity.id();
+        current_activity_id = activity.active_id();
     }
 }
 

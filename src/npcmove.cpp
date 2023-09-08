@@ -846,7 +846,7 @@ void npc::move()
     }
     regen_ai_cache();
     // NPCs under operation should just stay still
-    if( activity.id() == ACT_OPERATION || activity.id() == ACT_SPELLCASTING ) {
+    if( activity.active_id() == ACT_OPERATION || activity.active_id() == ACT_SPELLCASTING ) {
         execute_action( npc_player_activity );
         return;
     }
@@ -1022,7 +1022,7 @@ void npc::move()
     if( action == npc_undecided ) {
         // an interrupted activity can cause this situation. stops allied NPCs zooming off
         // like random NPCs
-        if( attitude == NPCATT_ACTIVITY && !activity ) {
+        if( attitude == NPCATT_ACTIVITY && !activity.has_active() ) {
             revert_after_activity();
             if( is_ally( player_character ) && !assigned_camp ) {
                 attitude = NPCATT_FOLLOW;
@@ -3315,20 +3315,19 @@ bool npc::do_pulp()
     // TODO: Don't recreate the activity every time
     int old_moves = moves;
     assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-    activity.placement = *pulp_location;
-    activity.do_turn( *this );
+    activity.raw().placement = *pulp_location;
+    activity.raw().do_turn( *this );
     return moves != old_moves;
 }
 
 bool npc::do_player_activity()
 {
     int old_moves = moves;
-    if( moves > 200 && activity && ( activity.is_multi_type() ||
-                                     activity.id() == ACT_TIDY_UP ) ) {
+    if( moves > 200 && activity.has_active() && ( activity.raw().is_multi_type() || activity.active_id() == ACT_TIDY_UP ) ) {
         // a huge backlog of a multi-activity type can forever loop
         // instead; just scan the map ONCE for a task to do, and if it returns false
         // then stop scanning, abandon the activity, and kill the backlog of moves.
-        if( !generic_multi_activity_handler( activity, *this->as_character(), true ) ) {
+        if( !generic_multi_activity_handler( activity.raw(), *this->as_character(), true ) ) {
             revert_after_activity();
             set_moves( 0 );
             return true;
@@ -3341,10 +3340,10 @@ bool npc::do_player_activity()
     // ( even if other move-using things occur inbetween )
     // so here - if no moves are used in a multi-type activity do_turn(), then subtract a nominal amount
     // to satisfy the infinite loop counter.
-    const bool multi_type = activity ? activity.is_multi_type() : false;
+    const bool multi_type = activity.has_active() ? activity.raw().is_multi_type() : false;
     const int moves_before = moves;
-    while( moves > 0 && activity ) {
-        activity.do_turn( *this );
+    while( moves > 0 && activity.has_active() ) {
+        activity.raw().do_turn( *this );
         if( !is_active() ) {
             return true;
         }
@@ -3353,15 +3352,15 @@ bool npc::do_player_activity()
         moves -= 1;
     }
     /* if the activity is finished, grab any backlog or change the mission */
-    if( !has_destination() && !activity ) {
+    if( !has_destination() && !activity.has_active() ) {
         // workaround: auto resuming craft activity may cause infinite loop
-        while( !backlog.empty() && backlog.front().id() == ACT_CRAFT ) {
-            backlog.pop_front();
+        while( !activity.backlog.empty() && activity.backlog.front().id() == ACT_CRAFT ) {
+            activity.backlog.pop_front();
         }
-        if( !backlog.empty() ) {
-            activity = backlog.front();
-            backlog.pop_front();
-            current_activity_id = activity.id();
+        if( !activity.backlog.empty() ) {
+            activity.activity = activity.backlog.front();
+            activity.backlog.pop_front();
+            current_activity_id = activity.active_id();
         } else {
             if( is_player_ally() ) {
                 add_msg( m_info, string_format( _( "%s completed the assigned task." ), disp_name() ) );

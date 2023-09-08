@@ -646,7 +646,7 @@ void sounds::process_sound_markers( Character *you )
         // don't print our own noise or things without descriptions
         if( !sound.ambient && ( pos != you->pos() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
             if( uistate.distraction_noise &&
-                !you->activity.is_distraction_ignored( distraction_type::noise ) &&
+                !you->activity.raw().is_distraction_ignored( distraction_type::noise ) &&
                 !get_safemode().is_sound_safe( sound.description, distance_to_sound, you->controlling_vehicle ) ) {
                 const std::string query = string_format( _( "Heard %s!" ),
                                           trim_trailing_punctuations( description ) );
@@ -686,7 +686,7 @@ void sounds::process_sound_markers( Character *you )
                     add_msg( _( "Your alarm clock wakes you up." ) );
                 } else {
                     add_msg( _( "Your alarm clock goes off and you haven't slept a wink." ) );
-                    you->activity.set_to_null();
+                    you->activity.halt_active();
                 }
                 add_msg( _( "You turn off your alarm-clock." ) );
                 you->get_effect( effect_alarm_clock ).set_duration( 0_turns );

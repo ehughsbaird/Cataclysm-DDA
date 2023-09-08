@@ -536,7 +536,7 @@ void veh_interact::do_main_loop()
                 do_siphon();
                 // Siphoning may have started a player activity. If so, we should close the
                 // vehicle dialog and continue with the activity.
-                finish = !player_character.activity.is_null();
+                finish = player_character.activity.has_activity();
                 if( !finish ) {
                     // it's possible we just invalidated our crafting inventory
                     cache_tool_availability();
@@ -3086,22 +3086,23 @@ void act_vehicle_unload_fuel( vehicle *veh )
  */
 void veh_interact::complete_vehicle( Character &you )
 {
-    if( you.activity.values.size() < 7 ) {
-        debugmsg( "ACT_VEHICLE values.size() is %d", you.activity.values.size() );
+    if( you.activity.raw().values.size() < 7 ) {
+        debugmsg( "ACT_VEHICLE values.size() is %d", you.activity.raw().values.size() );
         return;
     }
-    if( you.activity.str_values.empty() ) {
+    if( you.activity.raw().str_values.empty() ) {
         debugmsg( "ACT_VEHICLE str_values is empty" );
         return;
     }
     map &here = get_map();
-    const tripoint_abs_ms act_pos( you.activity.values[0], you.activity.values[1], you.posz() );
+    const tripoint_abs_ms act_pos( you.activity.raw().values[0], you.activity.raw().values[1],
+                                   you.posz() );
     optional_vpart_position vp = here.veh_at( act_pos );
     if( !vp ) {
         // so the vehicle could have lost some of its parts from other NPCS works
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
-        for( const tripoint &pt : you.activity.coord_set ) {
+        for( const tripoint &pt : you.activity.raw().coord_set ) {
             vp = here.veh_at( here.getlocal( pt ) );
             if( vp ) {
                 break;
@@ -3115,12 +3116,12 @@ void veh_interact::complete_vehicle( Character &you )
     }
 
     vehicle &veh = vp->vehicle();
-    const point d( you.activity.values[4], you.activity.values[5] );
-    const vpart_id part_id( you.activity.str_values[0] );
+    const point d( you.activity.raw().values[4], you.activity.raw().values[5] );
+    const vpart_id part_id( you.activity.raw().str_values[0] );
     const vpart_info &vpinfo = part_id.obj();
 
     // cmd = Install Repair reFill remOve Siphon Unload reName relAbel
-    switch( static_cast<char>( you.activity.index ) ) {
+    switch( static_cast<char>( you.activity.raw().index ) ) {
         case 'i': {
             const inventory &inv = you.crafting_inventory();
             const requirement_data reqs = vpinfo.install_requirements();
@@ -3192,19 +3193,19 @@ void veh_interact::complete_vehicle( Character &you )
         }
 
         case 'r': {
-            vehicle_part &vp = veh.part( you.activity.values[6] );
+            vehicle_part &vp = veh.part( you.activity.raw().values[6] );
             veh_utils::repair_part( veh, vp, you );
             break;
         }
 
         case 'f': {
-            if( you.activity.targets.empty() || !you.activity.targets.front() ) {
+            if( you.activity.raw().targets.empty() || !you.activity.raw().targets.front() ) {
                 debugmsg( "Activity ACT_VEHICLE: missing refill source" );
                 break;
             }
 
-            item_location &src = you.activity.targets.front();
-            vehicle_part &vp = veh.part( you.activity.values[6] );
+            item_location &src = you.activity.raw().targets.front();
+            vehicle_part &vp = veh.part( you.activity.raw().values[6] );
             if( vp.is_tank() && src->is_container() && !src->empty() ) {
                 item_location contained( src, &src->only_item() );
                 contained->charges -= vp.base.fill_with( *contained, contained->charges );
@@ -3252,7 +3253,7 @@ void veh_interact::complete_vehicle( Character &you )
 
         case 'O': // 'O' = remove appliance
         case 'o': {
-            int vp_index = you.activity.values[6];
+            int vp_index = you.activity.raw().values[6];
             if( vp_index >= veh.part_count() ) {
                 vp_index = veh.get_next_shifted_index( vp_index, you );
                 if( vp_index == -1 ) {
@@ -3265,7 +3266,7 @@ void veh_interact::complete_vehicle( Character &you )
             }
             vehicle_part &vp = veh.part( vp_index );
             const vpart_info &vpi = vp.info();
-            const bool appliance_removal = static_cast<char>( you.activity.index ) == 'O';
+            const bool appliance_removal = static_cast<char>( you.activity.raw().index ) == 'O';
             const bool wall_wire_removal = appliance_removal && vpi.id == vpart_ap_wall_wiring;
             const bool broken = vp.is_broken();
             const bool smash_remove = vpi.has_flag( "SMASH_REMOVE" );
@@ -3333,12 +3334,12 @@ void veh_interact::complete_vehicle( Character &you )
                 veh.find_and_split_vehicles( here, { vp_index } );
                 veh.part_removal_cleanup();
                 //always stop after removing an appliance
-                you.activity.set_to_null();
+                you.activity.halt_active();
             }
 
             if( veh.part_count_real() <= 1 ) {
                 you.add_msg_if_player( _( "You completely dismantle the %s." ), veh.name );
-                you.activity.set_to_null();
+                you.activity.raw().set_to_null();
                 // destroy vehicle clears the cache
                 here.destroy_vehicle( &veh );
             } else {

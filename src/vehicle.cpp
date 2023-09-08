@@ -146,7 +146,7 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     const tripoint part_pos = veh.global_part_pos3( vp );
 
     // If the player is currently working on the removed part, stop them as it's futile now.
-    const player_activity &act = player_character.activity;
+    const player_activity &act = player_character.activity.raw();
     map &here = get_map();
     if( act.id() == ACT_VEHICLE && act.moves_left > 0 && act.values.size() > 6 ) {
         if( veh_pointer_or_null( here.veh_at( tripoint( act.values[0], act.values[1],

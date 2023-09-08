@@ -1426,7 +1426,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
             return false;
         }
     }
-    if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
+    if( !u.activity.has_activity() || u.activity.raw().is_distraction_ignored( type ) ) {
         return false;
     }
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
@@ -1441,7 +1441,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
                                                   "<color_light_red>%s %s (Case Sensitive)</color>" ) :
                                           pgettext( "cancel_activity_or_ignore_query",
                                                   "<color_light_red>%s %s</color>" ),
-                                          text, u.activity.get_stop_phrase() )
+                                          text, u.activity.raw().get_stop_phrase() )
                                 .option( "YES", allow_key )
                                 .option( "NO", allow_key )
                                 .option( "MANAGER", allow_key )
@@ -1455,9 +1455,6 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
     }
     if( action == "IGNORE" ) {
         u.activity.ignore_distraction( type );
-        for( player_activity &activity : u.backlog ) {
-            activity.ignore_distraction( type );
-        }
     }
     if( action == "MANAGER" ) {
         u.cancel_activity();
@@ -1481,7 +1478,7 @@ bool game::portal_storm_query( const distraction_type type, const std::string &t
             return false;
         }
     }
-    if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
+    if( !u.activity.has_activity() || u.activity.raw().is_distraction_ignored( type ) ) {
         return false;
     }
 
@@ -1502,9 +1499,6 @@ bool game::portal_storm_query( const distraction_type type, const std::string &t
 
     // ensure it never happens again during this activity - shouldn't be an issue anyway
     u.activity.ignore_distraction( type );
-    for( player_activity &activity : u.backlog ) {
-        activity.ignore_distraction( type );
-    }
 
     ui_manager::redraw();
     refresh_display();
@@ -1522,25 +1516,25 @@ bool game::cancel_activity_query( const std::string &text )
             return false;
         }
     }
-    if( !u.activity ) {
+    if( !u.activity.has_activity() ) {
         return false;
     }
     g->invalidate_main_ui_adaptor();
-    if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
-        if( u.activity.id() == ACT_TRAIN_TEACHER ) {
+    if( query_yn( "%s %s", text, u.activity.raw().get_stop_phrase() ) ) {
+        if( u.activity.raw().id() == ACT_TRAIN_TEACHER ) {
             for( npc &n : all_npcs() ) {
                 // Also cancel activities for students
-                for( const int st_id : u.activity.values ) {
+                for( const int st_id : u.activity.raw().values ) {
                     if( n.getID().get_value() == st_id ) {
                         n.cancel_activity();
                     }
                 }
             }
             u.remove_effect( effect_asked_to_train );
-        } else if( u.activity.id() == ACT_TRAIN ) {
+        } else if( u.activity.active_id() == ACT_TRAIN ) {
             for( npc &n : all_npcs() ) {
                 // If the player is the only student, cancel the teacher's activity
-                if( n.getID().get_value() == u.activity.index && n.activity.values.size() == 1 ) {
+                if( n.getID().get_value() == u.activity.raw().index && n.activity.raw().values.size() == 1 ) {
                     n.cancel_activity();
                 }
             }
@@ -5600,7 +5594,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         } else if( npc_or_player->is_avatar() ) {
             add_msg( m_bad, _( "The %s hits you." ), door_name );
         }
-        if( npc_or_player->activity ) {
+        if( npc_or_player->activity.has_activity() ) {
             npc_or_player->cancel_activity();
         }
         // TODO: make the npc angry?
@@ -9641,7 +9635,7 @@ void game::butcher()
                 case MULTIBUTCHER:
                     butcher_submenu( corpses );
                     for( map_stack::iterator &it : corpses ) {
-                        u.activity.targets.emplace_back( map_cursor( u.pos() ), &*it );
+                        u.activity.raw().targets.emplace_back( map_cursor( u.pos() ), &*it );
                     }
                     break;
                 case MULTIDISASSEMBLE_ONE:
@@ -9657,7 +9651,7 @@ void game::butcher()
             break;
         case BUTCHER_CORPSE: {
             butcher_submenu( corpses, indexer_index );
-            u.activity.targets.emplace_back( map_cursor( u.pos() ), &*corpses[indexer_index] );
+            u.activity.raw().targets.emplace_back( map_cursor( u.pos() ), &*corpses[indexer_index] );
         }
         break;
         case BUTCHER_DISASSEMBLE: {
@@ -10826,7 +10820,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             if( !corpses.empty() ) {
                 u.assign_activity( ACT_BUTCHER, 0, true );
                 for( item *it : corpses ) {
-                    u.activity.targets.emplace_back( map_cursor( u.pos() ), it );
+                    u.activity.raw().targets.emplace_back( map_cursor( u.pos() ), it );
                 }
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
@@ -10844,9 +10838,9 @@ point game::place_player( const tripoint &dest_loc, bool quick )
                         }
 
                         u.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-                        u.activity.placement = m.getglobal( pos );
-                        u.activity.auto_resume = true;
-                        u.activity.str_values.emplace_back( "auto_pulp_no_acid" );
+                        u.activity.raw().placement = m.getglobal( pos );
+                        u.activity.raw().auto_resume = true;
+                        u.activity.raw().str_values.emplace_back( "auto_pulp_no_acid" );
                         return;
                     }
                 }

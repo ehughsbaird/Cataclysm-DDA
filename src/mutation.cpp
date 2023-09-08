@@ -905,11 +905,11 @@ void Character::activate_mutation( const trait_id &mut )
             const time_duration startup_time = ( has_flag( json_flag_ROOTS3 ) ||
                                                  has_flag( json_flag_CHLOROMORPH ) ) ? rng( 15_minutes,
                                                          30_minutes ) : rng( 60_minutes, 90_minutes );
-            activity.values.push_back( to_turns<int>( startup_time ) );
+            activity.raw().values.push_back( to_turns<int>( startup_time ) );
             return;
         } else {
             const time_duration startup_time = rng( 120_minutes, 180_minutes );
-            activity.values.push_back( to_turns<int>( startup_time ) );
+            activity.raw().values.push_back( to_turns<int>( startup_time ) );
             return;
         }
     } else if( !mdata.spawn_item.is_empty() ) {

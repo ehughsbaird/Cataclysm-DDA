@@ -419,7 +419,7 @@ void Pickup::autopickup( const tripoint &p )
     player.assign_activity( actor );
 
     // Auto pickup will need to auto resume since there can be several of them on the stack.
-    player.activity.auto_resume = true;
+    player.activity.raw().auto_resume = true;
 }
 
 int Pickup::cost_to_move_item( const Character &who, const item &it )
