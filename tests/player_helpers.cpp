@@ -104,8 +104,8 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy._skills->clear();
     dummy.martial_arts_data->clear_styles();
     dummy.clear_morale();
-    dummy.activity.set_to_null();
-    dummy.backlog.clear();
+    dummy.activity.halt_active();
+    dummy.activity.clear_backlog();
     dummy.reset_chargen_attributes();
     dummy.set_pain( 0 );
     dummy.reset_bonuses();
@@ -218,10 +218,10 @@ void process_activity( Character &dummy )
 {
     do {
         dummy.moves += dummy.get_speed();
-        while( dummy.moves > 0 && dummy.activity ) {
-            dummy.activity.do_turn( dummy );
+        while( dummy.moves > 0 && dummy.activity.has_activity() ) {
+            dummy.activity.raw().do_turn( dummy );
         }
-    } while( dummy.activity );
+    } while( dummy.activity.has_activity() );
 }
 
 npc &spawn_npc( const point &p, const std::string &npc_class )

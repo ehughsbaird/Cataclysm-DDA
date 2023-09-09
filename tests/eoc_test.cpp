@@ -90,9 +90,9 @@ namespace
 {
 void complete_activity( Character &u )
 {
-    while( !u.activity.is_null() ) {
+    while( u.activity.has_activity() ) {
         u.set_moves( u.get_speed() );
-        u.activity.do_turn( u );
+        u.activity.activity.do_turn( u );
     }
 }
 

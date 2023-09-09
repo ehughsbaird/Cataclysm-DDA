@@ -177,14 +177,14 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         dummy.setpos( safe + tripoint_east );
 
         map &mp = get_map();
-        dummy.activity = player_activity( safecracking_activity_actor( safe ) );
-        dummy.activity.start_or_resume( dummy, false );
+        dummy.activity.raw() = player_activity( safecracking_activity_actor( safe ) );
+        dummy.activity.raw().start_or_resume( dummy, false );
 
         GIVEN( "player without the required tools" ) {
             mp.furn_set( safe, f_safe_l );
             REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
-            REQUIRE( dummy.activity.id() == ACT_CRACKING );
+            REQUIRE( dummy.has_activity( ACT_CRACKING ) );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
             WHEN( "player tries safecracking" ) {
@@ -200,7 +200,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             mp.furn_set( safe, f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
-            REQUIRE( dummy.activity.id() == ACT_CRACKING );
+            REQUIRE( dummy.has_activity( ACT_CRACKING ) );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
             WHEN( "player completes the safecracking activity" ) {
@@ -218,7 +218,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             mp.furn_set( safe, f_safe_l );
             REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( dummy.has_flag( json_flag_SUPER_HEARING ) );
-            REQUIRE( dummy.activity.id() == ACT_CRACKING );
+            REQUIRE( dummy.has_activity( ACT_CRACKING ) );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
             WHEN( "player completes the safecracking activity" ) {
@@ -235,13 +235,13 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             mp.furn_set( safe, f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
-            REQUIRE( dummy.activity.id() == ACT_CRACKING );
+            REQUIRE( dummy.has_activity( ACT_CRACKING ) );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
             WHEN( "player is safecracking" ) {
                 dummy.moves += dummy.get_speed();
                 for( int i = 0; i < 100; ++i ) {
-                    dummy.activity.do_turn( dummy );
+                    dummy.activity.raw().do_turn( dummy );
                 }
 
                 THEN( "player loses their stethoscope" ) {
@@ -280,14 +280,14 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         dummy.setpos( safe + tripoint_east );
 
         map &mp = get_map();
-        dummy.activity = player_activity( safecracking_activity_actor( safe ) );
-        dummy.activity.start_or_resume( dummy, false );
+        dummy.activity.raw() = player_activity( safecracking_activity_actor( safe ) );
+        dummy.activity.raw().start_or_resume( dummy, false );
 
         GIVEN( "player cracks one safe" ) {
             dummy.i_add( item( "stethoscope" ) );
             mp.furn_set( safe, f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
-            REQUIRE( dummy.activity.id() == ACT_CRACKING );
+            REQUIRE( dummy.has_activity( ACT_CRACKING ) );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
             REQUIRE( !dummy.has_proficiency( proficiency_prof_safecracking ) );
@@ -341,11 +341,11 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             monster &mon = test_monster( true );
 
             REQUIRE( dummy.max_quality( qual_SHEAR ) <= 0 );
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), false ) );
-            dummy.activity.start_or_resume( dummy, false );
+            dummy.activity.raw() = player_activity( shearing_activity_actor( mon.pos(), false ) );
+            dummy.activity.raw().start_or_resume( dummy, false );
 
             THEN( "shearing can't start" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
             }
         }
 
@@ -357,12 +357,12 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.i_add( item( itype_test_shears ) );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 1 );
 
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), false ) );
-            dummy.activity.start_or_resume( dummy, false );
-            REQUIRE( dummy.activity.id() == ACT_SHEARING );
+            dummy.activity.raw() = player_activity( shearing_activity_actor( mon.pos(), false ) );
+            dummy.activity.raw().start_or_resume( dummy, false );
+            REQUIRE( dummy.has_activity( ACT_SHEARING ) );
 
             THEN( "shearing time is 30 minutes" ) {
-                CHECK( dummy.activity.moves_total == to_moves<int>( 30_minutes ) );
+                CHECK( dummy.activity.raw().moves_total == to_moves<int>( 30_minutes ) );
             }
         }
 
@@ -385,12 +385,12 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.i_add( elec_shears );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 3 );
 
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), false ) );
-            dummy.activity.start_or_resume( dummy, false );
-            REQUIRE( dummy.activity.id() == ACT_SHEARING );
+            dummy.activity.raw() = player_activity( shearing_activity_actor( mon.pos(), false ) );
+            dummy.activity.raw().start_or_resume( dummy, false );
+            REQUIRE( dummy.has_activity( ACT_SHEARING ) );
 
             THEN( "shearing time is 10 minutes" ) {
-                CHECK( dummy.activity.moves_total == to_moves<int>( 10_minutes ) );
+                CHECK( dummy.activity.raw().moves_total == to_moves<int>( 10_minutes ) );
             }
         }
 
@@ -402,11 +402,11 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.i_add( item( itype_test_shears ) );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 1 );
 
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), false ) );
-            dummy.activity.start_or_resume( dummy, false );
+            dummy.activity.raw() = player_activity( shearing_activity_actor( mon.pos(), false ) );
+            dummy.activity.raw().start_or_resume( dummy, false );
 
             THEN( "shearing can't start" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
             }
         }
     }
@@ -431,13 +431,13 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.i_add( elec_shears );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 3 );
 
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), false ) );
-            dummy.activity.start_or_resume( dummy, false );
-            REQUIRE( dummy.activity.id() == ACT_SHEARING );
+            dummy.activity.raw() = player_activity( shearing_activity_actor( mon.pos(), false ) );
+            dummy.activity.raw().start_or_resume( dummy, false );
+            REQUIRE( dummy.has_activity( ACT_SHEARING ) );
 
             dummy.moves += dummy.get_speed();
             for( int i = 0; i < 100; ++i ) {
-                dummy.activity.do_turn( dummy );
+                dummy.activity.raw().do_turn( dummy );
             }
 
             WHEN( "tool runs out of charges mid activity" ) {
@@ -451,10 +451,10 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
                 CHECK( dummy.max_quality( qual_SHEAR ) <= 0 );
 
                 THEN( "activity stops without completing" ) {
-                    CHECK( dummy.activity.id() == ACT_SHEARING );
-                    CHECK( dummy.activity.moves_left > 0 );
-                    dummy.activity.do_turn( dummy );
-                    CHECK( dummy.activity.id() == ACT_NULL );
+                    CHECK( dummy.has_activity( ACT_SHEARING ) );
+                    CHECK( dummy.activity.raw().moves_left > 0 );
+                    dummy.activity.raw().do_turn( dummy );
+                    CHECK( !dummy.activity.has_activity() );
                 }
             }
         }
@@ -471,9 +471,9 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.i_add( item( itype_test_shears ) );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 1 );
 
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), false ) );
-            dummy.activity.start_or_resume( dummy, false );
-            REQUIRE( dummy.activity.id() == ACT_SHEARING );
+            dummy.activity.raw() = player_activity( shearing_activity_actor( mon.pos(), false ) );
+            dummy.activity.raw().start_or_resume( dummy, false );
+            REQUIRE( dummy.has_activity( ACT_SHEARING ) );
 
             const itype_id test_amount = itype_test_rock;
             const itype_id test_random = itype_test_2x4;
@@ -482,7 +482,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
 
             process_activity( dummy );
             WHEN( "shearing finishes" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
                 THEN( "player receives the items" ) {
                     const map_stack items = get_map().i_at( dummy.pos() );
                     int count_amount = 0;
@@ -523,13 +523,13 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.i_add( item( itype_test_shears ) );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 1 );
 
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), false ) );
-            dummy.activity.start_or_resume( dummy, false );
-            REQUIRE( dummy.activity.id() == ACT_SHEARING );
+            dummy.activity.raw() = player_activity( shearing_activity_actor( mon.pos(), false ) );
+            dummy.activity.raw().start_or_resume( dummy, false );
+            REQUIRE( dummy.has_activity( ACT_SHEARING ) );
 
             process_activity( dummy );
             WHEN( "player is done shearing" ) {
-                REQUIRE( dummy.activity.id() == ACT_NULL );
+                REQUIRE( !dummy.activity.has_activity() );
                 THEN( "monster is tied" ) {
                     CHECK( mon.has_effect( effect_tied ) );
                 }
@@ -544,13 +544,13 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.i_add( item( itype_test_shears ) );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 1 );
 
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), true ) );
-            dummy.activity.start_or_resume( dummy, false );
-            REQUIRE( dummy.activity.id() == ACT_SHEARING );
+            dummy.activity.raw() = player_activity( shearing_activity_actor( mon.pos(), true ) );
+            dummy.activity.raw().start_or_resume( dummy, false );
+            REQUIRE( dummy.has_activity( ACT_SHEARING ) );
 
             process_activity( dummy );
             WHEN( "player is done shearing" ) {
-                REQUIRE( dummy.activity.id() == ACT_NULL );
+                REQUIRE( !dummy.activity.has_activity() );
                 THEN( "monster is untied" ) {
                     CHECK_FALSE( mon.has_effect( effect_tied ) );
                 }
@@ -591,7 +591,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             setup_activity( boltcutter );
 
             THEN( "boltcutting activity can't start" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
             }
         }
 
@@ -606,7 +606,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             setup_activity( boltcutter );
 
             THEN( "boltcutting activity can't start" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
             }
         }
 
@@ -621,7 +621,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             setup_activity( boltcutter );
 
             THEN( "boltcutting activity can start" ) {
-                CHECK( dummy.activity.id() == ACT_BOLTCUTTING );
+                CHECK( dummy.has_activity( ACT_BOLTCUTTING ) );
             }
         }
 
@@ -636,7 +636,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             setup_activity( boltcutter );
 
             THEN( "boltcutting activity can start" ) {
-                CHECK( dummy.activity.id() == ACT_BOLTCUTTING );
+                CHECK( dummy.has_activity( ACT_BOLTCUTTING ) );
             }
         }
 
@@ -649,12 +649,12 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
 
             item_location boltcutter = setup_dummy();
             setup_activity( boltcutter );
-            REQUIRE( dummy.activity.id() == ACT_BOLTCUTTING );
+            REQUIRE( dummy.has_activity( ACT_BOLTCUTTING ) );
 
             WHEN( "terrain has a duration of 10 seconds" ) {
                 REQUIRE( ter_test_t_boltcut1->boltcut->duration() == 10_seconds );
                 THEN( "moves_left is equal to 10 seconds" ) {
-                    CHECK( dummy.activity.moves_left == to_moves<int>( 10_seconds ) );
+                    CHECK( dummy.activity.raw().moves_left == to_moves<int>( 10_seconds ) );
                 }
             }
         }
@@ -668,12 +668,12 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
 
             item_location boltcutter = setup_dummy();
             setup_activity( boltcutter );
-            REQUIRE( dummy.activity.id() == ACT_BOLTCUTTING );
+            REQUIRE( dummy.has_activity( ACT_BOLTCUTTING ) );
 
             WHEN( "furniture has a duration of 5 seconds" ) {
                 REQUIRE( furn_test_f_boltcut1->boltcut->duration() == 5_seconds );
                 THEN( "moves_left is equal to 5 seconds" ) {
-                    CHECK( dummy.activity.moves_left == to_moves<int>( 5_seconds ) );
+                    CHECK( dummy.activity.raw().moves_left == to_moves<int>( 5_seconds ) );
                 }
             }
         }
@@ -699,11 +699,11 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             item_location boltcutter_elec = dummy.get_wielded_item();
 
             setup_activity( boltcutter_elec );
-            REQUIRE( dummy.activity.id() == ACT_BOLTCUTTING );
+            REQUIRE( dummy.has_activity( ACT_BOLTCUTTING ) );
             process_activity( dummy );
 
             WHEN( "player runs out of charges" ) {
-                REQUIRE( dummy.activity.id() == ACT_NULL );
+                REQUIRE( !dummy.activity.has_activity() );
 
                 THEN( "player recharges with fuel" ) {
                     boltcutter_elec->ammo_set( battery.ammo_default() );
@@ -711,9 +711,9 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
                     AND_THEN( "player can resume the activity" ) {
                         setup_activity( boltcutter_elec );
                         dummy.moves = dummy.get_speed();
-                        dummy.activity.do_turn( dummy );
-                        CHECK( dummy.activity.id() == ACT_BOLTCUTTING );
-                        CHECK( dummy.activity.moves_left < to_moves<int>( furn_test_f_boltcut3->boltcut->duration() ) );
+                        dummy.activity.raw().do_turn( dummy );
+                        CHECK( dummy.has_activity( ACT_BOLTCUTTING ) );
+                        CHECK( dummy.activity.raw().moves_left < to_moves<int>( furn_test_f_boltcut3->boltcut->duration() ) );
                     }
                 }
             }
@@ -731,9 +731,9 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             item_location boltcutter = setup_dummy();
             setup_activity( boltcutter );
 
-            REQUIRE( dummy.activity.id() == ACT_BOLTCUTTING );
+            REQUIRE( dummy.has_activity( ACT_BOLTCUTTING ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             THEN( "terrain gets converted to new terrain type" ) {
                 CHECK( mp.ter( tripoint_zero ) == t_dirt );
@@ -750,9 +750,9 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             item_location boltcutter = setup_dummy();
             setup_activity( boltcutter );
 
-            REQUIRE( dummy.activity.id() == ACT_BOLTCUTTING );
+            REQUIRE( dummy.has_activity( ACT_BOLTCUTTING ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             THEN( "furniture gets converted to new furniture type" ) {
                 CHECK( mp.furn( tripoint_zero ) == f_null );
@@ -769,9 +769,9 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             item_location boltcutter = setup_dummy();
             setup_activity( boltcutter );
 
-            REQUIRE( dummy.activity.id() == ACT_BOLTCUTTING );
+            REQUIRE( dummy.has_activity( ACT_BOLTCUTTING ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             THEN( "furniture gets converted to new furniture type" ) {
                 CHECK( mp.furn( tripoint_zero ) == furn_test_f_boltcut1 );
@@ -790,15 +790,15 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
 
             REQUIRE( ter_test_t_boltcut2->boltcut->byproducts().size() == 2 );
 
-            REQUIRE( dummy.activity.id() == ACT_BOLTCUTTING );
+            REQUIRE( dummy.has_activity( ACT_BOLTCUTTING ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             const itype_id test_amount = itype_test_rock;
             const itype_id test_random = itype_test_2x4;
 
             WHEN( "boltcut acitivy finishes" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
 
                 THEN( "player receives the items" ) {
                     const map_stack items = get_map().i_at( tripoint_zero );
@@ -855,7 +855,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             setup_activity( hacksaw );
 
             THEN( "hacksaw activity can't start" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
             }
         }
 
@@ -870,7 +870,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             setup_activity( hacksaw );
 
             THEN( "hacksaw activity can't start" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
             }
         }
 
@@ -885,7 +885,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             setup_activity( hacksaw );
 
             THEN( "hacksaw activity can start" ) {
-                CHECK( dummy.activity.id() == ACT_HACKSAW );
+                CHECK( dummy.has_activity( ACT_HACKSAW ) );
             }
         }
 
@@ -900,7 +900,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             setup_activity( hacksaw );
 
             THEN( "hacksaw activity can start" ) {
-                CHECK( dummy.activity.id() == ACT_HACKSAW );
+                CHECK( dummy.has_activity( ACT_HACKSAW ) );
             }
         }
 
@@ -913,12 +913,12 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
             item_location hacksaw = setup_dummy();
             setup_activity( hacksaw );
-            REQUIRE( dummy.activity.id() == ACT_HACKSAW );
+            REQUIRE( dummy.has_activity( ACT_HACKSAW ) );
 
             WHEN( "terrain has a duration of 10 minutes" ) {
                 REQUIRE( ter_test_t_hacksaw1->hacksaw->duration() == 10_minutes );
                 THEN( "moves_left is equal to 10 minutes" ) {
-                    CHECK( dummy.activity.moves_left == to_moves<int>( 10_minutes ) );
+                    CHECK( dummy.activity.raw().moves_left == to_moves<int>( 10_minutes ) );
                 }
             }
         }
@@ -932,12 +932,12 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
             item_location hacksaw = setup_dummy();
             setup_activity( hacksaw );
-            REQUIRE( dummy.activity.id() == ACT_HACKSAW );
+            REQUIRE( dummy.has_activity( ACT_HACKSAW ) );
 
             WHEN( "furniture has a duration of 5 minutes" ) {
                 REQUIRE( furn_test_f_hacksaw1->hacksaw->duration() == 5_minutes );
                 THEN( "moves_left is equal to 5 minutes" ) {
-                    CHECK( dummy.activity.moves_left == to_moves<int>( 5_minutes ) );
+                    CHECK( dummy.activity.raw().moves_left == to_moves<int>( 5_minutes ) );
                 }
             }
         }
@@ -964,11 +964,11 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             item_location hacksaw_elec = dummy.get_wielded_item();
 
             setup_activity( hacksaw_elec );
-            REQUIRE( dummy.activity.id() == ACT_HACKSAW );
+            REQUIRE( dummy.has_activity( ACT_HACKSAW ) );
             process_activity( dummy );
 
             WHEN( "player runs out of charges" ) {
-                REQUIRE( dummy.activity.id() == ACT_NULL );
+                REQUIRE( !dummy.activity.has_activity() );
 
                 THEN( "player recharges with fuel" ) {
                     hacksaw_elec->ammo_set( battery.ammo_default() );
@@ -976,9 +976,9 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
                     AND_THEN( "player can resume the activity" ) {
                         setup_activity( hacksaw_elec );
                         dummy.moves = dummy.get_speed();
-                        dummy.activity.do_turn( dummy );
-                        CHECK( dummy.activity.id() == ACT_HACKSAW );
-                        CHECK( dummy.activity.moves_left < to_moves<int>( furn_test_f_hacksaw3->hacksaw->duration() ) );
+                        dummy.activity.raw().do_turn( dummy );
+                        CHECK( dummy.has_activity( ACT_HACKSAW ) );
+                        CHECK( dummy.activity.raw().moves_left < to_moves<int>( furn_test_f_hacksaw3->hacksaw->duration() ) );
                     }
                 }
             }
@@ -996,9 +996,9 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             item_location hacksaw = setup_dummy();
             setup_activity( hacksaw );
 
-            REQUIRE( dummy.activity.id() == ACT_HACKSAW );
+            REQUIRE( dummy.has_activity( ACT_HACKSAW ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             THEN( "terrain gets converted to new terrain type" ) {
                 CHECK( mp.ter( tripoint_zero ) == t_dirt );
@@ -1015,9 +1015,9 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             item_location hacksaw = setup_dummy();
             setup_activity( hacksaw );
 
-            REQUIRE( dummy.activity.id() == ACT_HACKSAW );
+            REQUIRE( dummy.has_activity( ACT_HACKSAW ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             THEN( "furniture gets converted to new furniture type" ) {
                 CHECK( mp.furn( tripoint_zero ) == f_null );
@@ -1034,9 +1034,9 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             item_location hacksaw = setup_dummy();
             setup_activity( hacksaw );
 
-            REQUIRE( dummy.activity.id() == ACT_HACKSAW );
+            REQUIRE( dummy.has_activity( ACT_HACKSAW ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             THEN( "furniture gets converted to new furniture type" ) {
                 CHECK( mp.furn( tripoint_zero ) == furn_test_f_hacksaw1 );
@@ -1055,15 +1055,15 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
             REQUIRE( ter_test_t_hacksaw2->hacksaw->byproducts().size() == 2 );
 
-            REQUIRE( dummy.activity.id() == ACT_HACKSAW );
+            REQUIRE( dummy.has_activity( ACT_HACKSAW ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             const itype_id test_amount = itype_test_rock;
             const itype_id test_random = itype_test_2x4;
 
             WHEN( "hacksaw acitivy finishes" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
 
                 THEN( "player receives the items" ) {
                     const map_stack items = get_map().i_at( tripoint_zero );
@@ -1121,7 +1121,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
             setup_activity( welding_torch );
 
             THEN( "oxytorch activity can't start" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
             }
         }
 
@@ -1136,7 +1136,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
             setup_activity( welding_torch );
 
             THEN( "oxytorch activity can't start" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
             }
         }
 
@@ -1151,7 +1151,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
             setup_activity( welding_torch );
 
             THEN( "oxytorch activity can start" ) {
-                CHECK( dummy.activity.id() == ACT_OXYTORCH );
+                CHECK( dummy.has_activity( ACT_OXYTORCH ) );
             }
         }
 
@@ -1166,7 +1166,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
             setup_activity( welding_torch );
 
             THEN( "oxytorch activity can start" ) {
-                CHECK( dummy.activity.id() == ACT_OXYTORCH );
+                CHECK( dummy.has_activity( ACT_OXYTORCH ) );
             }
         }
 
@@ -1179,12 +1179,12 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
 
             item_location welding_torch = setup_dummy();
             setup_activity( welding_torch );
-            REQUIRE( dummy.activity.id() == ACT_OXYTORCH );
+            REQUIRE( dummy.has_activity( ACT_OXYTORCH ) );
 
             WHEN( "terrain has a duration of 10 seconds" ) {
                 REQUIRE( ter_test_t_oxytorch1->oxytorch->duration() == 10_seconds );
                 THEN( "moves_left is equal to 10 seconds" ) {
-                    CHECK( dummy.activity.moves_left == to_moves<int>( 10_seconds ) );
+                    CHECK( dummy.activity.raw().moves_left == to_moves<int>( 10_seconds ) );
                 }
             }
         }
@@ -1198,12 +1198,12 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
 
             item_location welding_torch = setup_dummy();
             setup_activity( welding_torch );
-            REQUIRE( dummy.activity.id() == ACT_OXYTORCH );
+            REQUIRE( dummy.has_activity( ACT_OXYTORCH ) );
 
             WHEN( "furniture has a duration of 5 seconds" ) {
                 REQUIRE( furn_test_f_oxytorch1->oxytorch->duration() == 5_seconds );
                 THEN( "moves_left is equal to 5 seconds" ) {
-                    CHECK( dummy.activity.moves_left == to_moves<int>( 5_seconds ) );
+                    CHECK( dummy.activity.raw().moves_left == to_moves<int>( 5_seconds ) );
                 }
             }
         }
@@ -1219,11 +1219,11 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
 
             item_location welding_torch = setup_dummy();
             setup_activity( welding_torch );
-            REQUIRE( dummy.activity.id() == ACT_OXYTORCH );
+            REQUIRE( dummy.has_activity( ACT_OXYTORCH ) );
             process_activity( dummy );
 
             WHEN( "player runs out of fuel" ) {
-                REQUIRE( dummy.activity.id() == ACT_NULL );
+                REQUIRE( !dummy.activity.has_activity() );
 
                 THEN( "player recharges with fuel" ) {
                     welding_torch->ammo_set( itype_oxyacetylene );
@@ -1231,9 +1231,9 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
                     AND_THEN( "player can resume the activity" ) {
                         setup_activity( welding_torch );
                         dummy.moves = dummy.get_speed();
-                        dummy.activity.do_turn( dummy );
-                        CHECK( dummy.activity.id() == ACT_OXYTORCH );
-                        CHECK( dummy.activity.moves_left < to_moves<int>( furn_test_f_oxytorch3->oxytorch->duration() ) );
+                        dummy.activity.raw().do_turn( dummy );
+                        CHECK( dummy.has_activity( ACT_OXYTORCH ) );
+                        CHECK( dummy.activity.raw().moves_left < to_moves<int>( furn_test_f_oxytorch3->oxytorch->duration() ) );
                     }
                 }
             }
@@ -1251,9 +1251,9 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
             item_location welding_torch = setup_dummy();
             setup_activity( welding_torch );
 
-            REQUIRE( dummy.activity.id() == ACT_OXYTORCH );
+            REQUIRE( dummy.has_activity( ACT_OXYTORCH ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             THEN( "terrain gets converted to new terrain type" ) {
                 CHECK( mp.ter( tripoint_zero ) == t_dirt );
@@ -1270,9 +1270,9 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
             item_location welding_torch = setup_dummy();
             setup_activity( welding_torch );
 
-            REQUIRE( dummy.activity.id() == ACT_OXYTORCH );
+            REQUIRE( dummy.has_activity( ACT_OXYTORCH ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             THEN( "furniture gets converted to new furniture type" ) {
                 CHECK( mp.furn( tripoint_zero ) == f_null );
@@ -1289,9 +1289,9 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
             item_location welding_torch = setup_dummy();
             setup_activity( welding_torch );
 
-            REQUIRE( dummy.activity.id() == ACT_OXYTORCH );
+            REQUIRE( dummy.has_activity( ACT_OXYTORCH ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             THEN( "furniture gets converted to new furniture type" ) {
                 CHECK( mp.furn( tripoint_zero ) == furn_test_f_oxytorch1 );
@@ -1310,15 +1310,15 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
 
             REQUIRE( ter_test_t_oxytorch2->oxytorch->byproducts().size() == 2 );
 
-            REQUIRE( dummy.activity.id() == ACT_OXYTORCH );
+            REQUIRE( dummy.has_activity( ACT_OXYTORCH ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             const itype_id test_amount = itype_test_rock;
             const itype_id test_random = itype_test_2x4;
 
             WHEN( "oxytorch acitivy finishes" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
 
                 THEN( "player receives the items" ) {
                     const map_stack items = get_map().i_at( tripoint_zero );
@@ -1418,7 +1418,7 @@ TEST_CASE( "prying", "[activity][prying]" )
             setup_activity( prying_tool );
 
             THEN( "prying activity can't start" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
             }
         }
 
@@ -1433,7 +1433,7 @@ TEST_CASE( "prying", "[activity][prying]" )
             setup_activity( prying_tool );
 
             THEN( "prying activity can't start" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
             }
         }
 
@@ -1448,7 +1448,7 @@ TEST_CASE( "prying", "[activity][prying]" )
             setup_activity( prying_tool );
 
             THEN( "prying activity can start" ) {
-                CHECK( dummy.activity.id() == ACT_PRYING );
+                CHECK( dummy.has_activity( ACT_PRYING ) );
             }
         }
 
@@ -1463,7 +1463,7 @@ TEST_CASE( "prying", "[activity][prying]" )
             setup_activity( prying_tool );
 
             THEN( "oxytorch activity can start" ) {
-                CHECK( dummy.activity.id() == ACT_PRYING );
+                CHECK( dummy.has_activity( ACT_PRYING ) );
             }
         }
 
@@ -1476,12 +1476,12 @@ TEST_CASE( "prying", "[activity][prying]" )
 
             item_location prying_tool = setup_dummy( true );
             setup_activity( prying_tool );
-            REQUIRE( dummy.activity.id() == ACT_PRYING );
+            REQUIRE( dummy.has_activity( ACT_PRYING ) );
 
             WHEN( "terrain has a duration of 30 seconds" ) {
                 REQUIRE( ter_test_t_prying1->prying->duration() == 30_seconds );
                 THEN( "moves_left is equal to 30 seconds" ) {
-                    CHECK( dummy.activity.moves_left == to_moves<int>( 30_seconds ) );
+                    CHECK( dummy.activity.raw().moves_left == to_moves<int>( 30_seconds ) );
                 }
             }
         }
@@ -1495,12 +1495,12 @@ TEST_CASE( "prying", "[activity][prying]" )
 
             item_location prying_tool = setup_dummy( true );
             setup_activity( prying_tool );
-            REQUIRE( dummy.activity.id() == ACT_PRYING );
+            REQUIRE( dummy.has_activity( ACT_PRYING ) );
 
             WHEN( "furniture has a duration of 17 seconds" ) {
                 REQUIRE( furn_test_f_prying1->prying->duration() == 17_seconds );
                 THEN( "moves_left is equal to 17 seconds" ) {
-                    CHECK( dummy.activity.moves_left == to_moves<int>( 17_seconds ) );
+                    CHECK( dummy.activity.raw().moves_left == to_moves<int>( 17_seconds ) );
                 }
             }
         }
@@ -1517,9 +1517,9 @@ TEST_CASE( "prying", "[activity][prying]" )
             item_location prying_tool = setup_dummy( true );
             setup_activity( prying_tool );
 
-            REQUIRE( dummy.activity.id() == ACT_PRYING );
+            REQUIRE( dummy.has_activity( ACT_PRYING ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             THEN( "terrain gets converted to new terrain type" ) {
                 CHECK( mp.ter( tripoint_zero ) == t_dirt );
@@ -1536,9 +1536,9 @@ TEST_CASE( "prying", "[activity][prying]" )
             item_location prying_tool = setup_dummy( true );
             setup_activity( prying_tool );
 
-            REQUIRE( dummy.activity.id() == ACT_PRYING );
+            REQUIRE( dummy.has_activity( ACT_PRYING ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             THEN( "furniture gets converted to new furniture type" ) {
                 CHECK( mp.furn( tripoint_zero ) == f_null );
@@ -1557,9 +1557,9 @@ TEST_CASE( "prying", "[activity][prying]" )
             item_location prying_tool = setup_dummy( true );
             setup_activity( prying_tool );
 
-            REQUIRE( dummy.activity.id() == ACT_PRYING );
+            REQUIRE( dummy.has_activity( ACT_PRYING ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             THEN( "activity fails" ) {
                 CHECK( mp.ter( tripoint_zero ) == ter_test_t_prying2 );
@@ -1576,9 +1576,9 @@ TEST_CASE( "prying", "[activity][prying]" )
             item_location prying_tool = setup_dummy( false );
             setup_activity( prying_tool );
 
-            REQUIRE( dummy.activity.id() == ACT_PRYING );
+            REQUIRE( dummy.has_activity( ACT_PRYING ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             THEN( "terrain gets converted to new type" ) {
                 CHECK( mp.ter( tripoint_zero ) == t_dirt );
@@ -1597,14 +1597,14 @@ TEST_CASE( "prying", "[activity][prying]" )
             item_location prying_tool = setup_dummy( true );
             setup_activity( prying_tool, terrain_pos );
 
-            REQUIRE( dummy.activity.id() == ACT_PRYING );
+            REQUIRE( dummy.has_activity( ACT_PRYING ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             const itype_id test_shards = itype_glass_shard;
 
             WHEN( "activity fails" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
                 CHECK( mp.ter( terrain_pos ) == t_dirt );
                 const map_stack items = get_map().i_at( terrain_pos );
                 int count_shards = 0;
@@ -1633,15 +1633,15 @@ TEST_CASE( "prying", "[activity][prying]" )
 
             REQUIRE( ter_test_t_prying1->prying->byproducts().size() == 2 );
 
-            REQUIRE( dummy.activity.id() == ACT_PRYING );
+            REQUIRE( dummy.has_activity( ACT_PRYING ) );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( !dummy.activity.has_activity() );
 
             const itype_id test_amount = itype_test_rock;
             const itype_id test_random = itype_test_2x4;
 
             WHEN( "prying acitivy finishes" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( !dummy.activity.has_activity() );
 
                 THEN( "player receives the items" ) {
                     const map_stack items = get_map().i_at( tripoint_zero );
@@ -1739,9 +1739,9 @@ static void cleanup( avatar &dummy )
     dummy.inv->clear();
     clear_map();
 
-    REQUIRE( dummy.activity.get_distractions().empty() );
-    REQUIRE( !dummy.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) );
-    REQUIRE( !dummy.activity.is_distraction_ignored( distraction_type::dangerous_field ) );
+    REQUIRE( dummy.activity.raw().get_distractions().empty() );
+    REQUIRE( !dummy.activity.raw().is_distraction_ignored( distraction_type::hostile_spotted_near ) );
+    REQUIRE( !dummy.activity.raw().is_distraction_ignored( distraction_type::dangerous_field ) );
 }
 
 static void update_cache( map &m )
@@ -1767,15 +1767,15 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
     for( const std::function<player_activity()> &setup_activity : test_activities ) {
         player_activity activity = setup_activity();
         CAPTURE( activity.id() );
-        dummy.activity = activity;
-        dummy.activity.start_or_resume( dummy, false );
+        dummy.activity.raw() = activity;
+        dummy.activity.raw().start_or_resume( dummy, false );
 
         //this must be larger than 0 for interruption to happen
-        REQUIRE( dummy.activity.moves_left > 0 );
+        REQUIRE( dummy.activity.raw().moves_left > 0 );
         //some activities are set to null during start if they don't get valid data
-        REQUIRE( dummy.activity.id() != ACT_NULL );
+        REQUIRE( dummy.activity.active_id() != ACT_NULL );
         //aiming is excluded from this kind of interruption
-        REQUIRE( dummy.activity.id() != ACT_AIM );
+        REQUIRE( dummy.activity.active_id() != ACT_AIM );
 
         tripoint zombie_pos_near = dummy.pos() + tripoint( 2, 0, 0 );
         tripoint zombie_pos_far = dummy.pos() + tripoint( 10, 0, 0 );
@@ -1789,7 +1789,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
             spawn_test_monster( mon_zombie.str(), zombie_pos_near );
             update_cache( m );
 
-            std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
+            std::map<distraction_type, std::string> dists = dummy.activity.raw().get_distractions();
 
             CHECK( dists.size() == 1 );
             CHECK( dists.find( distraction_type::hostile_spotted_near ) != dists.end() );
@@ -1803,7 +1803,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
 
             REQUIRE( dummy.sees( zombie ) );
 
-            std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
+            std::map<distraction_type, std::string> dists = dummy.activity.raw().get_distractions();
 
             CHECK( dists.empty() );
 
@@ -1812,7 +1812,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
                 int turns = 0;
                 do {
                     move_monster_turn( zombie );
-                    dists = dummy.activity.get_distractions();
+                    dists = dummy.activity.raw().get_distractions();
                     turns++;
                 } while( turns < 10 && dists.empty() );
 
@@ -1830,7 +1830,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
 
             REQUIRE( !dummy.sees( zombie ) );
 
-            std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
+            std::map<distraction_type, std::string> dists = dummy.activity.raw().get_distractions();
 
             CHECK( dists.empty() );
 
@@ -1839,7 +1839,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
                 int turns = 0;
                 do {
                     move_monster_turn( zombie );
-                    dists = dummy.activity.get_distractions();
+                    dists = dummy.activity.raw().get_distractions();
                     turns++;
                 } while( turns < 5 && dists.empty() );
 
@@ -1853,7 +1853,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
 
             m.add_field( dummy.pos(), field_fd_smoke );
 
-            std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
+            std::map<distraction_type, std::string> dists = dummy.activity.raw().get_distractions();
 
             CHECK( dists.size() == 1 );
             CHECK( dists.find( distraction_type::dangerous_field ) != dists.end() );
@@ -1864,7 +1864,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
 
             spawn_test_monster( mon_zombie.str(), zombie_pos_near );
             m.add_field( dummy.pos(), field_fd_smoke );
-            std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
+            std::map<distraction_type, std::string> dists = dummy.activity.raw().get_distractions();
 
             CHECK( dists.size() == 2 );
             CHECK( dists.find( distraction_type::hostile_spotted_near ) != dists.end() );

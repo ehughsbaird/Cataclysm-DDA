@@ -149,9 +149,9 @@ struct damage_preset {
 static void complete_activity( Character &u, const activity_actor &act )
 {
     u.assign_activity( act );
-    while( !u.activity.is_null() ) {
+    while( u.activity.has_activity() ) {
         u.set_moves( u.get_speed() );
-        u.activity.do_turn( u );
+        u.activity.raw().do_turn( u );
     }
 }
 

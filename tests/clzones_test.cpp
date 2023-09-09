@@ -103,7 +103,7 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
         } else {
             dummy.assign_activity( unload_loot_activity_actor() );
         }
-        CAPTURE( dummy.activity.id() );
+        CAPTURE( dummy.activity.active_id() );
         process_activity( dummy );
 
         THEN( "check that the ammo and linkages are both unloaded and the ammo belt is removed" ) {

@@ -40,7 +40,7 @@ TEST_CASE( "unload_revolver_naked_one_bullet", "[unload][nonmagzine]" )
     item_location revo_loc = player_character.get_wielded_item();
     player_character.moves = 100;
     REQUIRE( player_character.unload( revo_loc ) );
-    player_character.activity.do_turn( player_character );
+    player_character.activity.raw().do_turn( player_character );
 
     // No bullets in wielded gun
     CHECK( player_character.get_wielded_item()->ammo_remaining() == 0 );
@@ -75,7 +75,7 @@ TEST_CASE( "unload_revolver_naked_fully_loaded", "[unload][nonmagzine]" )
     item_location revo_loc = player_character.get_wielded_item();
     player_character.moves = 100;
     REQUIRE( player_character.unload( revo_loc ) );
-    player_character.activity.do_turn( player_character );
+    player_character.activity.raw().do_turn( player_character );
 
     // No bullets in wielded gun
     CHECK( player_character.get_wielded_item()->ammo_remaining() == 0 );

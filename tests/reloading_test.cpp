@@ -47,9 +47,9 @@ static void test_reloading( item &target, item &ammo, bool expect_success = true
     INFO( "Tried to reload " << target.tname() << " with " << ammo.tname() );
 
     if( expect_success ) {
-        CHECK( dummy.activity );
+        CHECK( dummy.activity.has_activity() );
     } else {
-        CHECK( !dummy.activity );
+        CHECK( !dummy.activity.has_activity() );
     }
 
     process_activity( dummy );
@@ -890,7 +890,7 @@ static void reload_a_revolver( Character &dummy, item &gun, item &ammo )
     }
     while( dummy.get_wielded_item()->remaining_ammo_capacity() > 0 ) {
         g->reload_weapon( false );
-        REQUIRE( dummy.activity );
+        REQUIRE( dummy.activity.has_activity() );
         process_activity( dummy );
         CAPTURE( dummy.get_wielded_item()->typeId() );
         CAPTURE( ammo.typeId() );
@@ -912,7 +912,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         WHEN( "the player triggers auto reload" ) {
             g->reload_weapon( false );
             THEN( "No activity is generated" ) {
-                CHECK( !dummy.activity );
+                CHECK( !dummy.activity.has_activity() );
             }
         }
     }
@@ -930,7 +930,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
             WHEN( "the player triggers auto reload again" ) {
                 g->reload_weapon( false );
                 THEN( "no activity is generated" ) {
-                    CHECK( !dummy.activity );
+                    CHECK( !dummy.activity.has_activity() );
                 }
             }
         }
@@ -945,7 +945,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                     WHEN( "the player triggers auto reload again" ) {
                         g->reload_weapon( false );
                         THEN( "no activity is generated" ) {
-                            CHECK( !dummy.activity );
+                            CHECK( !dummy.activity.has_activity() );
                         }
                     }
                 }
@@ -971,7 +971,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
         WHEN( "the player triggers auto reload" ) {
             g->reload_weapon( false );
-            REQUIRE( dummy.activity );
+            REQUIRE( dummy.activity.has_activity() );
             process_activity( dummy );
 
             THEN( "the associated magazine is reloaded" ) {
@@ -984,7 +984,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
             }
             WHEN( "the player triggers auto reload again" ) {
                 g->reload_weapon( false );
-                REQUIRE( dummy.activity );
+                REQUIRE( dummy.activity.has_activity() );
                 process_activity( dummy );
 
                 THEN( "The magazine is loaded into the gun" ) {
@@ -993,7 +993,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                 WHEN( "the player triggers auto reload again" ) {
                     g->reload_weapon( false );
                     THEN( "No activity is generated" ) {
-                        CHECK( !dummy.activity );
+                        CHECK( !dummy.activity.has_activity() );
                     }
                 }
             }
@@ -1007,7 +1007,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
             WHEN( "the player triggers auto reload" ) {
                 g->reload_weapon( false );
-                REQUIRE( dummy.activity );
+                REQUIRE( dummy.activity.has_activity() );
                 process_activity( dummy );
 
                 THEN( "the associated magazine is reloaded" ) {
@@ -1020,7 +1020,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                 }
                 WHEN( "the player triggers auto reload again" ) {
                     g->reload_weapon( false );
-                    REQUIRE( dummy.activity );
+                    REQUIRE( dummy.activity.has_activity() );
                     process_activity( dummy );
 
                     THEN( "The magazine is loaded into the gun" ) {
@@ -1028,7 +1028,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                     }
                     WHEN( "the player triggers auto reload again" ) {
                         g->reload_weapon( false );
-                        REQUIRE( dummy.activity );
+                        REQUIRE( dummy.activity.has_activity() );
                         process_activity( dummy );
 
                         THEN( "the second associated magazine is reloaded" ) {
@@ -1042,7 +1042,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                         WHEN( "the player triggers auto reload again" ) {
                             g->reload_weapon( false );
                             THEN( "No activity is generated" ) {
-                                CHECK( !dummy.activity );
+                                CHECK( !dummy.activity.has_activity() );
                             }
                         }
                     }
@@ -1070,7 +1070,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
 
     SECTION( "reload liquid into empty container" ) {
         g->reload_wielded();
-        REQUIRE( dummy.activity );
+        REQUIRE( dummy.activity.has_activity() );
         process_activity( dummy );
         CHECK( dummy.get_wielded_item()->total_contained_volume() == ammo_volume );
         CHECK( ammo_jug->total_contained_volume() == units::volume() );
@@ -1081,7 +1081,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
         units::volume initial_volume = water_one.volume();
         dummy.get_wielded_item()->put_in( water_one, item_pocket::pocket_type::CONTAINER );
         g->reload_wielded();
-        REQUIRE( dummy.activity );
+        REQUIRE( dummy.activity.has_activity() );
         process_activity( dummy );
         CHECK( dummy.get_wielded_item()->total_contained_volume() == ammo_volume + initial_volume );
         CHECK( ammo_jug->total_contained_volume() == units::volume() );
@@ -1092,7 +1092,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
         units::volume initial_volume = milk_one.volume();
         dummy.get_wielded_item()->put_in( milk_one, item_pocket::pocket_type::CONTAINER );
         g->reload_wielded();
-        if( !!dummy.activity ) {
+        if( !!dummy.activity.has_activity() ) {
             process_activity( dummy );
         }
         CHECK( dummy.get_wielded_item()->total_contained_volume() == initial_volume );
@@ -1104,7 +1104,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
         units::volume initial_volume = pebble.volume();
         dummy.get_wielded_item()->put_in( pebble, item_pocket::pocket_type::CONTAINER );
         g->reload_wielded();
-        if( !!dummy.activity ) {
+        if( !!dummy.activity.has_activity() ) {
             process_activity( dummy );
         }
         CHECK( dummy.get_wielded_item()->total_contained_volume() == initial_volume );
@@ -1115,7 +1115,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
         ammo_jug->fill_with( item( "water_clean", calendar::turn_zero, 1 ) );
         ammo_volume = ammo_jug->total_contained_volume();
         g->reload_wielded();
-        REQUIRE( dummy.activity );
+        REQUIRE( dummy.activity.has_activity() );
         process_activity( dummy );
         CHECK( dummy.get_wielded_item()->get_total_capacity() ==
                dummy.get_wielded_item()->total_contained_volume() );
@@ -1136,7 +1136,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
             ammo_jug->fill_with( item( "water_clean" ) );
             ammo_volume = ammo_jug->total_contained_volume();
             g->reload_wielded();
-            REQUIRE( dummy.activity );
+            REQUIRE( dummy.activity.has_activity() );
             process_activity( dummy );
             CHECK( dummy.get_wielded_item()->total_contained_volume() == ammo_volume );
             CHECK( ammo_jug->total_contained_volume() == units::volume() );
@@ -1145,7 +1145,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
         SECTION( "liquid spill on floor" ) {
             REQUIRE( ammo_jug->spill_contents( near_point ) );
             g->reload_wielded();
-            if( !!dummy.activity ) {
+            if( !!dummy.activity.has_activity() ) {
                 process_activity( dummy );
             }
             CHECK( ammo_jug->total_contained_volume() == units::volume() );

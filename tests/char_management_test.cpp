@@ -32,7 +32,7 @@ static item gas_cartridge_with( int charges )
 static item *setup_character( Character &guy, int mask_charges )
 {
     // First, remove all their items
-    guy.worn.clear();
+    guy.clear_worn();
 
     map &here = get_map();
     item backpack( itype_backpack );
@@ -77,7 +77,7 @@ static void test_autoreload_works( Character &guy )
     // (we won't hit one because when it hits one, it instantly replaces it)
     CHECK( gasmask->ammo_remaining() == 2 );
     // And check to ensure that the mask is not replaced until entirely necessary
-    std::vector<const item *> filters = guy.all_items_with_flag( json_flag_GASFILTER_MED );
+    std::vector<item *> filters = guy.cache_get_items_with( json_flag_GASFILTER_MED );
     REQUIRE( filters.size() == 1 );
     CHECK( filters[0]->ammo_remaining() == 100 );
 
@@ -88,7 +88,7 @@ static void test_autoreload_works( Character &guy )
     // Ensure it has been replaced in the mask
     CHECK( gasmask->ammo_remaining() == 100 );
     // And that our remaining cartridge has only charge (and there's only one)
-    filters = guy.all_items_with_flag( json_flag_GASFILTER_MED );
+    filters = guy.cache_get_items_with( json_flag_GASFILTER_MED );
     REQUIRE( filters.size() == 1 );
     CHECK( filters[0]->ammo_remaining() == 1 );
 }
@@ -113,7 +113,7 @@ static void test_autoreload_low( Character &guy )
     // 50 should be the only valid choice
     CHECK( gasmask->ammo_remaining() == 50 );
     // And we should have 4 filters on us, 1 with 100, 2 with 1, and 1 with 0
-    std::vector<const item *> filters = guy.all_items_with_flag( json_flag_GASFILTER_MED );
+    std::vector<item *> filters = guy.cache_get_items_with( json_flag_GASFILTER_MED );
     REQUIRE( filters.size() == 4 );
     std::sort( filters.begin(), filters.end(), []( const item * l, const item * r ) {
         return l->ammo_remaining() > r->ammo_remaining();
@@ -144,7 +144,7 @@ static void test_autoreload_high( Character &guy )
     // 100 should be the only valid choice
     CHECK( gasmask->ammo_remaining() == 100 );
     // And we should have 4 filters on us, 1 with 50, 2 with 1, and 1 with 0
-    std::vector<const item *> filters = guy.all_items_with_flag( json_flag_GASFILTER_MED );
+    std::vector<item *> filters = guy.cache_get_items_with( json_flag_GASFILTER_MED );
     REQUIRE( filters.size() == 4 );
     std::sort( filters.begin(), filters.end(), []( const item * l, const item * r ) {
         return l->ammo_remaining() > r->ammo_remaining();

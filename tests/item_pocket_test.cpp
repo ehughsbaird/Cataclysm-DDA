@@ -1745,8 +1745,8 @@ static void test_pickup_autoinsert_results( Character &u, bool wear, const item_
 {
     map &m = get_map();
     u.moves = 100;
-    while( !u.activity.is_null() ) {
-        u.activity.do_turn( u );
+    while( u.activity.has_activity() ) {
+        u.activity.raw().do_turn( u );
     }
     if( count_by_charges ) {
         size_t charges_on_ground = 0;

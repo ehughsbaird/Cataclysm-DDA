@@ -454,7 +454,7 @@ static void setup_test_craft( const recipe_id &rid )
     const recipe &rec = rid.obj();
     REQUIRE( player_character.morale_crafting_speed_multiplier( rec ) == 1.0 );
     REQUIRE( player_character.lighting_craft_speed_multiplier( rec ) == 1.0 );
-    REQUIRE( !player_character.activity );
+    REQUIRE( !player_character.activity.has_activity() );
 
     // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
     player_character.learn_recipe( &rec );
@@ -463,8 +463,8 @@ static void setup_test_craft( const recipe_id &rid )
     player_character.remove_weapon();
     REQUIRE( !player_character.is_armed() );
     player_character.make_craft( rid, 1 );
-    REQUIRE( player_character.activity );
-    REQUIRE( player_character.activity.id() == ACT_CRAFT );
+    REQUIRE( player_character.activity.has_activity() );
+    REQUIRE( player_character.activity.active_id() == ACT_CRAFT );
     // Extra safety
     item_location wielded = player_character.get_wielded_item();
     REQUIRE( wielded );
@@ -479,7 +479,7 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
     avatar &player_character = get_avatar();
 
     int turns = 0;
-    while( player_character.activity.id() == ACT_CRAFT ) {
+    while( player_character.activity.active_id() == ACT_CRAFT ) {
         if( turns >= interrupt_after_turns ||
             ( skill_level >= 0 &&
               static_cast<int>( player_character.get_skill_level( rid->skill_used ) ) > skill_level ) ) {
@@ -487,7 +487,7 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
         }
         ++turns;
         player_character.moves = 100;
-        player_character.activity.do_turn( player_character );
+        player_character.activity.raw().do_turn( player_character );
         if( turns % 60 == 0 ) {
             player_character.update_mental_focus();
         }
@@ -502,14 +502,14 @@ static int test_craft_for_prof( const recipe_id &rid, const proficiency_id &prof
     avatar &player_character = get_avatar();
 
     int turns = 0;
-    while( player_character.activity.id() == ACT_CRAFT ) {
+    while( player_character.activity.active_id() == ACT_CRAFT ) {
         if( player_character.get_proficiency_practice( prof ) >= target_progress ) {
             set_time( midnight );
         }
 
         player_character.moves = 100;
         player_character.set_focus( 100 );
-        player_character.activity.do_turn( player_character );
+        player_character.activity.raw().do_turn( player_character );
         ++turns;
     }
 
@@ -996,15 +996,15 @@ static int resume_craft()
     item *craft = crafts.front();
     set_time( midday ); // Ensure light for crafting
     REQUIRE( player_character.crafting_speed_multiplier( *craft, std::nullopt ) == 1.0 );
-    REQUIRE( !player_character.activity );
+    REQUIRE( !player_character.activity.has_activity() );
     player_character.use( player_character.get_item_position( craft ) );
-    REQUIRE( player_character.activity );
-    REQUIRE( player_character.activity.id() == ACT_CRAFT );
+    REQUIRE( player_character.activity.has_activity() );
+    REQUIRE( player_character.activity.active_id() == ACT_CRAFT );
     int turns = 0;
-    while( player_character.activity.id() == ACT_CRAFT ) {
+    while( player_character.activity.active_id() == ACT_CRAFT ) {
         ++turns;
         player_character.moves = 100;
-        player_character.activity.do_turn( player_character );
+        player_character.activity.raw().do_turn( player_character );
         if( turns % 60 == 0 ) {
             player_character.update_mental_focus();
         }

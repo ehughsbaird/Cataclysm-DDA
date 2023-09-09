@@ -180,11 +180,11 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
 
         REQUIRE_FALSE( character.is_armed() );
         character.make_craft( recipe.ident(), 1 );
-        REQUIRE( character.activity );
-        REQUIRE( character.activity.id() == ACT_CRAFT );
-        while( character.activity.id() == ACT_CRAFT ) {
+        REQUIRE( character.activity.has_activity() );
+        REQUIRE( character.has_activity( ACT_CRAFT ) );
+        while( character.has_activity( ACT_CRAFT )  ){
             character.moves = 100;
-            character.activity.do_turn( character );
+            character.activity.raw().do_turn( character );
         }
 
         REQUIRE( character.get_wielded_item()->type->get_id() == recipe.result() );

@@ -23,8 +23,8 @@ static void process_activity_interrupt( Character &guy, const int interrupt_time
     do {
         guy.moves += guy.get_speed();
         while( guy.moves > 0 && guy.has_activity( ACT_FIRSTAID ) ) {
-            guy.activity.do_turn( guy );
-            if( guy.activity.moves_total - guy.activity.moves_left >= interrupt_time ) {
+            guy.activity.raw().do_turn( guy );
+            if( guy.activity.raw().moves_total - guy.activity.raw().moves_left >= interrupt_time ) {
                 // Assume the player confirms the option to cancel the activity when getting interrupted,
                 // as in Character::react_to_felt_pain()
                 guy.cancel_activity();
@@ -56,8 +56,8 @@ TEST_CASE( "avatar_does_healing", "[activity][firstaid][avatar]" )
         dummy.apply_damage( nullptr, right_arm, 20 );
         WHEN( "avatar bandages self" ) {
             dummy.assign_activity( firstaid_activity_actor( moves, bandages->tname(), dummy.getID() ) );
-            dummy.activity.targets.emplace_back( bandages );
-            dummy.activity.str_values.emplace_back( right_arm.id().c_str() );
+            dummy.activity.raw().targets.emplace_back( bandages );
+            dummy.activity.raw().str_values.emplace_back( right_arm.id().c_str() );
             process_activity( dummy );
             THEN( "Check that bandage was consumed and arm is bandaged" ) {
                 CHECK( start_bandage_count - dummy.items_with( bandages_filter ).size() == 1 );
@@ -69,8 +69,8 @@ TEST_CASE( "avatar_does_healing", "[activity][firstaid][avatar]" )
         dummy.apply_damage( nullptr, right_arm, 20 );
         WHEN( "avatar bandages self and is interrupted before finishing" ) {
             dummy.assign_activity( firstaid_activity_actor( moves, bandages->tname(), dummy.getID() ) );
-            dummy.activity.targets.emplace_back( bandages );
-            dummy.activity.str_values.emplace_back( right_arm.id().c_str() );
+            dummy.activity.raw().targets.emplace_back( bandages );
+            dummy.activity.raw().str_values.emplace_back( right_arm.id().c_str() );
             process_activity_interrupt( dummy, moves / 2 );
             THEN( "Check that bandage was not consumed and arm is not bandaged" ) {
                 CHECK( start_bandage_count - dummy.items_with( bandages_filter ).size() == 0 );
@@ -82,8 +82,8 @@ TEST_CASE( "avatar_does_healing", "[activity][firstaid][avatar]" )
         dunsel.apply_damage( nullptr, right_arm, 20 );
         WHEN( "avatar bandages npc" ) {
             dummy.assign_activity( firstaid_activity_actor( moves, bandages->tname(), dunsel.getID() ) );
-            dummy.activity.targets.emplace_back( bandages );
-            dummy.activity.str_values.emplace_back( right_arm.id().c_str() );
+            dummy.activity.raw().targets.emplace_back( bandages );
+            dummy.activity.raw().str_values.emplace_back( right_arm.id().c_str() );
             process_activity( dummy );
             THEN( "Check that bandage was consumed and npc's arm is bandaged" ) {
                 CHECK( start_bandage_count - dummy.items_with( bandages_filter ).size() == 1 );

@@ -501,20 +501,20 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
 
             item_location booklc{dummy, &book};
             read_activity_actor actor( dummy.time_to_read( *booklc, dummy ), booklc, ereader, true );
-            dummy.activity = player_activity( actor );
+            dummy.activity.raw() = player_activity( actor );
 
-            dummy.activity.start_or_resume( dummy, false );
-            REQUIRE( dummy.activity.id() == ACT_READ );
-            dummy.activity.do_turn( dummy );
+            dummy.activity.raw().start_or_resume( dummy, false );
+            REQUIRE( dummy.has_activity( ACT_READ ) );
+            dummy.activity.raw().do_turn( dummy );
 
-            CHECK( dummy.activity.id() == ACT_READ );
+            CHECK( dummy.has_activity( ACT_READ ) );
 
             AND_THEN( "ereader runs out of battery" ) {
                 ereader->ammo_consume( 100, dummy.pos(), &dummy );
-                dummy.activity.do_turn( dummy );
+                dummy.activity.raw().do_turn( dummy );
 
                 THEN( "reading stops" ) {
-                    CHECK( dummy.activity.id() != ACT_READ );
+                    CHECK_FALSE( dummy.has_activity( ACT_READ ) );
                 }
             }
         }
