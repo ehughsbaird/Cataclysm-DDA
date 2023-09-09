@@ -234,12 +234,12 @@ void Character::gunmod_add( item &gun, item &mod )
     const int moves = !has_trait( trait_DEBUG_HS ) ? moved_mod.type->gunmod->install_time : 0;
 
     assign_activity( gunmod_add_activity_actor( moves, tool ) );
-    activity.targets.emplace_back( wielded_gun );
-    activity.targets.emplace_back( *this, &moved_mod );
-    activity.values.push_back( 0 ); // dummy value
-    activity.values.push_back( roll ); // chance of success (%)
-    activity.values.push_back( risk ); // chance of damage (%)
-    activity.values.push_back( qty ); // tool charges
+    activity.raw().targets.emplace_back( wielded_gun );
+    activity.raw().targets.emplace_back( *this, &moved_mod );
+    activity.raw().values.push_back( 0 ); // dummy value
+    activity.raw().values.push_back( roll ); // chance of success (%)
+    activity.raw().values.push_back( risk ); // chance of damage (%)
+    activity.raw().values.push_back( qty ); // tool charges
 }
 
 bool Character::gunmod_remove( item &gun, item &mod )

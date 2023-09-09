@@ -571,28 +571,28 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     // for someone else who stored that position at the start of their activity.
     // so we may need to go looking a bit further afield to find it , at activities end.
     for( const tripoint &pt : veh->get_points( true ) ) {
-        you.activity.coord_set.insert( here.getabs( pt ) );
+        you.activity.raw().coord_set.insert( here.getabs( pt ) );
     }
     // values[0]
-    you.activity.values.push_back( here.getabs( src_loc ).x );
+    you.activity.raw().values.push_back( here.getabs( src_loc ).x );
     // values[1]
-    you.activity.values.push_back( here.getabs( src_loc ).y );
+    you.activity.raw().values.push_back( here.getabs( src_loc ).y );
     // values[2]
-    you.activity.values.push_back( point_zero.x );
+    you.activity.raw().values.push_back( point_zero.x );
     // values[3]
-    you.activity.values.push_back( point_zero.y );
+    you.activity.raw().values.push_back( point_zero.y );
     // values[4]
-    you.activity.values.push_back( -point_zero.x );
+    you.activity.raw().values.push_back( -point_zero.x );
     // values[5]
-    you.activity.values.push_back( -point_zero.y );
+    you.activity.raw().values.push_back( -point_zero.y );
     // values[6]
-    you.activity.values.push_back( veh->index_of_part( &vp ) );
-    you.activity.str_values.push_back( vpi.id.str() );
-    you.activity.str_values.push_back( vp.variant );
+    you.activity.raw().values.push_back( veh->index_of_part( &vp ) );
+    you.activity.raw().str_values.push_back( vpi.id.str() );
+    you.activity.raw().str_values.push_back( vp.variant );
     // this would only be used for refilling tasks
     item_location target;
-    you.activity.targets.emplace_back( std::move( target ) );
-    you.activity.placement = here.getglobal( src_loc );
+    you.activity.raw().targets.emplace_back( std::move( target ) );
+    you.activity.raw().placement = here.getglobal( src_loc );
     you.activity_vehicle_part_index = -1;
     return true;
 }
@@ -910,8 +910,9 @@ static bool are_requirements_nearby(
                id == ACT_MULTIPLE_MINE ||
                id == ACT_MULTIPLE_MOP;
     };
-    const bool check_weight = check_weight_if( activity_to_restore ) || ( !you.backlog.empty() &&
-                              check_weight_if( you.backlog.front().id() ) );
+    const bool check_weight = check_weight_if( activity_to_restore ) ||
+                              ( !you.activity.backlog.empty() &&
+                                check_weight_if( you.activity.backlog.front().id() ) );
 
     if( check_weight ) {
         volume_allowed = you.volume_capacity() - you.volume_carried();
@@ -1014,12 +1015,12 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             // If the NPC has an activity - make sure they're not duplicating work.
             tripoint_bub_ms guy_work_spot;
             if( guy.has_player_activity() &&
-                guy.activity.placement != player_activity::invalid_place ) {
-                guy_work_spot = here.bub_from_abs( guy.activity.placement );
+                guy.activity.raw().placement != player_activity::invalid_place ) {
+                guy_work_spot = here.bub_from_abs( guy.activity.raw().placement );
             }
             // If their position or intended position or player position/intended position
             // then discount, don't need to move each other out of the way.
-            if( here.bub_from_abs( player_character.activity.placement ) == src_loc ||
+            if( here.bub_from_abs( player_character.activity.raw().placement ) == src_loc ||
                 guy_work_spot == src_loc || guy.pos_bub() == src_loc ||
                 ( you.is_npc() && player_character.pos_bub() == src_loc ) ) {
                 return activity_reason_info::fail( do_activity_reason::ALREADY_WORKING );
@@ -1451,25 +1452,26 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
         const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
     std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirement_map;
-    if( you.backlog.empty() || you.backlog.front().str_values.empty() ) {
+    if( you.activity.backlog.empty() || you.activity.backlog.front().str_values.empty() ) {
         return requirement_map;
     }
-    const requirement_data things_to_fetch = requirement_id( you.backlog.front().str_values[0] ).obj();
-    const activity_id activity_to_restore = you.backlog.front().id();
+    const requirement_data things_to_fetch = requirement_id(
+                you.activity.backlog.front().str_values[0] ).obj();
+    const activity_id activity_to_restore = you.activity.backlog.front().id();
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     requirement_id things_to_fetch_id = things_to_fetch.id();
     std::vector<std::vector<item_comp>> req_comps = things_to_fetch.get_components();
     std::vector<std::vector<tool_comp>> tool_comps = things_to_fetch.get_tools();
     std::vector<std::vector<quality_requirement>> quality_comps = things_to_fetch.get_qualities();
     zone_manager &mgr = zone_manager::get_manager();
-    const bool pickup_task = you.backlog.front().id() == ACT_MULTIPLE_FARM ||
-                             you.backlog.front().id() == ACT_MULTIPLE_CHOP_PLANKS ||
-                             you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
-                             you.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
-                             you.backlog.front().id() == ACT_VEHICLE_DECONSTRUCTION ||
-                             you.backlog.front().id() == ACT_VEHICLE_REPAIR ||
-                             you.backlog.front().id() == ACT_MULTIPLE_FISH ||
-                             you.backlog.front().id() == ACT_MULTIPLE_MINE;
+    const bool pickup_task = you.activity.backlog.front().id() == ACT_MULTIPLE_FARM ||
+                             you.activity.backlog.front().id() == ACT_MULTIPLE_CHOP_PLANKS ||
+                             you.activity.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
+                             you.activity.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
+                             you.activity.backlog.front().id() == ACT_VEHICLE_DECONSTRUCTION ||
+                             you.activity.backlog.front().id() == ACT_VEHICLE_REPAIR ||
+                             you.activity.backlog.front().id() == ACT_MULTIPLE_FISH ||
+                             you.activity.backlog.front().id() == ACT_MULTIPLE_MINE;
     // where it is, what it is, how much of it, and how much in total is required of that item.
     std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> final_map;
     std::vector<tripoint_bub_ms> loot_spots;
@@ -1477,7 +1479,7 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
     std::vector<tripoint_bub_ms> combined_spots;
     std::map<itype_id, int> total_map;
     map &here = get_map();
-    tripoint_bub_ms src_loc = here.bub_from_abs( you.backlog.front().placement );
+    tripoint_bub_ms src_loc = here.bub_from_abs( you.activity.backlog.front().placement );
     for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc,
             PICKUP_RANGE - 1 ) ) {
         already_there_spots.push_back( elem );
@@ -1778,9 +1780,9 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
     for( const std::vector<tool_comp> &it : built_chosen.requirements->get_tools() ) {
         you.consume_tools( it );
     }
-    you.backlog.emplace_front( activity_to_restore );
+    you.activity.backlog.emplace_front( activity_to_restore );
     you.assign_activity( ACT_BUILD );
-    you.activity.placement = here.getglobal( src_loc );
+    you.activity.raw().placement = here.getglobal( src_loc );
     return true;
 }
 
@@ -1834,7 +1836,7 @@ static bool fetch_activity(
     const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
     map &here = get_map();
-    if( !here.can_put_items_ter_furn( here.getlocal( you.backlog.front().coords.back() ) ) ) {
+    if( !here.can_put_items_ter_furn( here.getlocal( you.activity.backlog.front().coords.back() ) ) ) {
         return false;
     }
     const std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_map_2 =
@@ -1848,9 +1850,10 @@ static bool fetch_activity(
         for( item &veh_elem : ovp->items() ) {
             for( auto elem : mental_map_2 ) {
                 if( std::get<0>( elem ) == src_loc && veh_elem.typeId() == std::get<1>( elem ) ) {
-                    if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
+                    if( !you.activity.backlog.empty() &&
+                        you.activity.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
                         move_item( you, veh_elem, veh_elem.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
-                                   here.bub_from_abs( you.backlog.front().coords.back() ), ovp, activity_to_restore );
+                                   here.bub_from_abs( you.activity.backlog.front().coords.back() ), ovp, activity_to_restore );
                         return true;
                     }
                 }
@@ -1862,22 +1865,24 @@ static bool fetch_activity(
         for( auto elem : mental_map_2 ) {
             if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
                 // construction/crafting tasks want the required item moved near the work spot.
-                if( !you.backlog.empty() && ( you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ||
-                                              you.backlog.front().id() == ACT_MULTIPLE_DIS ) ) {
+                if( !you.activity.backlog.empty() &&
+                    ( you.activity.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ||
+                      you.activity.backlog.front().id() == ACT_MULTIPLE_DIS ) ) {
                     move_item( you, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
-                               here.bub_from_abs( you.backlog.front().coords.back() ), ovp, activity_to_restore );
+                               here.bub_from_abs( you.activity.backlog.front().coords.back() ), ovp, activity_to_restore );
 
                     return true;
                     // other tasks want the tool picked up
-                } else if( !you.backlog.empty() && ( you.backlog.front().id() == ACT_MULTIPLE_FARM ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_CHOP_PLANKS ||
-                                                     you.backlog.front().id() == ACT_VEHICLE_DECONSTRUCTION ||
-                                                     you.backlog.front().id() == ACT_VEHICLE_REPAIR ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_FISH ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_MINE ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_MOP ) ) {
+                } else if( !you.activity.backlog.empty() &&
+                           ( you.activity.backlog.front().id() == ACT_MULTIPLE_FARM ||
+                             you.activity.backlog.front().id() == ACT_MULTIPLE_CHOP_PLANKS ||
+                             you.activity.backlog.front().id() == ACT_VEHICLE_DECONSTRUCTION ||
+                             you.activity.backlog.front().id() == ACT_VEHICLE_REPAIR ||
+                             you.activity.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
+                             you.activity.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
+                             you.activity.backlog.front().id() == ACT_MULTIPLE_FISH ||
+                             you.activity.backlog.front().id() == ACT_MULTIPLE_MINE ||
+                             you.activity.backlog.front().id() == ACT_MULTIPLE_MOP ) ) {
                     if( it.volume() > volume_allowed || it.weight() > weight_allowed ) {
                         add_msg_if_player_sees( you, _( "%1s failed to fetch tools." ), you.name );
                         continue;
@@ -1916,8 +1921,8 @@ static bool fetch_activity(
     // nothing was moved or picked up, and nothing can be moved or picked up
     // so call the whole thing off to stop it looping back to this point ad nauseum.
     you.set_moves( 0 );
-    you.activity = player_activity();
-    you.backlog.clear();
+    you.activity.halt_active();
+    you.activity.clear_backlog();
     return false;
 }
 
@@ -1935,8 +1940,8 @@ static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_
             elem.set_var( "activity_var", you.name );
             you.assign_activity( ACT_BUTCHER_FULL, 0, true );
             // TODO: fix point types
-            you.activity.targets.emplace_back( map_cursor( src_loc.raw() ), &elem );
-            you.activity.placement = here.getglobal( src_loc );
+            you.activity.raw().targets.emplace_back( map_cursor( src_loc.raw() ), &elem );
+            you.activity.raw().placement = here.getglobal( src_loc );
             return true;
         }
     }
@@ -1959,7 +1964,7 @@ static bool chop_plank_activity( Character &you, const tripoint_bub_ms &src_loc 
             int moves = to_moves<int>( 20_minutes );
             you.add_msg_if_player( _( "You cut the log into planks." ) );
             you.assign_activity( chop_planks_activity_actor( moves ) );
-            you.activity.placement = here.getglobal( src_loc );
+            you.activity.raw().placement = here.getglobal( src_loc );
             return true;
         }
     }
@@ -2041,7 +2046,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 }
                 stage = DO;
                 you.set_destination( route, act );
-                you.activity.set_to_null();
+                you.activity.halt_active();
                 return;
             }
 
@@ -2117,7 +2122,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 // player arrives on destination tile
                 stage = DO;
                 you.set_destination( route, act );
-                you.activity.set_to_null();
+                you.activity.halt_active();
                 return;
             }
             stage = DO;
@@ -2352,7 +2357,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
         npc *guy = dynamic_cast<npc *>( &you );
         guy->revert_after_activity();
     }
-    you.activity.set_to_null();
+    you.activity.halt_active();
 }
 
 static int chop_moves( Character &you, item &it )
@@ -2411,8 +2416,8 @@ static bool mine_activity( Character &you, const tripoint_bub_ms &src_loc )
         moves /= 2;
     }
     you.assign_activity( powered ? ACT_JACKHAMMER : ACT_PICKAXE, moves );
-    you.activity.targets.emplace_back( you, chosen_item );
-    you.activity.placement = here.getglobal( src_loc );
+    you.activity.raw().targets.emplace_back( you, chosen_item );
+    you.activity.raw().placement = here.getglobal( src_loc );
     return true;
 
 }
@@ -2422,7 +2427,7 @@ static bool mop_activity( Character &you, const tripoint_bub_ms &src_loc )
 {
     // iuse::mop costs 15 moves per use
     you.assign_activity( mop_activity_actor( 15 ) );
-    you.activity.placement = get_map().getglobal( src_loc );
+    you.activity.raw().placement = get_map().getglobal( src_loc );
     return true;
 }
 
@@ -2440,11 +2445,11 @@ static bool chop_tree_activity( Character &you, const tripoint_bub_ms &src_loc )
     const ter_id ter = here.ter( src_loc );
     if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
         you.assign_activity( chop_tree_activity_actor( moves, item_location( you, &best_qual ) ) );
-        you.activity.placement = here.getglobal( src_loc );
+        you.activity.raw().placement = here.getglobal( src_loc );
         return true;
     } else if( ter == t_trunk || ter == t_stump ) {
         you.assign_activity( chop_logs_activity_actor( moves, item_location( you, &best_qual ) ) );
-        you.activity.placement = here.getglobal( src_loc );
+        you.activity.raw().placement = here.getglobal( src_loc );
         return true;
     }
     return false;
@@ -2649,7 +2654,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
                     if( &guy == &you ) {
                         continue;
                     }
-                    if( guy.has_player_activity() && tripoint_abs_ms( guy.activity.placement ) == *it2 ) {
+                    if( guy.has_player_activity() && tripoint_abs_ms( guy.activity.raw().placement ) == *it2 ) {
                         it2 = src_set.erase( it2 );
                         skip = true;
                         break;
@@ -2863,14 +2868,14 @@ static requirement_check_result generic_multi_activity_check_requirement(
                 if( you.as_npc() && you.as_npc()->job.fetch_history.count( what_we_need.str() ) != 0 &&
                     you.as_npc()->job.fetch_history[what_we_need.str()] == calendar::turn ) {
                     // this may be faild fetch already. give up task for a while to avoid infinite loop.
-                    you.activity = player_activity();
-                    you.backlog.clear();
+                    you.activity.halt_active();
+                    you.activity.clear_backlog();
                     check_npc_revert( you );
                     return requirement_check_result::SKIP_LOCATION;
                 }
-                you.backlog.emplace_front( act_id );
+                you.activity.backlog.emplace_front( act_id );
                 you.assign_activity( ACT_FETCH_REQUIRED );
-                player_activity &act_prev = you.backlog.front();
+                player_activity &act_prev = you.activity.backlog.front();
                 act_prev.str_values.push_back( what_we_need.str() );
                 act_prev.values.push_back( static_cast<int>( reason ) );
                 // come back here after successfully fetching your stuff
@@ -2891,8 +2896,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
                         candidates.push_back( point_elem );
                     }
                     if( candidates.empty() ) {
-                        you.activity = player_activity();
-                        you.backlog.clear();
+                        you.activity.halt_active();
+                        you.activity.clear_backlog();
                         check_npc_revert( you );
                         return requirement_check_result::SKIP_LOCATION;
                     }
@@ -2934,8 +2939,8 @@ static bool generic_multi_activity_do(
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
         you.assign_activity( churn_activity_actor( 18000, item_location() ) );
-        you.backlog.emplace_front( act_id );
-        you.activity.placement = src;
+        you.activity.backlog.emplace_front( act_id );
+        you.activity.raw().placement = src;
         return false;
     } else if( reason == do_activity_reason::NEEDS_PLANTING &&
                here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_PLANTABLE, src_loc ) ) {
@@ -2952,18 +2957,18 @@ static bool generic_multi_activity_do(
             }
             // TODO: fix point types
             iexamine::plant_seed( you, src_loc.raw(), itype_id( seed ) );
-            you.backlog.emplace_front( act_id );
+            you.activity.backlog.emplace_front( act_id );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_CHOPPING && you.has_quality( qual_AXE, 1 ) ) {
         if( chop_plank_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( act_id );
+            you.activity.backlog.emplace_front( act_id );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_BUTCHERING ||
                reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
         if( butcher_corpse_activity( you, src_loc, reason ) ) {
-            you.backlog.emplace_front( act_id );
+            you.activity.backlog.emplace_front( act_id );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_BOOK_TO_LEARN ) {
@@ -2976,15 +2981,15 @@ static bool generic_multi_activity_do(
             const time_duration time_taken = you.time_to_read( *books[0], you );
             item_location book = item_location( you, books[0] );
             item_location ereader;
-            you.backlog.emplace_front( act_id );
+            you.activity.backlog.emplace_front( act_id );
             you.assign_activity( read_activity_actor( time_taken, book, ereader, true ) );
             return false;
         }
     } else if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
         if( here.partial_con_at( src_loc ) ) {
-            you.backlog.emplace_front( act_id );
+            you.activity.backlog.emplace_front( act_id );
             you.assign_activity( ACT_BUILD );
-            you.activity.placement = src;
+            you.activity.raw().placement = src;
             return false;
         }
         if( construction_activity( you, zone, src_loc, act_info, act_id ) ) {
@@ -3005,41 +3010,41 @@ static bool generic_multi_activity_do(
         }
     } else if( reason == do_activity_reason::NEEDS_TREE_CHOPPING && you.has_quality( qual_AXE, 1 ) ) {
         if( chop_tree_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( act_id );
+            you.activity.backlog.emplace_front( act_id );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_FISHING && you.has_quality( qual_FISHING_ROD, 1 ) ) {
-        you.backlog.emplace_front( act_id );
+        you.activity.backlog.emplace_front( act_id );
         // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
-        you.activity = player_activity();
+        you.activity.halt_active();
         item &best_rod = you.best_item_with_quality( qual_FISHING_ROD );
         you.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
                              0, best_rod.tname() );
-        you.activity.targets.emplace_back( you, &best_rod );
+        you.activity.raw().targets.emplace_back( you, &best_rod );
         // TODO: fix point types
-        you.activity.coord_set =
+        you.activity.raw().coord_set =
             g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc.raw() );
         return false;
     } else if( reason == do_activity_reason::NEEDS_MINING ) {
         // if have enough batteries to continue etc.
-        you.backlog.emplace_front( act_id );
+        you.activity.backlog.emplace_front( act_id );
         if( mine_activity( you, src_loc ) ) {
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_MOP ) {
         if( mop_activity( you, src_loc ) ) {
-            you.backlog.emplace_front( act_id );
+            you.activity.backlog.emplace_front( act_id );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
         if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, 'o' ) ) {
-            you.backlog.emplace_front( act_id );
+            you.activity.backlog.emplace_front( act_id );
             return false;
         }
         you.activity_vehicle_part_index = -1;
     } else if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
         if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, 'r' ) ) {
-            you.backlog.emplace_front( act_id );
+            you.activity.backlog.emplace_front( act_id );
             return false;
         }
 
@@ -3053,8 +3058,8 @@ static bool generic_multi_activity_do(
                 you.lighting_craft_speed_multiplier( to_craft->get_making() ) > 0 ) {
                 player_activity act = player_activity( craft_activity_actor( to_craft, false ) );
                 you.assign_activity( act );
-                you.backlog.emplace_front( ACT_MULTIPLE_CRAFT );
-                you.backlog.front().auto_resume = true;
+                you.activity.backlog.emplace_front( ACT_MULTIPLE_CRAFT );
+                you.activity.backlog.front().auto_resume = true;
                 return false;
             }
         }
@@ -3079,7 +3084,7 @@ static bool generic_multi_activity_do(
                     // Keep doing
                     // After assignment of disassemble activity (not multitype anymore)
                     // the backlog will not be nuked in do_player_activity()
-                    you.backlog.emplace_back( ACT_MULTIPLE_DIS );
+                    you.activity.backlog.emplace_back( ACT_MULTIPLE_DIS );
                     break;
                 }
             }
@@ -3097,7 +3102,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     activity_id activity_to_restore = act.id();
     // Nuke the current activity, leaving the backlog alone
     if( !check_only ) {
-        you.activity = player_activity();
+        you.activity.halt_active();
     }
     // now we setup the target spots based on which activity is occurring
     // the set of target work spots - potentially after we have fetched required tools.
@@ -3113,8 +3118,8 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     // Maybe it makes more harm than good? I don't know.
     if( activity_to_restore == activity_id( ACT_FETCH_REQUIRED ) && src_sorted.empty() ) {
         // remind what you failed to fetch
-        if( !check_only && !you.backlog.empty() ) {
-            player_activity &act_prev = you.backlog.front();
+        if( !check_only && !you.activity.backlog.empty() ) {
+            player_activity &act_prev = you.activity.backlog.front();
             if( !act_prev.str_values.empty() && you.as_npc() ) {
                 you.as_npc()->job.fetch_history[act_prev.str_values.back()] = calendar::turn;
             }
@@ -3218,7 +3223,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
             return false;
         }
         // if we got here, we need to revert otherwise NPC will be stuck in AI Limbo and have a head explosion.
-        if( you.backlog.empty() || src_set.empty() ) {
+        if( you.activity.backlog.empty() || src_set.empty() ) {
             check_npc_revert( you );
             if( player_activity( activity_to_restore ).is_multi_type() ) {
                 you.assign_activity( activity_id::NULL_ID() );

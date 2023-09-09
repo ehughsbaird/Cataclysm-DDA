@@ -202,29 +202,12 @@ class activity_list
         activity_id active_id() const;
 
         // Halt and remove current activity
-        void halt_active() {
-		activity.set_to_null();
-	}
-        void ignore_distraction( distraction_type type ) {
-            activity.ignore_distraction( type );
-            for( player_activity &activity : backlog ) {
-                activity.ignore_distraction( type );
-            }
-        }
+        void halt_active();
+        void ignore_distraction( distraction_type type );
 
-	// Remove all activities which do not automatically resume
-	void clean_backlog() {
-    for( auto iter = backlog.begin(); iter != backlog.end(); ) {
-        if( !iter->auto_resume ) {
-            iter = backlog.erase( iter );
-        } else {
-            ++iter;
-        }
-    }
-	}
-	void clear_backlog() {
-		backlog.clear();
-	}
+        // Remove all activities which do not automatically resume
+        void clean_backlog();
+        void clear_backlog();
 
         // Clear the data stored here
         void reset();

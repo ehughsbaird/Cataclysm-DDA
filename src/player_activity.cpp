@@ -531,3 +531,58 @@ std::map<distraction_type, std::string> player_activity::get_distractions() cons
     }
     return res;
 }
+
+player_activity &activity_list::raw()
+{
+    return activity;
+}
+
+const player_activity &activity_list::raw() const
+{
+    return activity;
+}
+
+void activity_list::halt_active()
+{
+    activity.set_to_null();
+}
+
+bool activity_list::has_activity() const
+{
+    return !!activity;
+}
+
+activity_id activity_list::active_id() const
+{
+    return activity.id();
+}
+
+void activity_list::reset()
+{
+    halt_active();
+    clear_backlog();
+}
+
+void activity_list::ignore_distraction( distraction_type type )
+{
+    activity.ignore_distraction( type );
+    for( player_activity &activity : backlog ) {
+        activity.ignore_distraction( type );
+    }
+}
+
+void activity_list::clean_backlog()
+{
+    for( auto iter = backlog.begin(); iter != backlog.end(); ) {
+        if( !iter->auto_resume ) {
+            iter = backlog.erase( iter );
+        } else {
+            ++iter;
+        }
+    }
+}
+
+void activity_list::clear_backlog()
+{
+    backlog.clear();
+}

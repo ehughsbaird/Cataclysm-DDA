@@ -1022,7 +1022,7 @@ void npc::move()
     if( action == npc_undecided ) {
         // an interrupted activity can cause this situation. stops allied NPCs zooming off
         // like random NPCs
-        if( attitude == NPCATT_ACTIVITY && !activity.has_active() ) {
+        if( attitude == NPCATT_ACTIVITY && !activity.has_activity() ) {
             revert_after_activity();
             if( is_ally( player_character ) && !assigned_camp ) {
                 attitude = NPCATT_FOLLOW;
@@ -3323,7 +3323,8 @@ bool npc::do_pulp()
 bool npc::do_player_activity()
 {
     int old_moves = moves;
-    if( moves > 200 && activity.has_active() && ( activity.raw().is_multi_type() || activity.active_id() == ACT_TIDY_UP ) ) {
+    if( moves > 200 && activity.has_activity() && ( activity.raw().is_multi_type() ||
+            activity.active_id() == ACT_TIDY_UP ) ) {
         // a huge backlog of a multi-activity type can forever loop
         // instead; just scan the map ONCE for a task to do, and if it returns false
         // then stop scanning, abandon the activity, and kill the backlog of moves.
@@ -3340,9 +3341,9 @@ bool npc::do_player_activity()
     // ( even if other move-using things occur inbetween )
     // so here - if no moves are used in a multi-type activity do_turn(), then subtract a nominal amount
     // to satisfy the infinite loop counter.
-    const bool multi_type = activity.has_active() ? activity.raw().is_multi_type() : false;
+    const bool multi_type = activity.has_activity() ? activity.raw().is_multi_type() : false;
     const int moves_before = moves;
-    while( moves > 0 && activity.has_active() ) {
+    while( moves > 0 && activity.has_activity() ) {
         activity.raw().do_turn( *this );
         if( !is_active() ) {
             return true;
@@ -3352,7 +3353,7 @@ bool npc::do_player_activity()
         moves -= 1;
     }
     /* if the activity is finished, grab any backlog or change the mission */
-    if( !has_destination() && !activity.has_active() ) {
+    if( !has_destination() && !activity.has_activity() ) {
         // workaround: auto resuming craft activity may cause infinite loop
         while( !activity.backlog.empty() && activity.backlog.front().id() == ACT_CRAFT ) {
             activity.backlog.pop_front();

@@ -1487,7 +1487,7 @@ player_activity Character::get_stashed_activity() const
 
 void Character::set_stashed_activity( const player_activity &act, const player_activity &act_back )
 {
-   activity.stashed_outbounds_activity = act;
+    activity.stashed_outbounds_activity = act;
     activity.stashed_outbounds_backlog = act_back;
 }
 
@@ -8568,7 +8568,7 @@ void Character::assign_activity( const player_activity &act )
     if( !activity.backlog.empty() && activity.backlog.front().can_resume_with( act, *this ) ) {
         resuming = true;
         add_msg_if_player( _( "You resume your task." ) );
-        activity.activity= activity.backlog.front();
+        activity.activity = activity.backlog.front();
         activity.backlog.pop_front();
     } else {
         if( activity.has_activity() ) {

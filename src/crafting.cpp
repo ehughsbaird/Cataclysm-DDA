@@ -2466,7 +2466,7 @@ item_location Character::create_in_progress_disassembly( item_location target )
         new_disassembly = item( orig_item );
     } else {
         const recipe &r = recipe_dictionary::get_uncraft( target->typeId() );
-        new_disassembly = item( &r, activity.position, orig_item );
+        new_disassembly = item( &r, activity.raw().position, orig_item );
 
         // Remove any batteries, ammo, contents and mods first
         remove_ammo( orig_item, *this );
@@ -2476,7 +2476,7 @@ item_location Character::create_in_progress_disassembly( item_location target )
         }
         if( orig_item.count_by_charges() ) {
             //subtract selected number of rounds to disassemble
-            orig_item.charges -= activity.position;
+            orig_item.charges -= activity.raw().position;
         }
     }
     // remove the item, except when it's counted by charges and still has some
@@ -2574,7 +2574,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
         }
     }
 
-    if( activity.id() != ACT_DISASSEMBLE ) {
+    if( activity.active_id() != ACT_DISASSEMBLE ) {
         // When disassembling items with charges, prompt the player to specify amount
         int num_dis = 1;
         if( obj.count_by_charges() ) {
@@ -2604,11 +2604,11 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
         assign_activity( new_act );
     } else {
         // index is used as a bool that indicates if we want recursive uncraft.
-        activity.index = false;
-        activity.targets.emplace_back( std::move( target ) );
+        activity.raw().index = false;
+        activity.raw().targets.emplace_back( std::move( target ) );
 
-        if( activity.moves_left <= 0 ) {
-            activity.moves_left = r.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
+        if( activity.raw().moves_left <= 0 ) {
+            activity.raw().moves_left = r.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
         }
     }
 
@@ -2636,11 +2636,11 @@ void Character::disassemble_all( bool one_pass )
     // index is used as a bool that indicates if we want recursive uncraft.
     // Upon calling complete_disassemble, if we have no targets left,
     // we will call this function again.
-    activity.index = !one_pass;
+    activity.raw().index = !one_pass;
 
     if( !found_any ) {
         // Reset the activity - don't loop if there is nothing to do
-        activity = player_activity();
+        activity.halt_active();
     }
 }
 
@@ -2655,26 +2655,26 @@ void Character::complete_disassemble( item_location target )
         complete_disassemble( target, rec );
     } else {
         debugmsg( "bad disassembly recipe: %s", temp.type_name() );
-        activity.set_to_null();
+        activity.halt_active();
         return;
     }
 
     // If we have no more targets end the activity or start a second round
-    if( activity.targets.empty() ) {
+    if( activity.raw().targets.empty() ) {
         // index is used as a bool that indicates if we want recursive uncraft.
-        if( activity.index ) {
+        if( activity.raw().index ) {
             disassemble_all( false );
             return;
         } else {
             // No more targets
-            activity.set_to_null();
+            activity.halt_active();
             return;
         }
     }
-    item *next_item = activity.targets.back().get_item();
+    item *next_item = activity.raw().targets.back().get_item();
     if( !next_item || next_item->is_null() ) {
         debugmsg( "bad item" );
-        activity.set_to_null();
+        activity.halt_active();
         return;
     }
     // Set get and set duration of next uncraft
@@ -2683,21 +2683,21 @@ void Character::complete_disassemble( item_location target )
 
     if( !next_recipe ) {
         debugmsg( "bad disassembly recipe" );
-        activity.set_to_null();
+        activity.halt_active();
         return;
     }
     int num_dis = 1;
-    const item &obj = *activity.targets.back().get_item();
+    const item &obj = *activity.raw().targets.back().get_item();
     if( obj.count_by_charges() ) {
         // get_value( 0 ) is true if the player wants to disassemble all charges
-        if( !activity.get_value( 0 ) && obj.charges > 1 ) {
+        if( !activity.raw().get_value( 0 ) && obj.charges > 1 ) {
             string_input_popup popup_input;
             const std::string title = string_format( _( "Disassemble how many %s [MAX: %d]: " ),
                                       obj.type_name( 1 ), obj.charges );
             popup_input.title( title ).edit( num_dis );
             if( popup_input.canceled() || num_dis <= 0 ) {
                 add_msg( _( "Never mind." ) );
-                activity.set_to_null();
+                activity.halt_active();
                 return;
             }
             num_dis = std::min( num_dis, obj.charges );
@@ -2707,8 +2707,8 @@ void Character::complete_disassemble( item_location target )
     }
     int64_t moves = next_recipe.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
     player_activity new_act( disassemble_activity_actor( moves * num_dis ) );
-    new_act.targets = activity.targets;
-    new_act.index = activity.index;
+    new_act.targets = activity.raw().targets;
+    new_act.index = activity.raw().index;
     new_act.position = num_dis;
     assign_activity( new_act );
 }
@@ -2752,7 +2752,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             int compcount = comp.count;
             item newit( comp.type, calendar::turn );
             if( dis_item.count_by_charges() ) {
-                compcount *= activity.position;
+                compcount *= activity.raw().position;
             }
             const bool is_liquid = newit.made_of( phase_id::LIQUID );
             // Compress liquids and counted-by-charges items into one item,
@@ -2983,8 +2983,8 @@ static bool is_anyone_crafting( const item_location &itm, const Character *you =
 {
     for( const npc &guy : g->all_npcs() ) {
         if( !( you && you->getID() == guy.getID() ) &&
-            guy.activity.id() == ACT_CRAFT ) {
-            item_location target = guy.activity.targets.back();
+            guy.activity.active_id() == ACT_CRAFT ) {
+            item_location target = guy.activity.raw().targets.back();
             if( target == itm ) {
                 return true;
             }

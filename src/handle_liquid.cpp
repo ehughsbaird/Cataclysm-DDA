@@ -351,11 +351,11 @@ bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
     const auto create_activity = [&]() {
         if( source_veh != nullptr ) {
             player_character.assign_activity( ACT_FILL_LIQUID );
-            serialize_liquid_source( player_character.activity, *source_veh, part_num, liquid );
+            serialize_liquid_source( player_character.activity.raw(), *source_veh, part_num, liquid );
             return true;
         } else if( source_pos != nullptr ) {
             player_character.assign_activity( ACT_FILL_LIQUID );
-            serialize_liquid_source( player_character.activity, *source_pos, liquid );
+            serialize_liquid_source( player_character.activity.raw(), *source_pos, liquid );
             return true;
         } else {
             return false;

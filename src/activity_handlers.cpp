@@ -354,11 +354,11 @@ std::string enum_to_string<butcher_type>( butcher_type data )
 
 bool activity_handlers::resume_for_multi_activities( Character &you )
 {
-    if( !you.backlog.empty() ) {
-        player_activity &back_act = you.backlog.front();
+    if( !you.activity.backlog.empty() ) {
+        player_activity &back_act = you.activity.backlog.front();
         if( back_act.is_multi_type() ) {
-            you.assign_activity( you.backlog.front().id() );
-            you.backlog.clear();
+            you.assign_activity( you.activity.backlog.front().id() );
+            you.activity.backlog.clear();
             return true;
         }
     }
@@ -842,7 +842,7 @@ static std::vector<item> create_charge_items( const itype *drop, int count,
         for( const fault_id &flt : entry.faults ) {
             obj.faults.emplace( flt );
         }
-        if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
+        if( !you.activity.backlog.empty() && you.activity.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
             obj.set_var( "activity_var", you.name );
         }
         objs.push_back( obj );
@@ -1100,7 +1100,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
+                if( !you.activity.backlog.empty() && you.activity.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                     obj.set_var( "activity_var", you.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
@@ -1141,7 +1141,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             ruined_parts.set_mtype( &mt );
             ruined_parts.set_item_temperature( corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
-            if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
+            if( !you.activity.backlog.empty() && you.activity.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                 ruined_parts.set_var( "activity_var", you.name );
             }
             here.add_item_or_charges( you.pos(), ruined_parts );
@@ -1950,11 +1950,11 @@ void activity_handlers::train_finish( player_activity *act, Character *you )
     if( !teachlist.empty() ) {
         teacher = teachlist.front();
     }
-    if( teacher->activity.id() == ACT_TRAIN_TEACHER ) {
+    if( teacher->activity.active_id() == ACT_TRAIN_TEACHER ) {
         bool all_students_done = true;
         g->get_npcs_if( [&]( const npc & n ) {
-            for( int st_id : teacher->activity.values ) {
-                if( n.getID().get_value() == st_id && n.activity.id() == ACT_TRAIN ) {
+            for( int st_id : teacher->activity.raw().values ) {
+                if( n.getID().get_value() == st_id && n.activity.active_id() == ACT_TRAIN ) {
                     all_students_done = false;
                     break;
                 }
@@ -2509,7 +2509,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             act->values[0] = static_cast<int>( repeat );
             // BACK selected, redo target selection next.
             if( repeat == repeat_type::INIT ) {
-                you->activity.targets.pop_back();
+                you->activity.raw().targets.pop_back();
                 return;
             }
             if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() ) {
@@ -2874,8 +2874,8 @@ void activity_handlers::fish_finish( player_activity *act, Character *you )
 {
     act->set_to_null();
     you->add_msg_if_player( m_info, _( "You finish fishing" ) );
-    if( !you->backlog.empty() && you->backlog.front().id() == ACT_MULTIPLE_FISH ) {
-        you->backlog.clear();
+    if( !you->activity.backlog.empty() && you->activity.backlog.front().id() == ACT_MULTIPLE_FISH ) {
+        you->activity.backlog.clear();
         you->assign_activity( ACT_TIDY_UP );
     }
 }
@@ -2949,7 +2949,7 @@ void activity_handlers::find_mount_do_turn( player_activity *act, Character *you
             mon->remove_effect( effect_controlled );
             return;
         } else {
-            you->activity = player_activity();
+            you->activity.halt_active();
             mon->add_effect( effect_controlled, 40_turns );
             you->set_destination( route, player_activity( ACT_FIND_MOUNT ) );
         }
@@ -3238,7 +3238,7 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
     if( !pc ) {
         if( you->is_npc() ) {
             // if player completes the work while NPC still in activity loop
-            you->activity = player_activity();
+            you->activity.halt_active();
             you->set_moves( 0 );
         } else {
             you->cancel_activity();
@@ -3254,7 +3254,7 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
         add_msg( m_info, _( "%s can't work on this construction anymore." ), you->disp_name() );
         you->cancel_activity();
         if( you->is_npc() ) {
-            you->activity = player_activity();
+            you->activity.halt_active();
             you->set_moves( 0 );
         }
         return;
@@ -3465,8 +3465,8 @@ static void perform_zone_activity_turn(
         if( route.size() > 1 ) {
             route.pop_back();
 
-            you->set_destination( route, you->activity );
-            you->activity.set_to_null();
+            you->set_destination( route, you->activity.activity );
+            you->activity.halt_active();
             return;
         } else {
             // we are at destination already
@@ -3478,7 +3478,7 @@ static void perform_zone_activity_turn(
         }
     }
     add_msg( m_info, finished_msg );
-    you->activity.set_to_null();
+    you->activity.halt_active();
 }
 
 void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character *you )

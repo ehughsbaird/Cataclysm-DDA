@@ -1080,7 +1080,7 @@ void Character::load( const JsonObject &data )
         setID( tmpid );
     }
 
-    data.read( "activity", activity );
+    data.read( "activity", activity.activity );
     if( data.has_array( "backlog" ) ) {
         data.read( "backlog", activity.backlog );
     }
@@ -1336,7 +1336,7 @@ void Character::store( JsonOut &json ) const
 
     // crafting etc
     json.member( "destination_activity", destination_activity );
-    json.member( "activity", activity );
+    json.member( "activity", activity.activity );
     json.member( "stashed_outbounds_activity", activity.stashed_outbounds_activity );
     json.member( "stashed_outbounds_backlog", activity.stashed_outbounds_backlog );
     json.member( "backlog", activity.backlog );

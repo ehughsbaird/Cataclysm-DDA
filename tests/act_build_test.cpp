@@ -24,17 +24,17 @@ void run_activities( Character &u, int max_moves )
 {
     u.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
     int turns = 0;
-    while( ( !u.activity.is_null() || u.is_auto_moving() ) && turns < max_moves ) {
+    while( ( !u.activity.has_activity() || u.is_auto_moving() ) && turns < max_moves ) {
         u.set_moves( u.get_speed() );
         if( u.is_auto_moving() ) {
             u.setpos( get_map().getlocal( *u.destination_point ) );
             get_map().build_map_cache( u.pos().z );
             u.start_destination_activity();
         }
-        u.activity.do_turn( u );
+        u.activity.activity.do_turn( u );
         // npc plz do your thing
-        if( u.is_npc() && u.activity.is_null() && !u.is_auto_moving() && !u.backlog.empty() &&
-            u.backlog.back().id() == ACT_MULTIPLE_CONSTRUCTION ) {
+        if( u.is_npc() && !u.activity.has_activity() && !u.is_auto_moving() && !u.activity.backlog.empty() &&
+            u.activity.backlog.back().id() == ACT_MULTIPLE_CONSTRUCTION ) {
             activity_handlers::resume_for_multi_activities( u );
         }
         turns++;

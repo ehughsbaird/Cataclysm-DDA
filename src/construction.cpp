@@ -1039,7 +1039,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     player_character.invalidate_crafting_inventory();
     player_character.invalidate_weight_carried_cache();
     player_character.assign_activity( ACT_BUILD );
-    player_character.activity.placement = here.getglobal( pnt );
+    player_character.activity.raw().placement = here.getglobal( pnt );
 }
 
 void complete_construction( Character *you )
@@ -1049,7 +1049,7 @@ void complete_construction( Character *you )
         return;
     }
     map &here = get_map();
-    const tripoint_bub_ms terp = here.bub_from_abs( you->activity.placement );
+    const tripoint_bub_ms terp = here.bub_from_abs( you->activity.activity.placement );
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
@@ -1062,7 +1062,7 @@ void complete_construction( Character *you )
         return;
     }
     const construction &built = pc->id.obj();
-    you->activity.str_values.emplace_back( built.str_id );
+    you->activity.raw().str_values.emplace_back( built.str_id );
     const auto award_xp = [&]( Character & practicer ) {
         for( const auto &pr : built.required_skills ) {
             practicer.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) *
@@ -1142,16 +1142,16 @@ void complete_construction( Character *you )
     add_msg( m_info, _( "%s finished construction: %s." ), you->disp_name( false, true ),
              built.group->name() );
     // clear the activity
-    you->activity.set_to_null();
+    you->activity.halt_active();
     you->recoil = MAX_RECOIL;
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
     built.post_special( terp, *you );
     // npcs will automatically resume backlog, players wont.
-    if( you->is_avatar() && !you->backlog.empty() &&
-        you->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
-        you->backlog.clear();
+    if( you->is_avatar() && !you->activity.backlog.empty() &&
+        you->activity.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
+        you->activity.backlog.clear();
         you->assign_activity( ACT_MULTIPLE_CONSTRUCTION );
     }
 }
@@ -1765,7 +1765,7 @@ void construct::do_turn_exhume( const tripoint_bub_ms &p, Character &who )
                     who.vomit();
                 }
             } else {
-                who.activity.set_to_null();
+                who.activity.halt_active();
             }
         } else if( who.has_trait( trait_PSYCHOPATH ) ) {
             who.add_msg_if_player(

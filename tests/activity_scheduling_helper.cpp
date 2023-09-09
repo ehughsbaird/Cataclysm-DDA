@@ -30,10 +30,10 @@ void activity_schedule::setup( avatar &guy ) const
 void activity_schedule::do_turn( avatar &guy ) const
 {
     // Do our activity
-    guy.activity.do_turn( guy );
+    guy.activity.activity.do_turn( guy );
     // Ensure we never actually finish an activity
-    if( guy.activity.moves_left < 1000 ) {
-        guy.activity.moves_left = 4000;
+    if( guy.activity.activity.moves_left < 1000 ) {
+        guy.activity.activity.moves_left = 4000;
     }
 }
 

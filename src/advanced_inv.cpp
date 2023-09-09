@@ -117,7 +117,8 @@ void create_advanced_inv()
     }
     advinv->display();
     // keep the UI and its ui_adaptor running if we're returning
-    if( uistate.transfer_save.exit_code != aim_exit::re_entry || get_avatar().activity.is_null() ) {
+    if( uistate.transfer_save.exit_code != aim_exit::re_entry ||
+        !get_avatar().activity.has_activity() ) {
         kill_advanced_inv();
     }
 }
@@ -2142,7 +2143,7 @@ void advanced_inventory::do_return_entry()
     // only save pane settings
     save_settings( true );
     player_character.assign_activity( ACT_ADV_INVENTORY );
-    player_character.activity.auto_resume = true;
+    player_character.activity.raw().auto_resume = true;
     save_state->exit_code = aim_exit::re_entry;
 }
 

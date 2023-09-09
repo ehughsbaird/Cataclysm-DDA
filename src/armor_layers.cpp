@@ -682,8 +682,8 @@ void outfit::sort_armor( Character &guy )
     Character &player_character = get_player_character();
     auto do_return_entry = [&player_character]() {
         player_character.assign_activity( ACT_ARMOR_LAYERS, 0 );
-        player_character.activity.auto_resume = true;
-        player_character.activity.moves_left = INT_MAX;
+        player_character.activity.raw().auto_resume = true;
+        player_character.activity.raw().moves_left = INT_MAX;
     };
 
     int leftListSize = 0;

@@ -189,7 +189,7 @@ void handle_key_blocking_activity()
         return;
     }
     avatar &u = get_avatar();
-    const bool has_unfinished_activity = u.activity && (
+    const bool has_unfinished_activity = u.activity.has_activity() && (
             u.activity.active_id()->based_on() == based_on_type::NEITHER
             || u.activity.raw().moves_left > 0 );
     if( has_unfinished_activity || u.has_destination() ) {
@@ -480,11 +480,11 @@ bool do_turn()
     g->reset_light_level();
 
     g->perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
-    while( u.moves > 0 && u.activity.has_active() ) {
+    while( u.moves > 0 && u.activity.has_activity() ) {
         u.activity.raw().do_turn( u );
     }
     // FIXME: hack needed due to the legacy code in advanced_inventory::move_all_items()
-    if( !u.activity.has_active() ) {
+    if( !u.activity.has_activity() ) {
         kill_advanced_inv();
     }
 
@@ -540,7 +540,7 @@ bool do_turn()
                 if( g->uquit == QUIT_WATCH ) {
                     break;
                 }
-                while( u.moves > 0 && u.activity.has_active() ) {
+                while( u.moves > 0 && u.activity.has_activity() ) {
                     u.activity.raw().do_turn( u );
                 }
             }
@@ -643,7 +643,8 @@ bool do_turn()
         wait_redraw = true;
         wait_message = _( "Wait till you wake up…" );
         wait_refresh_rate = 30_minutes;
-    } else if( const std::optional<std::string> progress = u.activity.raw().get_progress_message( u ) ) {
+    } else if( const std::optional<std::string> progress = u.activity.raw().get_progress_message(
+                   u ) ) {
         wait_redraw = true;
         wait_message = *progress;
         if( u.activity.raw().is_interruptible() && u.activity.raw().interruptable_with_kb ) {

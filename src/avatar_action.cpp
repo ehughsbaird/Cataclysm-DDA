@@ -915,11 +915,11 @@ bool avatar_action::eat_here( avatar &you )
 void avatar_action::eat( avatar &you, item_location &loc )
 {
     std::string filter;
-    if( !you.activity.str_values.empty() ) {
-        filter = you.activity.str_values.back();
+    if( !you.activity.raw().str_values.empty() ) {
+        filter = you.activity.raw().str_values.back();
     }
-    avatar_action::eat( you, loc, you.activity.values, you.activity.targets, filter,
-                        you.activity.id() );
+    avatar_action::eat( you, loc, you.activity.raw().values, you.activity.raw().targets, filter,
+                        you.activity.active_id() );
 }
 
 void avatar_action::eat( avatar &you, item_location &loc,

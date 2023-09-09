@@ -2728,7 +2728,7 @@ void migration_cancel_activity_actor::do_turn( player_activity &act, Character &
     } else {
         avatar &avatar_who = dynamic_cast<avatar &>( who );
         avatar_who.clear_destination();
-        avatar_who.clear_backlog();
+        avatar_who.activity.clear_backlog();
     }
 }
 
@@ -2852,9 +2852,9 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     if( !temp_selections.empty() || !temp_selected_items.empty() || !temp_filter.empty() ) {
         if( act.is_null() ) {
             player_character.assign_activity( new_act );
-            player_character.activity.values = temp_selections;
-            player_character.activity.targets = temp_selected_items;
-            player_character.activity.str_values = { temp_filter, "true" };
+            player_character.activity.raw().values = temp_selections;
+            player_character.activity.raw().targets = temp_selected_items;
+            player_character.activity.raw().str_values = { temp_filter, "true" };
         } else {
             // Warning: this can add a redundant menu activity to the backlog.
             // It will prevent deleting the smart pointer of the selected item_location
@@ -2863,7 +2863,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
             eat_menu.values = temp_selections;
             eat_menu.targets = temp_selected_items;
             eat_menu.str_values = { temp_filter, "true" };
-            player_character.backlog.push_back( eat_menu );
+            player_character.activity.backlog.push_back( eat_menu );
         }
     }
 }

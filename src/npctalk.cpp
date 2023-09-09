@@ -1257,7 +1257,9 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
     if( activity.active_id() == ACT_AIM && !has_weapon() ) {
         cancel_activity();
         // don't query certain activities that are started from dialogue
-    } else if( activity.active_id() == ACT_TRAIN || activity.active_id() == ACT_WAIT_NPC || activity.active_id() == ACT_SOCIALIZE || activity.raw().index == d.actor( true )->getID().get_value() ) {
+    } else if( activity.active_id() == ACT_TRAIN || activity.active_id() == ACT_WAIT_NPC ||
+               activity.active_id() == ACT_SOCIALIZE ||
+               activity.raw().index == d.actor( true )->getID().get_value() ) {
         return;
     }
 
@@ -1369,7 +1371,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
         return _( actor( true )->get_npc()->chatbin.snip_bye );
     } else if( topic == "TALK_TRAIN" ) {
-        if( !player_character.activity.backlog.empty() && player_character.activity.backlog.front().id() == ACT_TRAIN ) {
+        if( !player_character.activity.backlog.empty() &&
+            player_character.activity.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
         } else if( actor( true )->skills_offered_to( *actor( false ) ).empty() &&
                    actor( true )->styles_offered_to( *actor( false ) ).empty() &&
@@ -1642,7 +1645,9 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         add_response_none( _( "Eh, never mind." ) );
     } else if( the_topic.id == "TALK_TRAIN" ) {
-        if( !player_character.activity.backlog.empty() && player_character.activity.backlog.front().id() == ACT_TRAIN && player_character.activity.backlog.front().index == actor( true )->getID().get_value() ) {
+        if( !player_character.activity.backlog.empty() &&
+            player_character.activity.backlog.front().id() == ACT_TRAIN &&
+            player_character.activity.backlog.front().index == actor( true )->getID().get_value() ) {
             player_activity &backlog = player_character.activity.backlog.front();
             const skill_id skillt( backlog.name );
             // TODO: This is potentially dangerous. A skill and a martial art

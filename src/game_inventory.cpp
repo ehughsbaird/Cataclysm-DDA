@@ -165,14 +165,16 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         // Set position after filter to keep cursor at the right position
         bool position_set = false;
         if( !u.activity.raw().targets.empty() ) {
-            bool const hidden = u.activity.raw().values.size() >= 3 && static_cast<bool>( u.activity.raw().values[2] );
+            bool const hidden = u.activity.raw().values.size() >= 3 &&
+                                static_cast<bool>( u.activity.raw().values[2] );
             position_set = inv_s.highlight_one_of( u.activity.raw().targets, hidden );
             if( !position_set && hidden ) {
                 position_set = inv_s.highlight_one_of( u.activity.raw().targets );
             }
         }
         if( !position_set && u.activity.raw().values.size() >= 2 ) {
-            inv_s.highlight_position( std::make_pair( u.activity.raw().values[0], u.activity.raw().values[1] ) );
+            inv_s.highlight_position( std::make_pair( u.activity.raw().values[0],
+                                      u.activity.raw().values[1] ) );
         }
     }
 
@@ -197,8 +199,8 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         u.activity.raw().str_values.clear();
         u.activity.raw().str_values.emplace_back( inv_s.get_filter() );
         u.activity.raw().targets = collated ? std::vector<item_location> { location, inv_s.get_collation_next() }
-                             :
-                             inv_s.get_highlighted().locations;
+                                   :
+                                   inv_s.get_highlighted().locations;
     }
 
     return location;
