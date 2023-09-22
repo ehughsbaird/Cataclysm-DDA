@@ -31,9 +31,10 @@ void run_activities( Character &u, int max_moves )
             get_map().build_map_cache( u.pos().z );
             u.start_destination_activity();
         }
-        u.activity.activity.do_turn( u );
+        u.activity.raw().do_turn( u );
         // npc plz do your thing
-        if( u.is_npc() && !u.activity.has_activity() && !u.is_auto_moving() && !u.activity.backlog.empty() &&
+        if( u.is_npc() && !u.activity.has_activity() && !u.is_auto_moving() &&
+            !u.activity.backlog.empty() &&
             u.activity.backlog.back().id() == ACT_MULTIPLE_CONSTRUCTION ) {
             activity_handlers::resume_for_multi_activities( u );
         }

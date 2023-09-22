@@ -2876,6 +2876,8 @@ class Character : public Creature, public visitable
         void assign_activity( const player_activity &act );
         /** Assigns activity actor to player, possibly resuming old activity if it's defined resumable. */
         void assign_activity( const activity_actor &actor );
+        /** Check if the player has any active activity */
+        bool has_activity() const;
         /** Check if player currently has a given activity */
         bool has_activity( const activity_id &type ) const;
         /** Check if player currently has any of the given activities */

@@ -182,7 +182,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
         character.make_craft( recipe.ident(), 1 );
         REQUIRE( character.activity.has_activity() );
         REQUIRE( character.has_activity( ACT_CRAFT ) );
-        while( character.has_activity( ACT_CRAFT )  ){
+        while( character.has_activity( ACT_CRAFT ) ) {
             character.moves = 100;
             character.activity.raw().do_turn( character );
         }

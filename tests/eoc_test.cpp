@@ -92,7 +92,7 @@ void complete_activity( Character &u )
 {
     while( u.activity.has_activity() ) {
         u.set_moves( u.get_speed() );
-        u.activity.activity.do_turn( u );
+        u.activity.raw().do_turn( u );
     }
 }
 

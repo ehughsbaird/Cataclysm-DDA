@@ -3465,7 +3465,7 @@ static void perform_zone_activity_turn(
         if( route.size() > 1 ) {
             route.pop_back();
 
-            you->set_destination( route, you->activity.activity );
+            you->set_destination( route, you->activity.raw() );
             you->activity.halt_active();
             return;
         } else {

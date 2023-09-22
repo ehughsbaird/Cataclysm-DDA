@@ -1476,8 +1476,7 @@ bool Character::can_stash_partial( const item &it, bool ignore_pkt_settings )
 
 void Character::cancel_stashed_activity()
 {
-    activity.stashed_outbounds_activity.set_to_null();
-    activity.stashed_outbounds_backlog.set_to_null();
+    activity.cancel_stashed();
 }
 
 player_activity Character::get_stashed_activity() const
@@ -1498,8 +1497,7 @@ bool Character::has_stashed_activity() const
 
 void Character::assign_stashed_activity()
 {
-    activity.activity = activity.stashed_outbounds_activity;
-    activity.backlog.push_front( activity.stashed_outbounds_backlog );
+    activity.assign_stashed();
     cancel_stashed_activity();
 }
 
@@ -8564,21 +8562,7 @@ void Character::assign_activity( const activity_actor &actor )
 
 void Character::assign_activity( const player_activity &act )
 {
-    bool resuming = false;
-    if( !activity.backlog.empty() && activity.backlog.front().can_resume_with( act, *this ) ) {
-        resuming = true;
-        add_msg_if_player( _( "You resume your task." ) );
-        activity.activity = activity.backlog.front();
-        activity.backlog.pop_front();
-    } else {
-        if( activity.has_activity() ) {
-            activity.backlog.push_front( activity.activity );
-        }
-
-        activity.activity = act;
-    }
-
-    activity.activity.start_or_resume( *this, resuming );
+    activity.start( *this, act );
 
     if( is_npc() ) {
         cancel_stashed_activity();
@@ -8587,6 +8571,11 @@ void Character::assign_activity( const player_activity &act )
         guy->set_mission( NPC_MISSION_ACTIVITY );
         guy->current_activity_id = activity.active_id();
     }
+}
+
+bool Character::has_activity() const
+{
+    return activity.has_activity();
 }
 
 bool Character::has_activity( const activity_id &type ) const
@@ -8601,48 +8590,12 @@ bool Character::has_activity( const std::vector<activity_id> &types ) const
 
 void Character::cancel_activity()
 {
-    activity.activity.canceled( *this );
-    if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() ) {
-        stop_hauling();
-    }
-    // Clear any backlog items that aren't auto-resume.
-    // but keep only one instance of ACT_ADV_INVENTORY
-    // FIXME: this is required by the legacy code in advanced_inventory::move_all_items()
-    bool has_adv_inv = has_activity( ACT_ADV_INVENTORY );
-    for( auto backlog_item = activity.backlog.begin(); backlog_item != activity.backlog.end(); ) {
-        if( backlog_item->auto_resume &&
-            ( !has_adv_inv || backlog_item->id() != ACT_ADV_INVENTORY ) ) {
-            has_adv_inv |= backlog_item->id() == ACT_ADV_INVENTORY;
-            backlog_item++;
-        } else {
-            backlog_item = activity.backlog.erase( backlog_item );
-        }
-    }
-
-    // act wait stamina interrupts an ongoing activity.
-    // and automatically puts auto_resume = true on it
-    // we don't want that to persist if there is another interruption.
-    // and player moves elsewhere.
-    if( has_activity( ACT_WAIT_STAMINA ) && !activity.backlog.empty() &&
-        activity.backlog.front().auto_resume ) {
-        activity.backlog.front().auto_resume = false;
-    }
-    if( activity.has_activity() && activity.activity.is_suspendable() ) {
-        activity.activity.allow_distractions();
-        activity.backlog.push_front( activity.activity );
-    }
-    sfx::end_activity_sounds(); // kill activity sounds when canceled
-    activity.halt_active();
+    activity.cancel( *this );
 }
 
 void Character::resume_backlog_activity()
 {
-    if( !activity.backlog.empty() && activity.backlog.front().auto_resume ) {
-        activity.activity = activity.backlog.front();
-        activity.activity.auto_resume = false;
-        activity.activity.allow_distractions();
-        activity.backlog.pop_front();
-    }
+    activity.resume_backlog();
 }
 
 void Character::fall_asleep()

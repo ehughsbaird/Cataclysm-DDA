@@ -186,10 +186,10 @@ class player_activity
 
 class activity_list
 {
+        player_activity activity;
     public:
         player_activity stashed_outbounds_activity;
         player_activity stashed_outbounds_backlog;
-        player_activity activity;
         std::list<player_activity> backlog;
 
         // Remove me, eventually :)
@@ -200,6 +200,22 @@ class activity_list
         bool has_activity() const;
         // What is the id of the activity we are currently engaged in
         activity_id active_id() const;
+
+        void assign( const player_activity &act );
+        void assign_stashed() {
+            activity = stashed_outbounds_activity;
+            backlog.push_front( stashed_outbounds_backlog );
+        }
+        void cancel_stashed() {
+            stashed_outbounds_activity.set_to_null();
+            stashed_outbounds_backlog.set_to_null();
+        }
+
+
+        void start( Character &guy, const player_activity &act );
+        void cancel( Character &guy );
+
+        void resume_backlog();
 
         // Halt and remove current activity
         void halt_active();

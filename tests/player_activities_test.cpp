@@ -713,7 +713,8 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
                         dummy.moves = dummy.get_speed();
                         dummy.activity.raw().do_turn( dummy );
                         CHECK( dummy.has_activity( ACT_BOLTCUTTING ) );
-                        CHECK( dummy.activity.raw().moves_left < to_moves<int>( furn_test_f_boltcut3->boltcut->duration() ) );
+                        CHECK( dummy.activity.raw().moves_left < to_moves<int>
+                               ( furn_test_f_boltcut3->boltcut->duration() ) );
                     }
                 }
             }
@@ -978,7 +979,8 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
                         dummy.moves = dummy.get_speed();
                         dummy.activity.raw().do_turn( dummy );
                         CHECK( dummy.has_activity( ACT_HACKSAW ) );
-                        CHECK( dummy.activity.raw().moves_left < to_moves<int>( furn_test_f_hacksaw3->hacksaw->duration() ) );
+                        CHECK( dummy.activity.raw().moves_left < to_moves<int>
+                               ( furn_test_f_hacksaw3->hacksaw->duration() ) );
                     }
                 }
             }
@@ -1233,7 +1235,8 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
                         dummy.moves = dummy.get_speed();
                         dummy.activity.raw().do_turn( dummy );
                         CHECK( dummy.has_activity( ACT_OXYTORCH ) );
-                        CHECK( dummy.activity.raw().moves_left < to_moves<int>( furn_test_f_oxytorch3->oxytorch->duration() ) );
+                        CHECK( dummy.activity.raw().moves_left < to_moves<int>
+                               ( furn_test_f_oxytorch3->oxytorch->duration() ) );
                     }
                 }
             }

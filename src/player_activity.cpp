@@ -45,6 +45,7 @@ static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
+static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
@@ -561,6 +562,69 @@ void activity_list::reset()
 {
     halt_active();
     clear_backlog();
+}
+
+void activity_list::start( Character &guy, const player_activity &act )
+{
+    bool resuming = false;
+    if( !backlog.empty() && backlog.front().can_resume_with( act, guy ) ) {
+        resuming = true;
+        guy.add_msg_if_player( _( "You resume your task." ) );
+        activity = backlog.front();
+        backlog.pop_front();
+    } else {
+        if( has_activity() ) {
+            backlog.push_front( activity );
+        }
+        activity = act;
+    }
+
+    activity.start_or_resume( guy, resuming );
+}
+
+void activity_list::cancel( Character &guy )
+{
+    activity.canceled( guy );
+    if( active_id() == ACT_MOVE_ITEMS && guy.is_hauling() ) {
+        guy.stop_hauling();
+    }
+    // Clear any backlog items that aren't auto-resume.
+    // but keep only one instance of ACT_ADV_INVENTORY
+    // FIXME: this is required by the legacy code in advanced_inventory::move_all_items()
+    bool has_adv_inv = active_id() == ACT_ADV_INVENTORY;
+    for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
+        if( backlog_item->auto_resume &&
+            ( !has_adv_inv || backlog_item->id() != ACT_ADV_INVENTORY ) ) {
+            has_adv_inv |= backlog_item->id() == ACT_ADV_INVENTORY;
+            backlog_item++;
+        } else {
+            backlog_item = backlog.erase( backlog_item );
+        }
+    }
+
+    // act wait stamina interrupts an ongoing activity.
+    // and automatically puts auto_resume = true on it
+    // we don't want that to persist if there is another interruption.
+    // and player moves elsewhere.
+    if( active_id() == ACT_WAIT_STAMINA && !backlog.empty() && backlog.front().auto_resume ) {
+        backlog.front().auto_resume = false;
+    }
+    if( has_activity() && activity.is_suspendable() ) {
+        activity.allow_distractions();
+        backlog.push_front( activity );
+    }
+    sfx::end_activity_sounds(); // kill activity sounds when canceled
+    halt_active();
+}
+
+void activity_list::resume_backlog()
+{
+    if( !backlog.empty() && backlog.front().auto_resume ) {
+        activity = backlog.front();
+        activity.auto_resume = false;
+        activity.allow_distractions();
+        backlog.pop_front();
+    }
 }
 
 void activity_list::ignore_distraction( distraction_type type )

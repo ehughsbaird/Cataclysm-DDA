@@ -3352,6 +3352,7 @@ bool npc::do_player_activity()
     if( multi_type && moves == moves_before ) {
         moves -= 1;
     }
+    // FIXME
     /* if the activity is finished, grab any backlog or change the mission */
     if( !has_destination() && !activity.has_activity() ) {
         // workaround: auto resuming craft activity may cause infinite loop
@@ -3359,7 +3360,7 @@ bool npc::do_player_activity()
             activity.backlog.pop_front();
         }
         if( !activity.backlog.empty() ) {
-            activity.activity = activity.backlog.front();
+            activity.raw() = activity.backlog.front();
             activity.backlog.pop_front();
             current_activity_id = activity.active_id();
         } else {
