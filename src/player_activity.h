@@ -187,10 +187,10 @@ class player_activity
 class activity_list
 {
         player_activity activity;
+        std::list<player_activity> backlog;
     public:
         player_activity stashed_outbounds_activity;
         player_activity stashed_outbounds_backlog;
-        std::list<player_activity> backlog;
 
         // Remove me, eventually :)
         player_activity &raw();
@@ -210,7 +210,13 @@ class activity_list
             stashed_outbounds_activity.set_to_null();
             stashed_outbounds_backlog.set_to_null();
         }
-
+	void stash_activity(const player_activity &act) {
+		stashed_outbounds_activity = act;
+		if(!backlog.empty() ) {
+			stashed_outbounds_backlog = backlog.front();
+		}
+		halt_active();
+	}
 
         void start( Character &guy, const player_activity &act );
         void cancel( Character &guy );

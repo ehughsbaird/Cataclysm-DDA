@@ -1509,11 +1509,7 @@ bool Character::check_outbounds_activity( const player_activity &act, bool check
                   !here.inbounds( here.getlocal( act.coords.back() ) ) ) ) {
         if( is_npc() && !check_only ) {
             // stash activity for when reloaded.
-            activity.stashed_outbounds_activity = act;
-            if( !activity.backlog.empty() ) {
-                activity.stashed_outbounds_backlog = activity.backlog.front();
-            }
-            activity.halt_active();
+            activity.stash_activity(act);
         }
         add_msg_debug( debugmode::DF_CHARACTER,
                        "npc %s at pos %s, activity target is not inbounds at %s therefore "
