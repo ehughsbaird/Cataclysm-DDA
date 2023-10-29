@@ -624,7 +624,7 @@
     "material": [ "veggy" ],
     "volume": "1 L",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
+    "vitamins": [ [ "calcium", "62 mg 520 μg" ], [ "iron", "5 mg 452 μg" ] ],
     "fun": -15,
     "use_action": {
       "target": "malted_grain",
@@ -652,7 +652,7 @@
     "material": [ "veggy" ],
     "volume": "1 L",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
+    "vitamins": [ [ "calcium", "62 mg 520 μg" ], [ "iron", "5 mg 452 μg" ] ],
     "fun": -15
   },
   {
@@ -672,7 +672,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
+    "vitamins": [ [ "calcium", "62 mg 520 μg" ], [ "iron", "5 mg 452 μg" ] ],
     "fun": -15,
     "use_action": {
       "target": "soaked_dandelion",
@@ -701,7 +701,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "vitC", "21 mg 574 μg" ], [ "calcium", "114 mg 620 μg" ], [ "iron", "1 mg 880 μg" ] ],
     "fun": -4
   },
   {

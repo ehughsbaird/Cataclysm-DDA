@@ -95,7 +95,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 15 ], [ "iron", 2 ], [ "vitC", 7 ] ],
+    "vitamins": [ [ "calcium", "156 mg 300 μg" ], [ "iron", "376 μg" ], [ "vitC", "6 mg 566 μg" ] ],
     "fun": 8
   }
 ]

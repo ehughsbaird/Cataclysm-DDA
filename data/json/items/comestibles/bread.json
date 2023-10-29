@@ -125,7 +125,7 @@
     "material": [ "wheat" ],
     "volume": "42 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", "52 mg 100 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -144,7 +144,7 @@
     "material": [ "veggy" ],
     "volume": "42 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", "52 mg 100 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -163,7 +163,7 @@
     "material": [ "wheat" ],
     "volume": "41 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", "52 mg 100 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -183,7 +183,7 @@
     "calories": 77,
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "calcium", "31 mg 260 μg" ], [ "iron", "1 mg 128 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -204,7 +204,7 @@
     "calories": 83,
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "188 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -226,7 +226,7 @@
     "volume": "17 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "2 mg 632 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -365,7 +365,7 @@
     "volume": "42 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "calcium", "83 mg 360 μg" ], [ "iron", "1 mg 128 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -385,7 +385,7 @@
     "volume": "41 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "calcium", "41 mg 680 μg" ], [ "iron", "1 mg 316 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -406,7 +406,7 @@
     "volume": "20 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "188 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -427,7 +427,7 @@
     "volume": "20 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "188 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -446,7 +446,7 @@
     "material": [ "wheat" ],
     "volume": "12 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ],
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "2 mg 820 μg" ] ],
     "fun": -4
   },
   {
@@ -465,7 +465,7 @@
     "material": [ "wheat" ],
     "volume": "12 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ],
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "2 mg 820 μg" ] ],
     "fun": -1
   },
   {
@@ -486,7 +486,7 @@
     "volume": "25 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 11 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "calcium", "114 mg 620 μg" ], [ "iron", "1 mg 692 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -507,7 +507,7 @@
     "volume": "12 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -1,
-    "vitamins": [ [ "calcium", 12 ] ],
+    "vitamins": [ [ "calcium", "125 mg 40 μg" ] ],
     "//": "this item will generally inherit its values, so it is essentially a copy of bread"
   },
   {
@@ -528,7 +528,7 @@
     "volume": "48 ml",
     "flags": [ "EATEN_HOT", "EATEN_COLD" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", "41 mg 680 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -548,7 +548,7 @@
     "volume": "48 ml",
     "flags": [ "EATEN_HOT", "EATEN_COLD" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", "41 mg 680 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -568,6 +568,6 @@
     "volume": "1 ml",
     "flags": [ "EATEN_HOT", "EATEN_COLD" ],
     "fun": 4,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "1 mg 128 μg" ] ]
   }
 ]

@@ -34,7 +34,7 @@
     "symbol": ",",
     "looks_like": "potato",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 14 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "calcium", "145 mg 880 μg" ], [ "iron", "188 μg" ] ],
     "fun": -3
   },
   {
@@ -54,7 +54,7 @@
     "comestible_type": "FOOD",
     "symbol": ",",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "calcium", "104 mg 200 μg" ], [ "iron", "1 mg 504 μg" ] ],
     "fun": -3
   },
   {
@@ -75,7 +75,7 @@
     "symbol": ",",
     "flags": [ "RAW" ],
     "material": [ "veggy" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 8 ], [ "vitC", 2 ] ],
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "1 mg 504 μg" ], [ "vitC", "1 mg 876 μg" ] ],
     "fun": -2
   },
   {
@@ -94,7 +94,7 @@
     "symbol": ",",
     "flags": [ "RAW" ],
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitC", 10 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", "9 mg 380 μg" ], [ "iron", "376 μg" ] ],
     "fun": -2
   },
   {
@@ -114,7 +114,7 @@
     "volume": "180 ml",
     "flags": [ "EATEN_HOT", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 95 ], [ "calcium", 5 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "89 mg 110 μg" ], [ "calcium", "52 mg 100 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -135,7 +135,7 @@
     "fun": -2,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 56 ], [ "calcium", 5 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", "52 mg 528 μg" ], [ "calcium", "52 mg 100 μg" ], [ "iron", "940 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -154,7 +154,7 @@
     "volume": "250 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "calcium", "41 mg 680 μg" ], [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -175,7 +175,7 @@
     "fun": -2,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 18 ] ]
+    "vitamins": [ [ "calcium", "83 mg 360 μg" ], [ "iron", "3 mg 384 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -195,7 +195,7 @@
     "fun": 1,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "4 mg 690 μg" ], [ "calcium", "31 mg 260 μg" ], [ "iron", "188 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -214,7 +214,7 @@
     "volume": "250 ml",
     "fun": -12,
     "flags": [ "RAW" ],
-    "vitamins": [ [ "iron", 8 ] ]
+    "vitamins": [ [ "iron", "1 mg 504 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -234,7 +234,7 @@
     "fun": -8,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "calcium", "52 mg 100 μg" ], [ "iron", "940 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -261,7 +261,7 @@
     "volume": "190 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 4 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "calcium", "41 mg 680 μg" ], [ "iron", "188 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -297,7 +297,7 @@
     "material": [ "veggy" ],
     "volume": "83 ml",
     "flags": [ "FREEZERBURN", "RAW" ],
-    "vitamins": [ [ "vitC", 88 ], [ "calcium", 1 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", "82 mg 544 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "564 μg" ] ],
     "fun": -2
   },
   {
@@ -331,7 +331,7 @@
     "volume": "320 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 6 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "vitC", "8 mg 442 μg" ], [ "calcium", "62 mg 520 μg" ], [ "iron", "1 mg 128 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -384,7 +384,7 @@
     "fun": -2,
     "smoking_result": "dry_veggy",
     "flags": [ "RAW", "SMOKABLE" ],
-    "vitamins": [ [ "vitC", 18 ], [ "iron", 5 ], [ "calcium", 8 ] ]
+    "vitamins": [ [ "vitC", "16 mg 884 μg" ], [ "iron", "940 μg" ], [ "calcium", "83 mg 360 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -403,7 +403,7 @@
     "volume": "250 ml",
     "fun": -8,
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ]
+    "vitamins": [ [ "vitC", "4 mg 690 μg" ], [ "iron", "564 μg" ], [ "calcium", "20 mg 840 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -456,7 +456,7 @@
     "volume": "150 ml",
     "fun": -18,
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", "4 mg 690 μg" ], [ "calcium", "31 mg 260 μg" ], [ "iron", "188 μg" ] ],
     "//": "Who in their right mind would eat an entire garlic bulb raw?"
   },
   {
@@ -493,7 +493,7 @@
     "volume": "400 ml",
     "fun": -12,
     "flags": [ "FREEZERBURN", "RAW" ],
-    "vitamins": [ [ "vitC", 41 ], [ "calcium", 6 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", "38 mg 458 μg" ], [ "calcium", "62 mg 520 μg" ], [ "iron", "940 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -513,7 +513,7 @@
     "volume": "170 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -552,7 +552,7 @@
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "//": "Raw onions probably aren't all that tasty to most people.",
-    "vitamins": [ [ "vitC", 12 ], [ "calcium", 4 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "11 mg 256 μg" ], [ "calcium", "41 mg 680 μg" ], [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -595,7 +595,7 @@
     "fun": -3,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 47 ], [ "calcium", 3 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitC", "44 mg 86 μg" ], [ "calcium", "31 mg 260 μg" ], [ "iron", "1 mg 692 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -615,7 +615,7 @@
     "fun": -1,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 26 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "vitC", "24 mg 388 μg" ], [ "iron", "1 mg 128 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -634,7 +634,7 @@
     "volume": "3 L",
     "fun": -1,
     "flags": [ "RAW", "INEDIBLE" ],
-    "vitamins": [ [ "vitC", 69 ], [ "calcium", 9 ], [ "iron", 19 ] ],
+    "vitamins": [ [ "vitC", "64 mg 722 μg" ], [ "calcium", "93 mg 780 μg" ], [ "iron", "3 mg 572 μg" ] ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -652,7 +652,7 @@
     "price_postapoc": 60,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 17 ], [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", "15 mg 946 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "752 μg" ] ],
     "melee_damage": { "bash": 0 }
   },
   {
@@ -672,7 +672,7 @@
     "fun": -2,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 2 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", "28 mg 140 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "564 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -692,7 +692,7 @@
     "fun": -12,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", "21 mg 574 μg" ], [ "calcium", "114 mg 620 μg" ], [ "iron", "1 mg 880 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -712,7 +712,7 @@
     "fun": -12,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 23 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", "938 μg" ], [ "calcium", "239 mg 660 μg" ], [ "iron", "1 mg 880 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -733,7 +733,7 @@
     "fun": -12,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 23 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", "938 μg" ], [ "calcium", "239 mg 660 μg" ], [ "iron", "1 mg 880 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -753,7 +753,7 @@
     "volume": "250 ml",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 11 ], [ "calcium", 11 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "10 mg 318 μg" ], [ "calcium", "114 mg 620 μg" ], [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -773,7 +773,7 @@
     "fun": -10,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 2 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "vitC", "7 mg 504 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "1 mg 128 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -848,7 +848,7 @@
     "volume": "375 ml",
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 22 ], [ "calcium", 3 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "vitC", "20 mg 636 μg" ], [ "calcium", "31 mg 260 μg" ], [ "iron", "1 mg 128 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -877,7 +877,7 @@
     "smoking_result": "dry_veggy",
     "volume": "250 ml",
     "//": "average of broccoli, cabbage, carrot, cattail_stalk, celery, chili_pepper, cucumber, lettuce, onion, pumpkin, raw_dandelion, rhubarb, sugar_beet, tomato, zucchini",
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "33 mg 768 μg" ], [ "calcium", "41 mg 680 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -922,7 +922,7 @@
     "volume": "395 ml",
     "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 39 ], [ "calcium", 3 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "36 mg 582 μg" ], [ "calcium", "31 mg 260 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -952,7 +952,7 @@
     "material": [ "veggy" ],
     "cooks_like": "beans_cooked",
     "smoking_result": "dry_beans",
-    "vitamins": [ [ "iron", 2 ], [ "vitC", 20 ] ],
+    "vitamins": [ [ "iron", "376 μg" ], [ "vitC", "18 mg 760 μg" ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
@@ -977,7 +977,7 @@
     "//": "These come out of the field dry, so this item can probably be obsoleted.",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_lentils",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 3 ], [ "vitC", 1 ] ]
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "564 μg" ], [ "vitC", "938 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -998,7 +998,7 @@
     "fun": -10,
     "use_action": [ "POISON" ],
     "//": "Fiddleheads that haven't been boiled can make you sick.",
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 4 ] ]
+    "vitamins": [ [ "vitC", "5 mg 628 μg" ], [ "calcium", "41 mg 680 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1017,7 +1017,7 @@
     "material": [ "veggy" ],
     "volume": "45 ml",
     "fun": -2,
-    "vitamins": [ [ "vitC", 1 ] ]
+    "vitamins": [ [ "vitC", "938 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1027,7 +1027,7 @@
     "description": "Some chicory greens.  They are quite bitter but high in vitamins.",
     "price_postapoc": 20,
     "fun": -8,
-    "vitamins": [ [ "vitC", 6 ], [ "iron", 1 ], [ "calcium", 2 ] ]
+    "vitamins": [ [ "vitC", "5 mg 628 μg" ], [ "iron", "188 μg" ], [ "calcium", "20 mg 840 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1047,7 +1047,7 @@
     "material": [ "veggy" ],
     "volume": "62 ml",
     "longest_side": "20 cm",
-    "vitamins": [ [ "vitC", 6 ] ]
+    "vitamins": [ [ "vitC", "5 mg 628 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1067,7 +1067,7 @@
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "fun": -5,
-    "vitamins": [ [ "calcium", 2 ], [ "vitC", 12 ] ]
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "vitC", "11 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1099,7 +1099,7 @@
     "volume": "24 ml",
     "//": "240 ml is equivalent to 1 cup of flour.  10 charges is roughly equivalent to a cup of flour for American recipes.",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "iron", 1 ] ],
+    "vitamins": [ [ "iron", "188 μg" ] ],
     "fun": -5
   },
   {
@@ -1138,7 +1138,7 @@
     "symbol": "e",
     "looks_like": "eggplant",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 2 ], [ "vitC", 10 ] ],
+    "vitamins": [ [ "calcium", "93 mg 780 μg" ], [ "iron", "376 μg" ], [ "vitC", "9 mg 380 μg" ] ],
     "fun": -5
   },
   {
@@ -1159,7 +1159,7 @@
     "symbol": "e",
     "looks_like": "eggplant",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 2 ], [ "vitC", 10 ] ],
+    "vitamins": [ [ "calcium", "93 mg 780 μg" ], [ "iron", "376 μg" ], [ "vitC", "9 mg 380 μg" ] ],
     "fun": -5
   }
 ]

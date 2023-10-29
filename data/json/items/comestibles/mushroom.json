@@ -9,7 +9,7 @@
     "price": 150,
     "price_postapoc": 50,
     "fun": 1,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "iron", "1 mg 316 μg" ] ],
     "flags": [ "FREEZERBURN" ]
   },
   {
@@ -31,7 +31,7 @@
     "fun": 1,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_mushroom",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ]
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "9 mg 776 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -45,7 +45,7 @@
     "price_postapoc": 50,
     "fun": 4,
     "flags": [ "FREEZERBURN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ]
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "9 mg 776 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -100,6 +100,6 @@
     "fun": -3,
     "flags": [ "FREEZERBURN", "SMOKABLE", "FORAGE_POISON", "FORAGE_HALLU", "RAW" ],
     "smoking_result": "dry_mushroom",
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "iron", "376 μg" ] ]
   }
 ]

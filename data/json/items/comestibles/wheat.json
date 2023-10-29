@@ -16,7 +16,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 34 ] ],
+    "vitamins": [ [ "calcium", "52 mg 100 μg" ], [ "iron", "6 mg 392 μg" ] ],
     "fun": -1
   },
   {
@@ -36,7 +36,7 @@
     "material": [ "wheat" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "1 mg 880 μg" ] ],
     "fun": -8
   },
   {
@@ -56,7 +56,7 @@
     "material": [ "wheat" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "1 mg 880 μg" ] ],
     "fun": -8
   },
   {
@@ -77,7 +77,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "1 mg 880 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -96,7 +96,7 @@
     "material": [ "wheat" ],
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "volume": "62 ml",
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "1 mg 880 μg" ] ],
     "fun": -6
   },
   {
@@ -118,7 +118,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "TRADER_AVOID", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 11 ] ]
+    "vitamins": [ [ "calcium", "104 mg 200 μg" ], [ "iron", "2 mg 68 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -139,7 +139,7 @@
     "volume": "24 ml",
     "//": "240 ml is equivalent to 1 cup of flour.  10 charges is roughly equivalent to a cup of flour for American recipes.",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "iron", 3 ] ],
+    "vitamins": [ [ "iron", "564 μg" ] ],
     "fun": -5
   },
   {
@@ -160,7 +160,7 @@
     "material": [ "wheat", "powder" ],
     "volume": "120 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "iron", 4 ] ],
+    "vitamins": [ [ "iron", "752 μg" ] ],
     "fun": -5
   },
   {
@@ -182,7 +182,7 @@
     "volume": "125 ml",
     "cooks_like": "oatmeal_cooked",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "1 mg 880 μg" ] ],
     "fun": -8
   },
   {
@@ -204,7 +204,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "1 mg 880 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -225,7 +225,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", "28 mg 140 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "1 mg 880 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -246,7 +246,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -267,7 +267,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "iron", 7 ], [ "vitC", 7 ] ]
+    "vitamins": [ [ "iron", "1 mg 316 μg" ], [ "vitC", "6 mg 566 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -287,7 +287,7 @@
     "volume": "62 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", "62 mg 520 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -301,7 +301,7 @@
     "price": 650,
     "price_postapoc": 75,
     "fun": 4,
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 4 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", "28 mg 140 μg" ], [ "calcium", "41 mg 680 μg" ], [ "iron", "564 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -336,7 +336,7 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "calcium", "31 mg 260 μg" ], [ "iron", "940 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -356,7 +356,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 15 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "calcium", "156 mg 300 μg" ], [ "iron", "1 mg 692 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -376,7 +376,7 @@
     "volume": "375 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "112 mg 560 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -396,7 +396,7 @@
     "material": [ "wheat" ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "calcium", "52 mg 100 μg" ], [ "iron", "2 mg 256 μg" ] ],
     "fun": 2
   },
   {
@@ -411,7 +411,7 @@
     "price": "6 cent",
     "price_postapoc": "37 cent",
     "volume": "31 ml",
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -433,7 +433,7 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
     "//": "these vitamins are only for pies that may spawn.  generally they will be inherited from the fruit used.",
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", "5 mg 628 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "564 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -454,7 +454,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ], [ "iron", 23 ] ]
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "calcium", "260 mg 500 μg" ], [ "iron", "4 mg 324 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -475,7 +475,7 @@
     "primary_material": "wheat",
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "1 mg 316 μg" ] ],
     "fun": 3
   },
   {
@@ -498,7 +498,7 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "calcium", "41 mg 680 μg" ], [ "iron", "1 mg 504 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -517,7 +517,7 @@
     "price_postapoc": 100,
     "material": [ "wheat" ],
     "volume": "500 ml",
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 18 ] ],
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "3 mg 384 μg" ] ],
     "flags": [ "EDIBLE_FROZEN" ]
   },
   {
@@ -538,7 +538,7 @@
     "material": [ "wheat", "fruit" ],
     "volume": "250 ml",
     "fun": 9,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "calcium", "62 mg 520 μg" ], [ "iron", "1 mg 504 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -559,7 +559,7 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "id": "sponge_cake",
@@ -578,7 +578,7 @@
     "calories": 278,
     "fun": 4,
     "spoils_in": 420,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "940 μg" ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {

@@ -75,7 +75,7 @@
     "volume": "150 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -94,7 +94,7 @@
     "material": [ "veggy" ],
     "volume": "83 ml",
     "flags": [ "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", "15 mg 8 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "376 μg" ] ],
     "fun": 1
   },
   {
@@ -265,7 +265,7 @@
     "color": "yellow",
     "symbol": "%",
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", "2 mg 814 μg" ], [ "iron", "564 μg" ] ],
     "spoils_in": "2 days",
     "container": "can_medium",
     "quench": 5,
@@ -285,7 +285,7 @@
     "color": "yellow",
     "symbol": "%",
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", "2 mg 814 μg" ], [ "iron", "564 μg" ] ],
     "spoils_in": "2 days",
     "quench": -2,
     "calories": 370,
@@ -304,7 +304,7 @@
     "color": "yellow",
     "symbol": "%",
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", "2 mg 814 μg" ], [ "iron", "564 μg" ] ],
     "spoils_in": "2 days",
     "calories": 172,
     "fun": 3,
@@ -323,7 +323,7 @@
     "color": "yellow",
     "symbol": "%",
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", "2 mg 814 μg" ], [ "iron", "564 μg" ] ],
     "spoils_in": "2 days",
     "container": "bowl_plastic",
     "calories": 120,
@@ -344,7 +344,7 @@
     "symbol": "%",
     "quench": -1,
     "calories": 44,
-    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", "11 mg 256 μg" ], [ "iron", "752 μg" ] ],
     "description": "This yellow cornmeal is useful for baking.",
     "price": "45 cent",
     "price_postapoc": "2 cent",
@@ -364,7 +364,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 295,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 8 ], [ "iron", 32 ] ],
+    "vitamins": [ [ "vitC", "2 mg 814 μg" ], [ "calcium", "83 mg 360 μg" ], [ "iron", "6 mg 16 μg" ] ],
     "description": "Slow-cooked beans with vegetables.  Tasty and very filling.",
     "price": 700,
     "price_postapoc": 100,
@@ -395,7 +395,7 @@
     "milling": { "into": "flour_wheat_free", "conversion_rate": 3 },
     "cooks_like": "rice_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 3 ] ],
+    "vitamins": [ [ "iron", "564 μg" ] ],
     "fun": -15
   },
   {
@@ -419,7 +419,7 @@
     "milling": { "into": "flour_wheat_free", "conversion_rate": 2 },
     "cooks_like": "wild_rice_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 3 ] ],
+    "vitamins": [ [ "iron", "564 μg" ] ],
     "fun": -15
   },
   {
@@ -438,7 +438,7 @@
     "price_postapoc": 50,
     "flags": [ "EATEN_HOT", "FREEZERBURN", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
-    "vitamins": [ [ "iron", 11 ] ],
+    "vitamins": [ [ "iron", "2 mg 68 μg" ] ],
     "volume": "250 ml"
   },
   {
@@ -457,7 +457,7 @@
     "price_postapoc": 50,
     "flags": [ "EATEN_HOT", "FREEZERBURN", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
-    "vitamins": [ [ "iron", 10 ] ],
+    "vitamins": [ [ "iron", "1 mg 880 μg" ] ],
     "volume": "250 ml"
   },
   {
@@ -478,7 +478,7 @@
     "volume": "500 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "calcium", "31 mg 260 μg" ], [ "iron", "564 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -498,7 +498,7 @@
     "volume": "500 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 2,
-    "vitamins": [ [ "vitC", 14 ], [ "calcium", 4 ], [ "iron", 16 ] ]
+    "vitamins": [ [ "vitC", "13 mg 132 μg" ], [ "calcium", "41 mg 680 μg" ], [ "iron", "3 mg 8 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -517,7 +517,7 @@
     "material": [ "veggy" ],
     "volume": "500 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 15 ], [ "iron", 2 ], [ "calcium", 8 ] ],
+    "vitamins": [ [ "vitC", "14 mg 70 μg" ], [ "iron", "376 μg" ], [ "calcium", "83 mg 360 μg" ] ],
     "fun": 1
   },
   {
@@ -537,7 +537,7 @@
     "material": [ "veggy" ],
     "volume": "500 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 15 ], [ "iron", 2 ], [ "calcium", 8 ] ],
+    "vitamins": [ [ "vitC", "14 mg 70 μg" ], [ "iron", "376 μg" ], [ "calcium", "83 mg 360 μg" ] ],
     "fun": 4
   },
   {
@@ -557,7 +557,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 17 ], [ "iron", 16 ], [ "vitC", 84 ] ]
+    "vitamins": [ [ "calcium", "177 mg 140 μg" ], [ "iron", "3 mg 8 μg" ], [ "vitC", "78 mg 792 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -576,7 +576,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 19,
-    "vitamins": [ [ "calcium", 7 ], [ "iron", 5 ], [ "vitC", 24 ] ]
+    "vitamins": [ [ "calcium", "72 mg 940 μg" ], [ "iron", "940 μg" ], [ "vitC", "22 mg 512 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -596,7 +596,7 @@
     "volume": "750 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 28 ], [ "calcium", 8 ], [ "iron", 32 ] ]
+    "vitamins": [ [ "vitC", "26 mg 264 μg" ], [ "calcium", "83 mg 360 μg" ], [ "iron", "6 mg 16 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -617,7 +617,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "vitC", "8 mg 442 μg" ], [ "calcium", "135 mg 460 μg" ], [ "iron", "1 mg 504 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -637,7 +637,7 @@
     "price_postapoc": 25,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "vitC", "8 mg 442 μg" ], [ "calcium", "135 mg 460 μg" ], [ "iron", "1 mg 504 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -655,7 +655,7 @@
     "material": [ "veggy" ],
     "volume": "500 ml",
     "fun": 1,
-    "vitamins": [ [ "vitC", 26 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "vitC", "24 mg 388 μg" ], [ "iron", "1 mg 128 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -674,7 +674,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "188 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -693,7 +693,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "188 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -712,7 +712,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "weight": "275 g",
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", "7 mg 504 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "376 μg" ] ],
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -734,7 +734,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "calcium", "31 mg 260 μg" ], [ "iron", "2 mg 632 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -754,7 +754,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitC", 20 ], [ "calcium", 30 ], [ "iron", 20 ] ]
+    "vitamins": [ [ "vitC", "18 mg 760 μg" ], [ "calcium", "312 mg 600 μg" ], [ "iron", "3 mg 760 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -774,7 +774,7 @@
     "volume": "250 ml",
     "charges": 4,
     "phase": "liquid",
-    "vitamins": [ [ "calcium", 11 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", "114 mg 620 μg" ], [ "iron", "564 μg" ] ],
     "fun": 4
   },
   {
@@ -840,7 +840,7 @@
     "sealed": true,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 11 ], [ "calcium", 5 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitC", "10 mg 318 μg" ], [ "calcium", "52 mg 100 μg" ], [ "iron", "1 mg 692 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -904,7 +904,7 @@
     "price_postapoc": 100,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 7 ], [ "calcium", 5 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitC", "6 mg 566 μg" ], [ "calcium", "52 mg 100 μg" ], [ "iron", "1 mg 692 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -923,7 +923,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 15,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", "104 mg 200 μg" ], [ "iron", "1 mg 880 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -959,7 +959,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 99 ], [ "calcium", 21 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "92 mg 862 μg" ], [ "calcium", "218 mg 820 μg" ], [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1065,7 +1065,7 @@
     "material": [ "veggy" ],
     "milling": { "into": "cornmeal", "conversion_rate": 3 },
     "volume": "255 ml",
-    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", "11 mg 256 μg" ], [ "iron", "752 μg" ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "corn", "fruit": "corn", "byproducts": [ "withered" ], "grow": "80 days" }
@@ -1140,7 +1140,7 @@
     "smoking_result": "dry_corn",
     "volume": "95 ml",
     "delete": { "flags": [ "RAW" ] },
-    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", "11 mg 256 μg" ], [ "iron", "752 μg" ] ],
     "fun": 2
   },
   {
@@ -1162,7 +1162,7 @@
     "volume": "250 ml",
     "fun": 6,
     "flags": [ "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 6 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", "28 mg 140 μg" ], [ "calcium", "62 mg 520 μg" ], [ "iron", "1 mg 880 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1271,7 +1271,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": 12,
-    "vitamins": [ [ "vitC", 80 ], [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "75 mg 40 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1303,7 +1303,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 85 ], [ "calcium", 17 ] ],
+    "vitamins": [ [ "vitC", "79 mg 730 μg" ], [ "calcium", "177 mg 140 μg" ] ],
     "fun": -2
   },
   {
@@ -1322,7 +1322,7 @@
     "price_postapoc": "16 cent",
     "material": [ "veggy" ],
     "volume": "166 ml",
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", "8 mg 442 μg" ], [ "calcium", "166 mg 720 μg" ], [ "iron", "564 μg" ] ],
     "fun": 3
   },
   {
@@ -1342,7 +1342,7 @@
     "material": [ "veggy" ],
     "volume": "120 ml",
     "fun": 1,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 4 ] ]
+    "vitamins": [ [ "vitC", "5 mg 628 μg" ], [ "calcium", "41 mg 680 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1361,7 +1361,7 @@
     "material": [ "veggy" ],
     "volume": "240 ml",
     "fun": 5,
-    "vitamins": [ [ "vitC", 32 ], [ "calcium", 4 ] ]
+    "vitamins": [ [ "vitC", "30 mg 16 μg" ], [ "calcium", "41 mg 680 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1378,7 +1378,7 @@
     "delete": { "flags": [ "RAW" ] },
     "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
     "fun": 3,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 11 ], [ "vitC", 2 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "2 mg 68 μg" ], [ "vitC", "1 mg 876 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1401,7 +1401,7 @@
     "price": 0,
     "delete": { "flags": [ "RAW" ] },
     "fun": 1,
-    "vitamins": [ [ "vitC", 32 ], [ "calcium", 4 ] ]
+    "vitamins": [ [ "vitC", "30 mg 16 μg" ], [ "calcium", "41 mg 680 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1444,7 +1444,7 @@
     "primary_material": "tomato",
     "volume": "62 ml",
     "flags": [ "FREEZERBURN" ],
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "iron", "376 μg" ] ],
     "fun": 2
   }
 ]

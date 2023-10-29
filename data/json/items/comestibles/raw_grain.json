@@ -16,7 +16,7 @@
     "material": [ "veggy" ],
     "volume": "750 ml",
     "flags": [ "EATEN_HOT", "RAW" ],
-    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", "11 mg 256 μg" ], [ "iron", "752 μg" ] ],
     "use_action": { "type": "consume_drug", "used_up_item": "empty_corn_cob", "moves": 500 }
   },
   {
@@ -35,7 +35,7 @@
     "material": [ "veggy" ],
     "volume": "285 ml",
     "smoking_result": "dry_corn",
-    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", "11 mg 256 μg" ], [ "iron", "752 μg" ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "EATEN_HOT", "SMOKABLE", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "BIRD", "RAT", "MOUSE" ],
     "seed_data": { "plant_name": "corn", "fruit": "corn", "seeds": false, "byproducts": [ "withered" ], "grow": "80 days" }
@@ -72,7 +72,7 @@
     "material": [ "veggy" ],
     "volume": "750 ml",
     "fun": -2,
-    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", "11 mg 256 μg" ], [ "iron", "752 μg" ] ],
     "smoking_result": "kernels",
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "NUTRIENT_OVERRIDE", "EATEN_HOT", "SMOKABLE", "RAW", "PLANTABLE_SEED", "CATTLE", "BIRD", "RAT", "MOUSE" ],
@@ -117,7 +117,7 @@
     "volume": "62 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -234,7 +234,7 @@
     "//": "These things are rock-hard and not digestible by humans, but birds and cattle can eat them just fine.",
     "milling": { "into": "flour", "conversion_rate": 15 },
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ] ],
+    "vitamins": [ [ "calcium", "41 mg 680 μg" ], [ "iron", "7 mg 520 μg" ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
     "seed_data": { "plant_name": "wheat", "fruit": "wheat_stalks", "seeds": false, "grow": "120 days" }
@@ -280,7 +280,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "milling": { "into": "flour", "conversion_rate": 15 },
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
+    "vitamins": [ [ "calcium", "62 mg 520 μg" ], [ "iron", "5 mg 452 μg" ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
     "seed_data": { "plant_name": "barley", "fruit": "barley_stalks", "seeds": false, "grow": "70 days" }
@@ -334,7 +334,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "milling": { "into": "flour_wheat_free", "conversion_rate": 3.75 },
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ],
+    "vitamins": [ [ "calcium", "31 mg 260 μg" ], [ "iron", "3 mg 760 μg" ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [
       "EDIBLE_FROZEN",
@@ -402,7 +402,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "milling": { "into": "flour_wheat_free", "conversion_rate": 15 },
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 22 ] ],
+    "vitamins": [ [ "calcium", "31 mg 260 μg" ], [ "iron", "4 mg 136 μg" ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
     "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat_stalks", "seeds": false, "grow": "91 days" }
@@ -463,7 +463,7 @@
     "price_postapoc": 150,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ] ],
+    "vitamins": [ [ "calcium", "41 mg 680 μg" ], [ "iron", "8 mg 836 μg" ], [ "vitC", "6 mg 566 μg" ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [
       "EDIBLE_FROZEN",
@@ -522,7 +522,7 @@
     "price_postapoc": "75 cent",
     "material": [ "veggy" ],
     "volume": "125 ml",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ] ],
+    "vitamins": [ [ "calcium", "41 mg 680 μg" ], [ "iron", "8 mg 836 μg" ], [ "vitC", "6 mg 566 μg" ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "NUTRIENT_OVERRIDE", "CATTLE", "PLANTABLE_SEED", "BIRD", "RAT", "MOUSE" ],
     "seed_data": { "plant_name": "lentils", "fruit": "dry_lentil_stalks", "seeds": false, "grow": "91 days" }

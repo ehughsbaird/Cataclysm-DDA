@@ -16,7 +16,7 @@
     "material": [ "fruit" ],
     "volume": "1 ml",
     "fun": 3,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ] ]
+    "vitamins": [ [ "vitC", "2 mg 814 μg" ], [ "calcium", "20 mg 840 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -34,7 +34,7 @@
     "material": [ "nut" ],
     "volume": "1 ml",
     "fun": 3,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ] ]
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "calcium", "31 mg 260 μg" ] ]
   },
   {
     "type": "COMESTIBLE",

@@ -25,7 +25,7 @@
     "spoils_in": "12 hours",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "fish_smoked",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ] ],
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "calcium", "62 mg 520 μg" ], [ "iron", "2 mg 632 μg" ] ],
     "calories": 260
   },
   {
@@ -37,7 +37,7 @@
     "cooks_like": "fish_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "188 μg" ] ]
   },
   {
     "id": "fish_scrap_cooked",
@@ -75,7 +75,7 @@
     "spoils_in": "12 hours",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "lobster_smoked",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ] ],
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "calcium", "62 mg 520 μg" ], [ "iron", "2 mg 632 μg" ] ],
     "calories": 250
   },
   {
@@ -103,7 +103,7 @@
     "price_postapoc": 50,
     "spoils_in": "12 hours",
     "flags": [ "SMOKABLE", "RAW" ],
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 6 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", "0 μg" ], [ "calcium", "62 mg 520 μg" ], [ "iron", "376 μg" ] ],
     "calories": 260
   },
   {
@@ -131,7 +131,7 @@
     "price_postapoc": 50,
     "spoils_in": "12 hours",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", "0 μg" ], [ "calcium", "31 mg 260 μg" ], [ "iron", "188 μg" ] ],
     "calories": 15
   },
   {
@@ -234,7 +234,7 @@
     "calories": 402,
     "fun": -10,
     "cooks_like": "meat_cooked",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "2 mg 256 μg" ] ],
     "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
@@ -266,7 +266,7 @@
     "spoils_in": "1 day",
     "calories": 1300,
     "fun": -10,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ],
+    "vitamins": [ [ "vitC", "0 μg" ], [ "calcium", "0 μg" ], [ "iron", "0 μg" ] ],
     "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
@@ -282,7 +282,7 @@
     "price": 650,
     "price_postapoc": 300,
     "spoils_in": "14 days",
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ] ],
+    "vitamins": [ [ "vitC", "0 μg" ], [ "calcium", "31 mg 260 μg" ], [ "iron", "4 mg 136 μg" ] ],
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "bacon_uncut"
   },
@@ -299,7 +299,7 @@
     "//": "High price to reflect the rarity and value of bacon. Note that this is three pieces of it.",
     "spoils_in": "24 days",
     "fun": 5,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ] ],
+    "vitamins": [ [ "vitC", "0 μg" ], [ "calcium", "31 mg 260 μg" ], [ "iron", "4 mg 136 μg" ] ],
     "flags": [ "EATEN_HOT", "SMOKED" ]
   },
   {
@@ -315,7 +315,7 @@
     "price_postapoc": 250,
     "spoils_in": "14 days",
     "fun": -15,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ],
+    "vitamins": [ [ "vitC", "0 μg" ], [ "calcium", "0 μg" ], [ "iron", "0 μg" ] ],
     "flags": [  ],
     "use_action": {
       "target": "raw_cured_fatty_meat",
@@ -336,7 +336,7 @@
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price_postapoc": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", "0 μg" ], [ "iron", "188 μg" ] ]
   },
   {
     "id": "human_meat_scrap",
@@ -366,7 +366,7 @@
     "looks_like": "meat",
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 6 ], [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "1 mg 128 μg" ], [ "mutant_toxin", 25 ] ],
     "flags": [ "SMOKABLE", "BAD_TASTE", "RAW", "PREDATOR_FUN" ]
   },
   {
@@ -517,7 +517,7 @@
     "price_postapoc": 100,
     "parasites": 0,
     "calories": 402,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "2 mg 256 μg" ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -534,7 +534,7 @@
     "fun": 2,
     "parasites": 0,
     "calories": 402,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "2 mg 256 μg" ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -660,7 +660,7 @@
     "spoils_in": "1 day",
     "calories": 471,
     "fun": 5,
-    "vitamins": [ [ "iron", 17 ] ]
+    "vitamins": [ [ "iron", "3 mg 196 μg" ] ]
   },
   {
     "id": "pepperbone",
@@ -679,7 +679,7 @@
     "spoils_in": "1 day",
     "calories": 471,
     "fun": 6,
-    "vitamins": [ [ "iron", 17 ] ]
+    "vitamins": [ [ "iron", "3 mg 196 μg" ] ]
   },
   {
     "id": "offal",
@@ -802,7 +802,7 @@
     "quench": -5,
     "fun": 4,
     "calories": 348,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ] ],
+    "vitamins": [ [ "vitC", "0 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "4 mg 888 μg" ] ],
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -910,7 +910,7 @@
     "quench": 2,
     "fun": -10,
     "calories": 50,
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ] ],
+    "vitamins": [ [ "vitC", "8 mg 442 μg" ], [ "calcium", "0 μg" ], [ "iron", "2 mg 632 μg" ] ],
     "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
@@ -984,7 +984,7 @@
     "price_postapoc": 25,
     "quench": -4,
     "calories": 92,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "vitC", "0 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "5 mg 264 μg" ] ]
   },
   {
     "id": "human_liver",
@@ -1048,7 +1048,7 @@
     "spoils_in": "1 day",
     "calories": 471,
     "fun": -3,
-    "vitamins": [ [ "iron", 17 ] ],
+    "vitamins": [ [ "iron", "3 mg 196 μg" ] ],
     "flags": [ "RAW", "PREDATOR_FUN" ]
   },
   {
@@ -1074,7 +1074,7 @@
     "name": { "str_sp": "mutant bone marrow" },
     "description": "Soft, spongy and oddly-colored marrow tissue from the bone of a heavily mutated animal.",
     "proportional": { "price": 0.2, "calories": 0.5 },
-    "vitamins": [ [ "iron", 7 ], [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "iron", "1 mg 316 μg" ], [ "mutant_toxin", 25 ] ],
     "flags": [ "BAD_TASTE", "RAW", "PREDATOR_FUN" ]
   },
   {
@@ -1097,7 +1097,7 @@
     "quench": 10,
     "parasites": 15,
     "calories": 78,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 0 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", "2 mg 814 μg" ], [ "calcium", "0 μg" ], [ "iron", "1 mg 880 μg" ] ]
   },
   {
     "id": "human_brain",
@@ -1160,7 +1160,7 @@
     "color": "brown",
     "price_postapoc": 25,
     "calories": 54,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 25 ] ]
+    "vitamins": [ [ "vitC", "0 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "4 mg 700 μg" ] ]
   },
   {
     "id": "human_kidney",
@@ -1224,7 +1224,7 @@
     "price_postapoc": 25,
     "quench": 0,
     "calories": 133,
-    "vitamins": [ [ "vitC", 11 ], [ "calcium", 0 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", "10 mg 318 μg" ], [ "calcium", "0 μg" ], [ "iron", "940 μg" ] ]
   },
   {
     "id": "human_sweetbread",
@@ -1299,7 +1299,7 @@
     "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "250 ml",
     "longest_side": "40 cm",
-    "vitamins": [ [ "calcium", 96 ] ]
+    "vitamins": [ [ "calcium", "1000 mg 320 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1314,7 +1314,7 @@
     "volume": "36 L",
     "longest_side": "2000 cm",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "vitamins": [ [ "calcium", 13824 ] ],
+    "vitamins": [ [ "calcium", "144046 mg 80 μg" ] ],
     "melee_damage": { "bash": 15 }
   },
   {
@@ -1741,7 +1741,7 @@
     "description": "The fleshy fronds harvested from an alien plant.  Eating these membranous leaves and gut-like stems is likely a terrible idea, and yet they have a paradoxically pleasant and inviting sweet smell.  Might be non-vegan.",
     "fun": 15,
     "stim": 3,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 0 ], [ "iron", 8 ], [ "mutant_toxin", 8 ] ]
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "calcium", "0 μg" ], [ "iron", "1 mg 504 μg" ], [ "mutant_toxin", 8 ] ]
   },
   {
     "id": "leech_flower",
@@ -1777,7 +1777,7 @@
     "name": { "str": "leech bark", "str_pl": "scraps of leech bark" },
     "description": "Dry and tough bark matter harvested from an alien plant.  It is slightly translucent, and if placed against the light you can distinguish glistening blue veins running through it.",
     "price_postapoc": 10,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 8 ], [ "mutant_toxin", 12 ] ]
+    "vitamins": [ [ "vitC", "0 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "1 mg 504 μg" ], [ "mutant_toxin", 12 ] ]
   },
   {
     "id": "demihuman_stomach",

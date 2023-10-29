@@ -20,7 +20,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 167 ], [ "calcium", 1 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", "156 mg 646 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "188 μg" ] ],
     "fun": 2
   },
   {
@@ -43,7 +43,7 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "vitamins": [ [ "calcium", 11 ] ],
+    "vitamins": [ [ "calcium", "114 mg 620 μg" ] ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
@@ -67,7 +67,7 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "vitamins": [ [ "iron", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "iron", "188 μg" ], [ "calcium", "72 mg 940 μg" ] ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
@@ -142,7 +142,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 43 ] ],
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "calcium", "31 mg 260 μg" ], [ "iron", "8 mg 84 μg" ] ],
     "fun": 1
   },
   {
@@ -213,7 +213,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", "7 mg 504 μg" ], [ "calcium", "187 mg 560 μg" ], [ "iron", "752 μg" ] ],
     "fun": 7
   },
   {
@@ -431,7 +431,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", "122 mg 878 μg" ], [ "calcium", "31 mg 260 μg" ], [ "iron", "188 μg" ] ],
     "fun": -1
   },
   {
@@ -455,7 +455,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 60 ] ],
+    "vitamins": [ [ "vitC", "56 mg 280 μg" ] ],
     "fun": 6
   },
   {
@@ -521,7 +521,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", "2 mg 814 μg" ], [ "calcium", "135 mg 460 μg" ], [ "iron", "376 μg" ] ],
     "fun": 15
   },
   {
@@ -550,7 +550,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "vitC", 105 ] ],
+    "vitamins": [ [ "vitC", "98 mg 490 μg" ] ],
     "fun": 5
   },
   {
@@ -615,7 +615,7 @@
     "quench": 35,
     "fun": 8,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", "41 mg 680 μg" ], [ "iron", "376 μg" ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -642,7 +642,7 @@
     "quench": 35,
     "fun": 8,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", "41 mg 680 μg" ], [ "iron", "376 μg" ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
@@ -714,7 +714,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 53 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", "49 mg 714 μg" ], [ "iron", "376 μg" ] ],
     "fun": 3
   },
   {
@@ -726,7 +726,7 @@
     "conditional_names": [  ],
     "calories": 66,
     "description": "Freshly-squeezed from real pineapples!  Tasty and nutritious.",
-    "vitamins": [ [ "vitC", 14 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "13 mg 132 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -750,7 +750,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", "15 mg 8 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "564 μg" ] ],
     "fun": 12
   },
   {
@@ -776,7 +776,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 12,
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "21 mg 574 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -894,7 +894,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 25 ] ],
+    "vitamins": [ [ "vitC", "23 mg 450 μg" ] ],
     "fun": 8
   },
   {
@@ -918,7 +918,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 16 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", "15 mg 8 μg" ], [ "iron", "376 μg" ] ],
     "fun": 3
   },
   {
@@ -983,7 +983,7 @@
     "quench": 35,
     "fun": 10,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 7 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", "72 mg 940 μg" ], [ "iron", "564 μg" ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -1013,7 +1013,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "calcium", "125 mg 40 μg" ] ],
     "fun": 10
   },
   {
@@ -1039,7 +1039,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "calcium", "125 mg 40 μg" ] ],
     "fun": 10,
     "flags": [ "EATEN_HOT" ]
   },
@@ -1066,7 +1066,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "//": "most store-bought oj is fortified with calcium.",
-    "vitamins": [ [ "vitC", 96 ], [ "calcium", 23 ] ],
+    "vitamins": [ [ "vitC", "90 mg 48 μg" ], [ "calcium", "239 mg 660 μg" ] ],
     "fun": 3
   },
   {
@@ -1091,7 +1091,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 83 ], [ "calcium", 1 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", "77 mg 854 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "188 μg" ] ],
     "fun": 3
   },
   {
@@ -1138,7 +1138,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 10 ] ]
+    "vitamins": [ [ "vitC", "9 mg 380 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1163,7 +1163,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 50 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "vitC", "46 mg 900 μg" ], [ "calcium", "31 mg 260 μg" ] ],
     "fun": 3
   },
   {
@@ -1189,7 +1189,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "MYCUS_OK", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "vitC", 20 ], [ "calcium", 20 ], [ "iron", 16 ] ],
+    "vitamins": [ [ "vitC", "18 mg 760 μg" ], [ "calcium", "208 mg 400 μg" ], [ "iron", "3 mg 8 μg" ] ],
     "fun": 30
   },
   {
@@ -1229,7 +1229,7 @@
     "quench": 18,
     "healthy": -1,
     "calories": 156,
-    "vitamins": [ [ "calcium", 1 ] ],
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ] ],
     "description": "Like cola, but without caffeine.  Still not that healthy, but better than the canned stuff.",
     "price": 95,
     "price_postapoc": 50,
@@ -1312,7 +1312,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 1 ] ]
+    "vitamins": [ [ "vitC", "938 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1463,7 +1463,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 180 ], [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "168 mg 840 μg" ], [ "calcium", "41 mg 680 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "id": "water",
@@ -1567,7 +1567,7 @@
     "description": "Hot tea with cold milk and added sweetener.",
     "price": 460,
     "price_postapoc": 60,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "calcium", "125 mg 40 μg" ] ],
     "fun": 14
   },
   {
@@ -1616,7 +1616,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", "112 mg 560 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "376 μg" ] ],
     "fun": 2
   },
   {

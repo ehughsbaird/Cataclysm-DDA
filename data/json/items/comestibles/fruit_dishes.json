@@ -72,7 +72,7 @@
     "primary_material": "dried_vegetable",
     "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", "19 mg 698 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "752 μg" ] ],
     "fun": 3
   },
   {
@@ -113,7 +113,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 5,
-    "vitamins": [ [ "vitC", 7 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "6 mg 566 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -133,7 +133,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 7,
-    "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", "19 mg 698 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "940 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -153,7 +153,7 @@
     "primary_material": "powder",
     "volume": "25 ml",
     "flags": [ "EDIBLE_FROZEN", "SOFT" ],
-    "vitamins": [ [ "vitC", 7 ] ],
+    "vitamins": [ [ "vitC", "6 mg 566 μg" ] ],
     "fun": 1
   },
   {
@@ -212,7 +212,7 @@
     "phase": "liquid",
     "fun": 2,
     "//": "this item is intended to generally be inherited from the fruit that was cooked.",
-    "vitamins": [ [ "vitC", 20 ] ],
+    "vitamins": [ [ "vitC", "18 mg 760 μg" ] ],
     "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
   },
   {
@@ -445,7 +445,7 @@
     "material": [ "fruit" ],
     "volume": "62 ml",
     "fun": 3,
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -501,7 +501,7 @@
     "material": [ "fruit" ],
     "volume": "125 ml",
     "fun": 1,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", "2 mg 814 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "1 mg 880 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -520,7 +520,7 @@
     "material": [ "fruit" ],
     "volume": "10 ml",
     "fun": 3,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ] ]
+    "vitamins": [ [ "vitC", "2 mg 814 μg" ], [ "calcium", "20 mg 840 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -543,7 +543,7 @@
     "charges": 4,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "iron", "2 mg 820 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -563,7 +563,7 @@
     "material": [ "fruit", "veggy" ],
     "volume": "80 ml",
     "flags": [ "USE_EAT_VERB", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "iron", "2 mg 820 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -623,7 +623,7 @@
     "sealed": true,
     "fun": 9,
     "//": "this item is intended to generally be inherited from the fruit and alcohol used.",
-    "vitamins": [ [ "vitC", 20 ] ],
+    "vitamins": [ [ "vitC", "18 mg 760 μg" ] ],
     "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
   }
 ]

@@ -251,7 +251,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 14,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -650,7 +650,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 18,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -764,7 +764,7 @@
     "//": "Includes cola, so presumed to be a 250mL cocktail like the others.",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 20,
-    "vitamins": [ [ "vitC", 1 ] ]
+    "vitamins": [ [ "vitC", "938 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -794,7 +794,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -34,
     "fun": 20,
-    "vitamins": [ [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "110 mg 684 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "188 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -823,7 +823,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -34,
     "fun": 20,
-    "vitamins": [ [ "vitC", 135 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "126 mg 630 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "188 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -920,7 +920,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -6,
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", "15 mg 8 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "564 μg" ] ],
     "fun": 20
   },
   {
@@ -955,7 +955,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -6,
-    "vitamins": [ [ "vitC", 105 ], [ "calcium", 2 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", "98 mg 490 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "376 μg" ] ],
     "fun": 20
   },
   {
@@ -985,7 +985,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 10,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1153,7 +1153,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 8,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1212,7 +1212,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 10,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1242,7 +1242,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 14,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1272,7 +1272,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 14,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1301,7 +1301,7 @@
     "phase": "liquid",
     "freezing_point": -5,
     "fun": 14,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "188 μg" ] ],
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ]
   },
   {
@@ -1332,7 +1332,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 14,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1360,7 +1360,7 @@
     "charges": 1,
     "phase": "liquid",
     "fun": 18,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "188 μg" ] ],
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5
   },
@@ -1390,7 +1390,7 @@
     "charges": 6,
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "fun": 8,
-    "vitamins": [ [ "vitC", 20 ] ],
+    "vitamins": [ [ "vitC", "18 mg 760 μg" ] ],
     "freezing_point": -30
   },
   {
@@ -1419,7 +1419,7 @@
     "charges": 6,
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "fun": -12,
-    "vitamins": [ [ "vitC", 20 ] ],
+    "vitamins": [ [ "vitC", "18 mg 760 μg" ] ],
     "freezing_point": -30
   },
   {
@@ -1692,7 +1692,7 @@
     "primary_material": "alcohol",
     "volume": "12 ml",
     "fun": -1,
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1722,7 +1722,7 @@
     "charges": 2,
     "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN", "NO_AUTO_CONSUME" ],
     "fun": 20,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", "2 mg 814 μg" ], [ "calcium", "125 mg 40 μg" ], [ "iron", "376 μg" ] ],
     "freezing_point": -11
   },
   {
@@ -1784,7 +1784,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -34,
     "fun": 25,
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "21 mg 574 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1843,7 +1843,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 10,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1873,6 +1873,6 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 10,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ] ]
   }
 ]

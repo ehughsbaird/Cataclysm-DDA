@@ -163,7 +163,7 @@
     "charges": 48,
     "phase": "liquid",
     "flags": [ "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "iron", "376 μg" ] ]
   },
   {
     "id": "honey_bottled",
@@ -264,7 +264,7 @@
     "charges": 4,
     "fun": 2,
     "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "calcium", 18 ], [ "iron", 23 ] ],
+    "vitamins": [ [ "calcium", "187 mg 560 μg" ], [ "iron", "4 mg 324 μg" ] ],
     "freezing_point": -29
   },
   {
@@ -362,7 +362,7 @@
     "calories": 47,
     "fun": 3,
     "phase": "liquid",
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ], [ "vitC", 10 ] ]
+    "vitamins": [ [ "calcium", "62 mg 520 μg" ], [ "iron", "752 μg" ], [ "vitC", "9 mg 380 μg" ] ]
   },
   {
     "type": "COMESTIBLE",

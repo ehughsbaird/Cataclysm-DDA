@@ -73,7 +73,7 @@
     "color": "green",
     "container": "wrapper_pr",
     "calories": 400,
-    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitC", 30 ], [ "bad_food", 5 ] ]
+    "vitamins": [ [ "calcium", "312 mg 600 μg" ], [ "iron", "5 mg 640 μg" ], [ "vitC", "28 mg 140 μg" ], [ "bad_food", 5 ] ]
   },
   {
     "id": "protein_shake",
@@ -133,7 +133,7 @@
     "calories": 232,
     "quench": 22,
     "fun": 1,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 32 ] ],
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "calcium", "333 mg 440 μg" ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {

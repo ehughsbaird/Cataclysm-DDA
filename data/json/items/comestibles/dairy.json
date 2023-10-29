@@ -20,7 +20,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ] ],
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "calcium", "260 mg 500 μg" ] ],
     "fun": 1
   },
   {
@@ -89,7 +89,7 @@
     "calories": 161,
     "description": "This is cultured milk defatted either due to churning or curdling.  Spoils quickly.",
     "price": 1,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 1 ] ]
+    "vitamins": [ [ "vitC", "938 μg" ], [ "calcium", "10 mg 420 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -111,7 +111,7 @@
     "phase": "liquid",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 15,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 33 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "2 mg 814 μg" ], [ "calcium", "343 mg 860 μg" ], [ "iron", "188 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -146,7 +146,7 @@
     "description": "A white stick of raw milkfat and milk solids, made directly from cow's milk.",
     "price": "6 cent",
     "price_postapoc": "15 cent",
-    "vitamins": [ [ "calcium", 3 ] ],
+    "vitamins": [ [ "calcium", "31 mg 260 μg" ] ],
     "volume": "15 ml"
   },
   {
@@ -186,7 +186,7 @@
     "phase": "liquid",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 20,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", "83 mg 360 μg" ], [ "iron", "188 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -222,7 +222,7 @@
     "description": "Hard, dry cheese made to last, unlike modern processed cheese.  Will make you thirsty though.",
     "price": 385,
     "price_postapoc": 150,
-    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", "333 mg 440 μg" ], [ "iron", "376 μg" ] ],
     "fun": 5,
     "flags": [ "NUTRIENT_OVERRIDE" ]
   },
@@ -244,7 +244,7 @@
     "primary_material": "cheese",
     "volume": "31 ml",
     "fun": 7,
-    "vitamins": [ [ "calcium", 16 ] ]
+    "vitamins": [ [ "calcium", "166 mg 720 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -263,7 +263,7 @@
     "description": "Unaged curdled milk and whey, made by draining cheese rather than pressing like cheese curds.  The retained whey keeps the curds loose and soft, giving a somewhat soupy texture to this lower calorie variety of cheese.",
     "price": 385,
     "price_postapoc": 150,
-    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", "333 mg 440 μg" ], [ "iron", "376 μg" ] ],
     "fun": 1
   },
   {
@@ -274,7 +274,7 @@
     "description": "Unaged curdled milk and whey, made by draining cheese rather than pressing like cheese curds.  The retained whey keeps the curds loose and soft, giving a somewhat soupy texture to this lower calorie variety of cheese.  By adding fruits to it you've made what might be a full meal.",
     "price": 585,
     "price_postapoc": 200,
-    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ], [ "vitC", 10 ] ],
+    "vitamins": [ [ "calcium", "333 mg 440 μg" ], [ "iron", "376 μg" ], [ "vitC", "9 mg 380 μg" ] ],
     "fun": 3
   },
   {
@@ -286,7 +286,7 @@
     "price": 485,
     "price_postapoc": 175,
     "calories": 475,
-    "vitamins": [ [ "calcium", 32 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "calcium", "333 mg 440 μg" ], [ "iron", "1 mg 504 μg" ] ],
     "fun": 2
   },
   {
@@ -307,7 +307,7 @@
     "primary_material": "cheese",
     "volume": "250 ml",
     "fun": 1,
-    "vitamins": [ [ "calcium", 13 ] ]
+    "vitamins": [ [ "calcium", "135 mg 460 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -327,7 +327,7 @@
     "primary_material": "cheese",
     "volume": "62 ml",
     "fun": 5,
-    "vitamins": [ [ "calcium", 13 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "calcium", "135 mg 460 μg" ], [ "iron", "564 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -347,7 +347,7 @@
     "primary_material": "powder",
     "volume": "25 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 16 ] ],
+    "vitamins": [ [ "calcium", "166 mg 720 μg" ] ],
     "fun": -1,
     "freezing_point": -459
   },
@@ -368,7 +368,7 @@
     "price_postapoc": "1 USD",
     "material": [ "milk" ],
     "volume": "62 ml",
-    "vitamins": [ [ "calcium", 16 ] ],
+    "vitamins": [ [ "calcium", "166 mg 720 μg" ] ],
     "fun": 4
   },
   {
@@ -390,7 +390,7 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 19 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "calcium", "197 mg 980 μg" ], [ "iron", "940 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -411,7 +411,7 @@
     "volume": "62 ml",
     "cooks_like": "milk",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitC", "938 μg" ], [ "calcium", "72 mg 940 μg" ] ],
     "fun": -5,
     "freezing_point": -459
   },
@@ -435,7 +435,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 20,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitC", "938 μg" ], [ "calcium", "72 mg 940 μg" ] ],
     "fun": 3
   },
   {
@@ -469,7 +469,7 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "vitamins": [ [ "calcium", 7 ] ],
+    "vitamins": [ [ "calcium", "72 mg 940 μg" ] ],
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 1
   },
@@ -493,7 +493,7 @@
     "primary_material": "milk",
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 15 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", "156 mg 300 μg" ], [ "iron", "376 μg" ] ],
     "fun": 8
   },
   {
@@ -515,7 +515,7 @@
     "phase": "solid",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -1,
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", "93 mg 780 μg" ], [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -536,6 +536,6 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 19 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "calcium", "197 mg 980 μg" ], [ "iron", "940 μg" ] ]
   }
 ]

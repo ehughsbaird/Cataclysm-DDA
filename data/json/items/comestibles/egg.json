@@ -18,7 +18,7 @@
     "fun": -8,
     "flags": [ "FREEZERBURN", "RAW" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", "31 mg 260 μg" ], [ "iron", "752 μg" ] ],
     "rot_spawn_chance": 50
   },
   {
@@ -103,7 +103,7 @@
     "calories": 130,
     "volume": "83 ml",
     "weight": "70 g",
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 15 ] ],
+    "vitamins": [ [ "calcium", "52 mg 100 μg" ], [ "iron", "2 mg 820 μg" ] ],
     "rot_spawn": "GROUP_EGG_DUCK"
   },
   {
@@ -114,7 +114,7 @@
     "calories": 266,
     "volume": "130 ml",
     "weight": "143 g",
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
+    "vitamins": [ [ "calcium", "93 mg 780 μg" ], [ "iron", "5 mg 452 μg" ] ],
     "rot_spawn": "GROUP_EGG_GOOSE_CANADIAN"
   },
   {
@@ -125,7 +125,7 @@
     "volume": "83 ml",
     "weight": "79 g",
     "calories": 135,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 18 ] ],
+    "vitamins": [ [ "calcium", "83 mg 360 μg" ], [ "iron", "3 mg 384 μg" ] ],
     "rot_spawn": "GROUP_EGG_TURKEY"
   },
   {
@@ -179,7 +179,7 @@
     "price_postapoc": 100,
     "spoils_in": "5 days",
     "flags": [ "FREEZERBURN", "RAW", "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "calcium", 7 ], [ "iron", 18 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "calcium", "72 mg 940 μg" ], [ "iron", "3 mg 384 μg" ], [ "mutant_toxin", 25 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -191,7 +191,7 @@
     "price_postapoc": 500,
     "material": [ "egg" ],
     "proportional": { "weight": 4, "calories": 4, "volume": 4 },
-    "vitamins": [ [ "calcium", 28 ], [ "iron", 72 ], [ "mutant_toxin", 100 ] ],
+    "vitamins": [ [ "calcium", "291 mg 760 μg" ], [ "iron", "13 mg 536 μg" ], [ "mutant_toxin", 100 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
     "rot_spawn_chance": 100
   },
@@ -260,7 +260,7 @@
     "copy-from": "egg_insect",
     "color": "light_green",
     "proportional": { "weight": 2, "calories": 2, "volume": 2 },
-    "vitamins": [ [ "calcium", 14 ], [ "iron", 36 ], [ "mutant_toxin", 50 ] ],
+    "vitamins": [ [ "calcium", "145 mg 880 μg" ], [ "iron", "6 mg 768 μg" ], [ "mutant_toxin", 50 ] ],
     "rot_spawn": "GROUP_EGG_CENTIPEDE",
     "rot_spawn_chance": 50
   },
@@ -284,7 +284,7 @@
     "color": "brown",
     "spoils_in": "20 days",
     "proportional": { "weight": 5, "calories": 5, "volume": 5 },
-    "vitamins": [ [ "calcium", 35 ], [ "iron", 90 ], [ "mutant_toxin", 125 ] ],
+    "vitamins": [ [ "calcium", "364 mg 700 μg" ], [ "iron", "16 mg 920 μg" ], [ "mutant_toxin", 125 ] ],
     "rot_spawn": "GROUP_EGG_STAG_BEETLE",
     "rot_spawn_chance": 50
   },
@@ -296,7 +296,7 @@
     "copy-from": "egg_insect",
     "color": "yellow",
     "proportional": { "weight": 2, "calories": 2, "volume": 2 },
-    "vitamins": [ [ "calcium", 14 ], [ "iron", 36 ], [ "mutant_toxin", 50 ] ],
+    "vitamins": [ [ "calcium", "145 mg 880 μg" ], [ "iron", "6 mg 768 μg" ], [ "mutant_toxin", 50 ] ],
     "rot_spawn": "GROUP_EGG_ANTLION",
     "rot_spawn_chance": 50
   },
@@ -348,7 +348,7 @@
     "color": "green",
     "spoils_in": "10 days",
     "proportional": { "weight": 5, "calories": 5, "volume": 5 },
-    "vitamins": [ [ "calcium", 35 ], [ "iron", 90 ], [ "mutant_toxin", 125 ] ],
+    "vitamins": [ [ "calcium", "364 mg 700 μg" ], [ "iron", "16 mg 920 μg" ], [ "mutant_toxin", 125 ] ],
     "rot_spawn": "GROUP_EGG_MANTIS",
     "rot_spawn_chance": 50
   },
@@ -432,7 +432,7 @@
     "copy-from": "egg_insect",
     "spoils_in": "10 days",
     "proportional": { "weight": 5, "calories": 5, "volume": 5 },
-    "vitamins": [ [ "calcium", 35 ], [ "iron", 90 ], [ "mutant_toxin", 125 ] ],
+    "vitamins": [ [ "calcium", "364 mg 700 μg" ], [ "iron", "16 mg 920 μg" ], [ "mutant_toxin", 125 ] ],
     "rot_spawn": "GROUP_EGG_WORM",
     "rot_spawn_chance": 50
   },
@@ -470,7 +470,7 @@
     "price_postapoc": 750,
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 42 ], [ "calcium", 5 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", "39 mg 396 μg" ], [ "calcium", "52 mg 100 μg" ], [ "iron", "1 mg 504 μg" ] ],
     "fun": 5,
     "flags": [ "RAW" ]
   },
@@ -491,7 +491,7 @@
     "material": [ "egg" ],
     "volume": "25 ml",
     "fun": 1,
-    "vitamins": [ [ "vitC", 1 ] ],
+    "vitamins": [ [ "vitC", "938 μg" ] ],
     "flags": [ "RAW" ]
   },
   {
@@ -1158,7 +1158,7 @@
     "price": 25,
     "price_postapoc": 50,
     "fun": -16,
-    "vitamins": [ [ "iron", 4 ] ]
+    "vitamins": [ [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1174,7 +1174,7 @@
     "copy-from": "egg_leo_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "rot_spawn": "GROUP_EGG_PATTERN_FROG",
-    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+    "vitamins": [ [ "iron", "752 μg" ], [ "mutant_toxin", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1190,7 +1190,7 @@
     "copy-from": "egg_bullfrog_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "rot_spawn": "GROUP_EGG_STRANGE_FROG",
-    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+    "vitamins": [ [ "iron", "752 μg" ], [ "mutant_toxin", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1207,7 +1207,7 @@
     "copy-from": "egg_fowler_toad",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "rot_spawn": "GROUP_EGG_FOUL_TOAD",
-    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+    "vitamins": [ [ "iron", "752 μg" ], [ "mutant_toxin", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1224,7 +1224,7 @@
     "copy-from": "egg_freedom_toad",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "rot_spawn": "GROUP_EGG_ODD_TOAD",
-    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+    "vitamins": [ [ "iron", "752 μg" ], [ "mutant_toxin", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1240,7 +1240,7 @@
     "copy-from": "egg_peeper_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "rot_spawn": "GROUP_EGG_VOCAL_FROG",
-    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+    "vitamins": [ [ "iron", "752 μg" ], [ "mutant_toxin", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1256,6 +1256,6 @@
     "copy-from": "egg_gray_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "rot_spawn": "GROUP_EGG_SHIFT_FROG",
-    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+    "vitamins": [ [ "iron", "752 μg" ], [ "mutant_toxin", 8 ] ]
   }
 ]

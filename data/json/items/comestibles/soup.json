@@ -21,7 +21,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", "564 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -50,7 +50,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_SALVAGE" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 7 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", "72 mg 940 μg" ], [ "iron", "188 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -73,7 +73,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "940 μg" ] ],
     "fun": 1
   },
   {
@@ -97,7 +97,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "940 μg" ] ],
     "fun": 2
   },
   {
@@ -126,7 +126,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 3 ], [ "iron", 13 ] ],
+    "vitamins": [ [ "vitC", "33 mg 768 μg" ], [ "calcium", "31 mg 260 μg" ], [ "iron", "2 mg 444 μg" ] ],
     "fun": 1
   },
   {
@@ -150,7 +150,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 28 ], [ "calcium", 4 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", "26 mg 264 μg" ], [ "calcium", "41 mg 680 μg" ], [ "iron", "940 μg" ] ],
     "fun": 1
   },
   {
@@ -174,7 +174,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 35 ], [ "calcium", 4 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "vitC", "32 mg 830 μg" ], [ "calcium", "41 mg 680 μg" ], [ "iron", "2 mg 256 μg" ] ],
     "fun": 5
   },
   {
@@ -205,7 +205,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 5 ], [ "iron", 28 ] ],
+    "vitamins": [ [ "vitC", "28 mg 140 μg" ], [ "calcium", "52 mg 100 μg" ], [ "iron", "5 mg 264 μg" ] ],
     "fun": 8
   },
   {
@@ -230,7 +230,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 9 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", "8 mg 442 μg" ], [ "iron", "564 μg" ] ],
     "fun": 1
   },
   {
@@ -255,7 +255,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 9 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", "8 mg 442 μg" ], [ "iron", "564 μg" ] ],
     "fun": 1
   },
   {
@@ -279,7 +279,7 @@
     "charges": 4,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "2 mg 820 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -303,7 +303,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 9 ] ],
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "1 mg 692 μg" ] ],
     "fun": 2
   },
   {
@@ -328,7 +328,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "376 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -400,7 +400,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 10 ], [ "calcium", 1 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", "9 mg 380 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "752 μg" ] ],
     "fun": 2
   },
   {
@@ -425,7 +425,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 7 ], [ "calcium", 9 ], [ "iron", 13 ] ],
+    "vitamins": [ [ "vitC", "6 mg 566 μg" ], [ "calcium", "93 mg 780 μg" ], [ "iron", "2 mg 444 μg" ] ],
     "fun": 3
   },
   {
@@ -449,7 +449,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "vitC", "7 mg 504 μg" ], [ "calcium", "72 mg 940 μg" ], [ "iron", "1 mg 316 μg" ] ],
     "fun": 3
   },
   {
@@ -473,7 +473,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "vitC", "7 mg 504 μg" ], [ "calcium", "72 mg 940 μg" ], [ "iron", "1 mg 316 μg" ] ],
     "fun": 10
   },
   {
@@ -497,7 +497,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "iron", "376 μg" ] ],
     "fun": 1
   },
   {
@@ -519,7 +519,7 @@
     "material": [ "powder", "flesh", "wheat" ],
     "volume": "13 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "iron", "376 μg" ] ],
     "fun": -10
   },
   {
@@ -543,7 +543,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "iron", "376 μg" ] ],
     "fun": 1
   },
   {
@@ -565,7 +565,7 @@
     "material": [ "powder", "veggy", "wheat" ],
     "volume": "13 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "iron", "376 μg" ] ],
     "fun": -10
   }
 ]

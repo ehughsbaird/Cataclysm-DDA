@@ -17,7 +17,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "iron", 10 ] ],
+    "vitamins": [ [ "iron", "1 mg 880 μg" ] ],
     "fun": 20
   },
   {
@@ -63,7 +63,7 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -10,
-    "vitamins": [ [ "iron", 10 ] ]
+    "vitamins": [ [ "iron", "1 mg 880 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -146,7 +146,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "83 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 16 ] ],
+    "vitamins": [ [ "iron", "3 mg 8 μg" ] ],
     "fun": 4
   },
   {
@@ -186,7 +186,7 @@
     "material": [ "junk" ],
     "volume": "83 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "calcium", "83 mg 360 μg" ], [ "iron", "1 mg 504 μg" ] ],
     "fun": 10
   },
   {
@@ -225,7 +225,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", "41 mg 680 μg" ], [ "iron", "1 mg 128 μg" ] ],
     "fun": 20
   },
   {
@@ -267,7 +267,7 @@
     "material": [ "junk" ],
     "volume": "30 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 9 ] ],
+    "vitamins": [ [ "iron", "1 mg 692 μg" ] ],
     "fun": 3
   },
   {
@@ -436,7 +436,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "93 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", "41 mg 680 μg" ], [ "iron", "1 mg 128 μg" ] ],
     "fun": 2
   },
   {
@@ -464,7 +464,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "12 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ], [ "iron", "1 mg 128 μg" ] ],
     "fun": 7
   },
   {
@@ -493,7 +493,7 @@
     "phase": "liquid",
     "charges": 16,
     "fun": 5,
-    "vitamins": [ [ "calcium", 2 ] ],
+    "vitamins": [ [ "calcium", "20 mg 840 μg" ] ],
     "freezing_point": -57
   },
   {
@@ -513,7 +513,7 @@
     "material": [ "junk" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "vitamins": [ [ "iron", 34 ] ],
+    "vitamins": [ [ "iron", "6 mg 392 μg" ] ],
     "charges": 16
   },
   {
@@ -531,7 +531,7 @@
     "price_postapoc": "16 cent",
     "material": [ "wheat", "junk" ],
     "volume": "166 ml",
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", "31 mg 260 μg" ], [ "iron", "1 mg 128 μg" ] ],
     "fun": 15
   },
   {
@@ -597,7 +597,7 @@
     "material": [ "junk" ],
     "volume": "250 ml",
     "fun": 4,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "564 μg" ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -688,7 +688,7 @@
     "price_postapoc": "1 USD",
     "material": [ "junk" ],
     "volume": "30 ml",
-    "vitamins": [ [ "calcium", 9 ] ],
+    "vitamins": [ [ "calcium", "93 mg 780 μg" ] ],
     "fun": 2
   },
   {
@@ -707,7 +707,7 @@
     "price_postapoc": 500,
     "material": [ "junk", "fruit" ],
     "volume": "150 ml",
-    "vitamins": [ [ "calcium", 9 ], [ "vitC", 14 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "calcium", "93 mg 780 μg" ], [ "vitC", "13 mg 132 μg" ], [ "iron", "188 μg" ] ],
     "fun": 5
   },
   {
@@ -728,7 +728,7 @@
     "material": [ "junk" ],
     "volume": "83 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "vitC", 7 ], [ "calcium", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", "6 mg 566 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "376 μg" ] ],
     "fun": 6
   },
   {
@@ -749,7 +749,7 @@
     "material": [ "junk" ],
     "volume": "83 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", "52 mg 100 μg" ], [ "iron", "564 μg" ] ],
     "fun": 8
   },
   {
@@ -772,7 +772,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
-    "vitamins": [ [ "calcium", 12 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "calcium", "125 mg 40 μg" ], [ "iron", "1 mg 128 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -799,7 +799,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "vitC", "4 mg 690 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "4 mg 512 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -830,7 +830,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 20,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", "104 mg 200 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -850,7 +850,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "calcium", "83 mg 360 μg" ], [ "iron", "3 mg 196 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -871,7 +871,7 @@
     "volume": "166 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 20,
-    "vitamins": [ [ "calcium", 13 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "calcium", "135 mg 460 μg" ], [ "iron", "3 mg 196 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -891,7 +891,7 @@
     "material": [ "flesh", "junk" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", "83 mg 360 μg" ], [ "iron", "752 μg" ] ],
     "fun": 4
   },
   {
@@ -976,7 +976,7 @@
     "material": [ "flesh", "junk" ],
     "volume": "250 ml",
     "fun": 12,
-    "vitamins": [ [ "iron", 4 ] ]
+    "vitamins": [ [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -997,7 +997,7 @@
     "volume": "200 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 15,
-    "vitamins": [ [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
+    "vitamins": [ [ "vitC", "43 mg 148 μg" ], [ "calcium", "145 mg 880 μg" ], [ "iron", "3 mg 948 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1018,7 +1018,7 @@
     "volume": "200 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 15,
-    "vitamins": [ [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
+    "vitamins": [ [ "vitC", "43 mg 148 μg" ], [ "calcium", "145 mg 880 μg" ], [ "iron", "3 mg 948 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1038,7 +1038,7 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -18,
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "calcium", "62 mg 520 μg" ], [ "iron", "1 mg 504 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1075,7 +1075,7 @@
     "material": [ "wheat", "junk", "milk" ],
     "primary_material": "processed_food",
     "fun": 6,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "calcium", "52 mg 100 μg" ], [ "iron", "3 mg 196 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1095,7 +1095,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 12,
-    "vitamins": [ [ "calcium", 25 ], [ "iron", 25 ] ]
+    "vitamins": [ [ "calcium", "260 mg 500 μg" ], [ "iron", "4 mg 700 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1116,7 +1116,7 @@
     "volume": "31 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 15 ] ]
+    "vitamins": [ [ "calcium", "156 mg 300 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1138,7 +1138,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 17 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "calcium", "177 mg 140 μg" ], [ "iron", "564 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1159,7 +1159,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN", "FREEZERBURN" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "calcium", "41 mg 680 μg" ], [ "iron", "1 mg 316 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1180,7 +1180,7 @@
     "volume": "75 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -6,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", "564 μg" ] ]
   },
   {
     "id": "hotdogs_campfire",
@@ -1210,7 +1210,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 12,
-    "vitamins": [ [ "vitC", 85 ], [ "calcium", 22 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "vitC", "79 mg 730 μg" ], [ "calcium", "229 mg 240 μg" ], [ "iron", "2 mg 820 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1231,7 +1231,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 12,
-    "vitamins": [ [ "vitC", 85 ], [ "calcium", 22 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "vitC", "79 mg 730 μg" ], [ "calcium", "229 mg 240 μg" ], [ "iron", "2 mg 820 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1281,7 +1281,7 @@
     "primary_material": "processed_food",
     "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 4 ] ],
+    "vitamins": [ [ "calcium", "41 mg 680 μg" ] ],
     "fun": 6
   },
   {
@@ -1305,7 +1305,7 @@
     "material": [ "junk", "nut" ],
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "564 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1325,7 +1325,7 @@
     "material": [ "flesh", "egg", "junk" ],
     "volume": "250ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "iron", 10 ] ],
+    "vitamins": [ [ "iron", "1 mg 880 μg" ] ],
     "fun": -2
   },
   {
@@ -1346,7 +1346,7 @@
     "material": [ "flesh", "egg", "junk" ],
     "volume": "500ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "iron", 10 ] ],
+    "vitamins": [ [ "iron", "1 mg 880 μg" ] ],
     "fun": 4
   },
   {
@@ -1471,7 +1471,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "calcium", "104 mg 200 μg" ], [ "iron", "940 μg" ] ],
     "fun": 8
   },
   {
@@ -1494,7 +1494,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", "104 mg 200 μg" ], [ "iron", "1 mg 128 μg" ] ],
     "fun": 8
   }
 ]

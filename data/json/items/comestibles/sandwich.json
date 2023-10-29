@@ -19,7 +19,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", "521 mg 0 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -40,7 +40,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", "521 mg 0 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -61,7 +61,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", "521 mg 0 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -89,7 +89,7 @@
     "primary_material": "processed_food",
     "volume": "125 ml",
     "fun": 12,
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
+    "vitamins": [ [ "vitC", "24 mg 388 μg" ], [ "calcium", "83 mg 360 μg" ], [ "iron", "9 mg 212 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -117,7 +117,7 @@
     "primary_material": "processed_food",
     "volume": "125 ml",
     "fun": 14,
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
+    "vitamins": [ [ "vitC", "24 mg 388 μg" ], [ "calcium", "83 mg 360 μg" ], [ "iron", "9 mg 212 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -137,7 +137,7 @@
     "material": [ "wheat", "veggy" ],
     "flags": [ "EATEN_COLD" ],
     "fun": 8,
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 30 ] ]
+    "vitamins": [ [ "vitC", "8 mg 442 μg" ], [ "calcium", "166 mg 720 μg" ], [ "iron", "5 mg 640 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -157,7 +157,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", "521 mg 0 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -178,7 +178,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", "5 mg 628 μg" ], [ "calcium", "72 mg 940 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -199,7 +199,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", "5 mg 628 μg" ], [ "calcium", "72 mg 940 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -220,7 +220,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 15,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", "5 mg 628 μg" ], [ "calcium", "72 mg 940 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -259,7 +259,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "calcium", "104 mg 200 μg" ], [ "iron", "4 mg 512 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -295,7 +295,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "vitC", "33 mg 768 μg" ], [ "calcium", "354 mg 280 μg" ], [ "iron", "5 mg 264 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -316,7 +316,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "vitC", "33 mg 768 μg" ], [ "calcium", "354 mg 280 μg" ], [ "iron", "5 mg 264 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -337,7 +337,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "vitC", "33 mg 768 μg" ], [ "calcium", "354 mg 280 μg" ], [ "iron", "5 mg 264 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -365,7 +365,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "150 ml",
     "fun": 2,
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ] ]
+    "vitamins": [ [ "vitC", "7 mg 504 μg" ], [ "calcium", "62 mg 520 μg" ], [ "iron", "8 mg 836 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -385,7 +385,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "fun": 3,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "calcium", "104 mg 200 μg" ], [ "iron", "5 mg 264 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -406,7 +406,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 15,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitC", "2 mg 814 μg" ], [ "calcium", "72 mg 940 μg" ], [ "iron", "2 mg 632 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -427,7 +427,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 10,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ] ]
+    "vitamins": [ [ "calcium", "83 mg 360 μg" ], [ "iron", "3 mg 8 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -447,7 +447,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "calcium", "125 mg 40 μg" ], [ "iron", "5 mg 264 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -466,7 +466,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "250 ml",
     "fun": 14,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "vitC", "4 mg 690 μg" ], [ "calcium", "197 mg 980 μg" ], [ "iron", "3 mg 196 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -485,7 +485,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "250 ml",
     "fun": 14,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "vitC", "4 mg 690 μg" ], [ "calcium", "125 mg 40 μg" ], [ "iron", "4 mg 512 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -517,7 +517,7 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ] ]
+    "vitamins": [ [ "vitC", "9 mg 380 μg" ], [ "calcium", "72 mg 940 μg" ], [ "iron", "3 mg 384 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -539,7 +539,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", "521 mg 0 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -567,7 +567,7 @@
     "primary_material": "processed_food",
     "volume": "125 ml",
     "fun": 12,
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
+    "vitamins": [ [ "vitC", "24 mg 388 μg" ], [ "calcium", "83 mg 360 μg" ], [ "iron", "9 mg 212 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -595,7 +595,7 @@
     "primary_material": "processed_food",
     "volume": "125 ml",
     "fun": 14,
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
+    "vitamins": [ [ "vitC", "24 mg 388 μg" ], [ "calcium", "83 mg 360 μg" ], [ "iron", "9 mg 212 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -615,7 +615,7 @@
     "material": [ "veggy" ],
     "flags": [ "EATEN_COLD" ],
     "fun": 8,
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 30 ] ]
+    "vitamins": [ [ "vitC", "8 mg 442 μg" ], [ "calcium", "166 mg 720 μg" ], [ "iron", "5 mg 640 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -635,7 +635,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", "521 mg 0 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -656,7 +656,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", "5 mg 628 μg" ], [ "calcium", "72 mg 940 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -677,7 +677,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", "5 mg 628 μg" ], [ "calcium", "72 mg 940 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -698,7 +698,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 15,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", "5 mg 628 μg" ], [ "calcium", "72 mg 940 μg" ], [ "iron", "2 mg 256 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -737,7 +737,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "calcium", "104 mg 200 μg" ], [ "iron", "4 mg 512 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -772,7 +772,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 14 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "calcium", "145 mg 880 μg" ], [ "iron", "5 mg 264 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -804,7 +804,7 @@
     "material": [ "flesh", "veggy" ],
     "volume": "150 ml",
     "fun": 2,
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ] ]
+    "vitamins": [ [ "vitC", "7 mg 504 μg" ], [ "calcium", "62 mg 520 μg" ], [ "iron", "8 mg 836 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -824,7 +824,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": 3,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "calcium", "104 mg 200 μg" ], [ "iron", "5 mg 264 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -845,7 +845,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 15,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitC", "2 mg 814 μg" ], [ "calcium", "72 mg 940 μg" ], [ "iron", "2 mg 632 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -866,7 +866,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 10,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ] ]
+    "vitamins": [ [ "calcium", "83 mg 360 μg" ], [ "iron", "3 mg 8 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -886,7 +886,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "calcium", "125 mg 40 μg" ], [ "iron", "5 mg 264 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -905,7 +905,7 @@
     "material": [ "flesh", "veggy" ],
     "volume": "250 ml",
     "fun": 14,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "vitC", "4 mg 690 μg" ], [ "calcium", "197 mg 980 μg" ], [ "iron", "3 mg 196 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -927,6 +927,6 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ] ]
+    "vitamins": [ [ "vitC", "9 mg 380 μg" ], [ "calcium", "72 mg 940 μg" ], [ "iron", "3 mg 384 μg" ] ]
   }
 ]

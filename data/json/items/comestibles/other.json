@@ -189,7 +189,7 @@
     "material": [ "fruit" ],
     "volume": "62 ml",
     "flags": [ "MYCUS_OK" ],
-    "vitamins": [ [ "vitC", 25 ], [ "calcium", 25 ], [ "iron", 25 ] ],
+    "vitamins": [ [ "vitC", "23 mg 450 μg" ], [ "calcium", "260 mg 500 μg" ], [ "iron", "4 mg 700 μg" ] ],
     "fun": 30
   },
   {
@@ -306,7 +306,7 @@
     "price_postapoc": 50,
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", "14 mg 70 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "1 mg 504 μg" ] ],
     "flags": [ "EATEN_COLD", "FREEZERBURN" ]
   },
   {
@@ -393,7 +393,7 @@
     "material": [ "bean" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "calcium", "93 mg 780 μg" ], [ "iron", "4 mg 512 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -412,7 +412,7 @@
     "material": [ "bean" ],
     "volume": "41 ml",
     "cooks_like": "beans_cooked",
-    "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ] ],
+    "vitamins": [ [ "calcium", "583 mg 520 μg" ], [ "iron", "4 mg 136 μg" ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
@@ -435,7 +435,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 8 ] ]
+    "vitamins": [ [ "calcium", "83 mg 360 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -455,7 +455,7 @@
     "volume": "85 ml",
     "flags": [ "SMOKABLE", "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "smoking_result": "dry_tofu",
-    "vitamins": [ [ "calcium", 20 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", "208 mg 400 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -474,7 +474,7 @@
     "material": [ "veggy" ],
     "volume": "85 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", "166 mg 720 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -491,7 +491,7 @@
     "price_postapoc": 75,
     "material": [ "veggy" ],
     "volume": "85 ml",
-    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", "166 mg 720 μg" ], [ "iron", "752 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -510,7 +510,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "fun": -5,
-    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "iron", "4 mg 700 μg" ], [ "vitC", "938 μg" ], [ "calcium", "31 mg 260 μg" ] ],
     "smoking_result": "dry_soybean",
     "milling": { "into": "paste_nut", "conversion_rate": 0.2 },
     "seed_data": {
@@ -540,7 +540,7 @@
     "material": [ "veggy" ],
     "fun": -5,
     "milling": { "into": "flour_wheat_free", "conversion_rate": 1 },
-    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "iron", "4 mg 700 μg" ], [ "vitC", "938 μg" ], [ "calcium", "31 mg 260 μg" ] ],
     "seed_data": {
       "plant_name": "soybean",
       "fruit": "soybean",
@@ -568,7 +568,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "fun": 1,
-    "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ] ],
+    "vitamins": [ [ "iron", "4 mg 888 μg" ], [ "vitC", "15 mg 8 μg" ], [ "calcium", "62 mg 520 μg" ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW", "INEDIBLE", "CATTLE" ],
     "smoking_result": "edamame_roasted"
@@ -714,7 +714,7 @@
     "price_postapoc": "50 cent",
     "material": [ "tomato" ],
     "volume": "125 ml",
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ],
+    "vitamins": [ [ "vitC", "24 mg 388 μg" ], [ "calcium", "93 mg 780 μg" ], [ "iron", "3 mg 384 μg" ] ],
     "flags": [ "RAW" ]
   },
   {
@@ -729,7 +729,7 @@
     "symbol": "%",
     "quench": -47,
     "calories": 78,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", "1 mg 876 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "1 mg 504 μg" ] ],
     "description": "This is a human brain soaked in a solution of highly toxic formaldehyde.  Eating this would be a terrible idea.",
     "price": 80,
     "price_postapoc": 0,
@@ -753,7 +753,7 @@
     "symbol": ";",
     "quench": 1,
     "calories": 170,
-    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", "42 mg 210 μg" ], [ "calcium", "52 mg 100 μg" ], [ "iron", "940 μg" ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
@@ -775,7 +775,7 @@
     "material": [ "veggy" ],
     "symbol": ";",
     "calories": 400,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "calcium", "10 mg 420 μg" ], [ "iron", "1 mg 316 μg" ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
@@ -800,7 +800,7 @@
     "symbol": ";",
     "quench": 2,
     "calories": 450,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ] ],
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "iron", "3 mg 196 μg" ], [ "calcium", "0 μg" ] ],
     "fun": -15,
     "color": "brown",
     "flags": [ "LUPINE" ],
@@ -824,7 +824,7 @@
     "symbol": ";",
     "quench": -1,
     "calories": 380,
-    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ] ],
+    "vitamins": [ [ "iron", "4 mg 700 μg" ], [ "calcium", "312 mg 600 μg" ] ],
     "fun": -15,
     "freezing_point": -274,
     "color": "brown",
@@ -849,7 +849,7 @@
     "symbol": ";",
     "quench": 2,
     "calories": 800,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ] ],
+    "vitamins": [ [ "vitC", "3 mg 752 μg" ], [ "iron", "3 mg 196 μg" ], [ "calcium", "0 μg" ] ],
     "fun": -15,
     "color": "brown",
     "flags": [ "FELINE" ],
@@ -874,7 +874,7 @@
     "healthy": -1,
     "quench": -1,
     "calories": 380,
-    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ] ],
+    "vitamins": [ [ "iron", "4 mg 700 μg" ], [ "calcium", "312 mg 600 μg" ] ],
     "fun": -15,
     "freezing_point": -274,
     "color": "brown",

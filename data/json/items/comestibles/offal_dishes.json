@@ -17,7 +17,7 @@
     "fun": 15,
     "quench": 3,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 0 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "4 mg 690 μg" ], [ "calcium", "0 μg" ], [ "iron", "376 μg" ] ]
   },
   {
     "id": "liver_onion",
@@ -36,7 +36,7 @@
     "calories": 398,
     "quench": -3,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 0 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "vitC", "938 μg" ], [ "calcium", "0 μg" ], [ "iron", "1 mg 504 μg" ] ]
   },
   {
     "id": "fried_livers",
@@ -57,7 +57,7 @@
     "fun": 6,
     "quench": -4,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitC", "0 μg" ], [ "calcium", "20 mg 840 μg" ], [ "iron", "1 mg 692 μg" ] ]
   },
   {
     "id": "humble_pie",
@@ -77,7 +77,7 @@
     "volume": "250 ml",
     "weight": "249 g",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 15 ], [ "calcium", 1 ], [ "iron", 40 ] ]
+    "vitamins": [ [ "vitC", "14 mg 70 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "7 mg 520 μg" ] ]
   },
   {
     "id": "stewed_tripe",
@@ -136,7 +136,7 @@
     "volume": "125 ml",
     "weight": "112 g",
     "calories": 344,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", "0 μg" ], [ "calcium", "10 mg 420 μg" ], [ "iron", "940 μg" ] ]
   },
   {
     "id": "fried_brain",
@@ -157,7 +157,7 @@
     "weight": "250 g",
     "flags": [ "EATEN_HOT" ],
     "calories": 285,
-    "vitamins": [ [ "vitC", 6 ], [ "iron", 13 ], [ "calcium", 1 ] ]
+    "vitamins": [ [ "vitC", "5 mg 628 μg" ], [ "iron", "2 mg 444 μg" ], [ "calcium", "10 mg 420 μg" ] ]
   },
   {
     "id": "deviled_kidney",
@@ -178,7 +178,7 @@
     "weight": "180 g",
     "flags": [ "EATEN_HOT" ],
     "calories": 301,
-    "vitamins": [ [ "vitC", 1 ], [ "iron", 6 ], [ "calcium", 1 ] ]
+    "vitamins": [ [ "vitC", "938 μg" ], [ "iron", "1 mg 128 μg" ], [ "calcium", "10 mg 420 μg" ] ]
   },
   {
     "id": "grilled_sweetbread",
