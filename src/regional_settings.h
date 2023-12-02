@@ -196,6 +196,12 @@ struct overmap_forest_settings {
     int river_floodplain_buffer_distance_min = 3;
     int river_floodplain_buffer_distance_max = 15;
 
+    std::pair<float, float> neg_x_scaling( 1.f, 1.f );
+    std::pair<float, float> neg_y_scaling( 1.f, 1.f );
+    std::pair<float, float> pos_x_scaling( 1.f, 1.f );
+    std::pair<float, float> pos_y_scaling( 1.f, 1.f );
+    point scaling_offset = point_zero;
+
     overmap_forest_settings() = default;
 };
 

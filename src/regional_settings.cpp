@@ -323,6 +323,17 @@ static void load_overmap_forest_settings(
                                     overmap_forest_settings.river_floodplain_buffer_distance_min, !overlay );
         read_and_set_or_throw<int>( overmap_forest_settings_jo, "river_floodplain_buffer_distance_max",
                                     overmap_forest_settings.river_floodplain_buffer_distance_max, !overlay );
+
+        read_and_set_or_throw<std::pair<float, float>>( overmap_forest_settings_jo, "negative_x_scaling",
+                overmap_forest_settings.neg_x_scaling );
+        read_and_set_or_throw<std::pair<float, float>>( overmap_forest_settings_jo, "negative_y_scaling",
+                overmap_forest_settings.neg_y_scaling );
+        read_and_set_or_throw<std::pair<float, float>>( overmap_forest_settings_jo, "positive_x_scaling",
+                overmap_forest_settings.pos_x_scaling );
+        read_and_set_or_throw<std::pair<float, float>>( overmap_forest_settings_jo, "positive_y_scaling",
+                overmap_forest_settings.pos_y_scaling );
+        read_and_set_or_throw<point>( overmap_forest_settings_jo, "scaling_offset",
+                                      overmap_forest_settings.scaling_offset );
     }
 }
 
