@@ -112,42 +112,17 @@ static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 static const bionic_id bio_water_extractor( "bio_water_extractor" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
-static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_asthma( "asthma" );
-static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_bloodworms( "bloodworms" );
-static const efftype_id effect_cig( "cig" );
-static const efftype_id effect_datura( "datura" );
-static const efftype_id effect_dermatik( "dermatik" );
-static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_fungus( "fungus" );
-static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_blood_filtration( "blood_filtration" );
 static const efftype_id effect_heating_bionic( "heating_bionic" );
-static const efftype_id effect_high( "high" );
-static const efftype_id effect_iodine( "iodine" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
-static const efftype_id effect_paralyzepoison( "paralyzepoison" );
-static const efftype_id effect_pblue( "pblue" );
-static const efftype_id effect_pkill1( "pkill1" );
-static const efftype_id effect_pkill2( "pkill2" );
-static const efftype_id effect_pkill3( "pkill3" );
-static const efftype_id effect_pkill_l( "pkill_l" );
-static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_teleglow( "teleglow" );
-static const efftype_id effect_tetanus( "tetanus" );
-static const efftype_id effect_took_flumed( "took_flumed" );
-static const efftype_id effect_took_prozac( "took_prozac" );
-static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
-static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_under_operation( "under_operation" );
-static const efftype_id effect_venom_dmg( "venom_dmg" );
-static const efftype_id effect_venom_weaken( "venom_weaken" );
-static const efftype_id effect_visuals( "visuals" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
@@ -969,21 +944,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         conduct_blood_analysis();
     } else if( bio.id == bio_blood_filter ) {
         add_msg_activate();
-        static const std::vector<efftype_id> removable = {{
-                effect_fungus, effect_dermatik, effect_bloodworms,
-                effect_tetanus, effect_poison, effect_badpoison,
-                effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
-                effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
-                effect_pblue, effect_iodine, effect_datura,
-                effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
-                effect_took_flumed, effect_antifungal, effect_venom_weaken,
-                effect_venom_dmg, effect_paralyzepoison
-            }
-        };
-
-        for( const string_id<effect_type> &eff : removable ) {
-            remove_effect( eff );
-        }
+        add_effect( effect_blood_filtration, 1_turns );
         // Purging the substance won't remove the fatigue it caused
         force_comedown( get_effect( effect_adrenaline ) );
         force_comedown( get_effect( effect_meth ) );

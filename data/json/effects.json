@@ -2290,6 +2290,38 @@
   },
   {
     "type": "effect_type",
+    "id": "blood_filtration",
+    "removes_effects": [
+      "fungus",
+      "dermatik",
+      "bloodworms",
+      "tetanus",
+      "poison",
+      "badpoison",
+      "pkill1",
+      "pkill2",
+      "pkill3",
+      "pkill_l",
+      "drunk",
+      "cig",
+      "high",
+      "hallu",
+      "visuals",
+      "pblue",
+      "iodine",
+      "datura",
+      "took_xanax",
+      "took_prozac",
+      "took_prozac_bad",
+      "took_flumed",
+      "antifungal",
+      "venom_weaken",
+      "venom_dmg",
+      "paralyzepoison"
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "taint",
     "name": [ "Touched Mind", "Touched Mind", "Tainted Mind", "Badly Tainted Mind" ],
     "miss_messages": [ [ "Your sense of reality warps!", 3 ] ],
@@ -2660,6 +2692,7 @@
   {
     "type": "effect_type",
     "id": "dermatik",
+    "flags": [ "BLOOD_FILTER_REMOVEABLE" ],
     "blood_analysis_description": "Insect Parasite"
   },
   {
