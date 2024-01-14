@@ -70,6 +70,8 @@ class translation
          **/
         std::string translated( int num = 1 ) const;
 
+        std::string translated_or( const std::string_view &other ) const;
+
         /**
          * Methods exposing the underlying raw strings are not implemented, and
          * probably should not if there's no good reason to do so. Most importantly,

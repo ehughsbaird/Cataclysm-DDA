@@ -175,6 +175,26 @@ const char *TranslationManager::Impl::Translate( const char *message ) const
     return message;
 }
 
+const char *TranslationManager::Impl::Translate_or( const std::string_view &message,
+        const std::string_view &other ) const
+{
+    FILE *fp = fopen( "file.a", "a" );
+    std::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( message.data() );
+    fprintf( fp, "Looking up %s\n", message.data() );
+    if( entry ) {
+        const std::size_t document = entry->first;
+        const std::size_t string_index = entry->second;
+        const char *ret = documents[document].GetTranslatedString( string_index );
+        fprintf( fp, "\tfound at %zu, %zu: %s. Not using %s\n", document,
+                 string_index, ret, other.data() );
+        fclose( fp );
+        return ret;
+    }
+    fprintf( fp, "\treturning %s\n", other.data() );
+    fclose( fp );
+    return other.data();
+}
+
 const char *TranslationManager::Impl::TranslatePlural( const char *singular, const char *plural,
         std::size_t n ) const
 {

@@ -84,6 +84,11 @@ inline const char *npgettext( const char *const context, const char *const msgid
             n );
 }
 
+inline const char *gettext_or( const std::string_view &msgid, const std::string_view &other )
+{
+    return TranslationManager::GetInstance().Translate_or( msgid, other );
+}
+
 #else // !LOCALIZE
 
 #define _(STRING) (STRING)

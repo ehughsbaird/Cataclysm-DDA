@@ -27,6 +27,7 @@ class TranslationManager
 
         const char *Translate( const std::string &message ) const;
         const char *Translate( const char *message ) const;
+        const char *Translate_or( const std::string_view &message, const std::string_view &other ) const;
         const char *TranslatePlural( const char *singular, const char *plural, std::size_t n ) const;
         const char *TranslateWithContext( const char *context, const char *message ) const;
         const char *TranslatePluralWithContext( const char *context, const char *singular,

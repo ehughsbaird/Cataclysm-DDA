@@ -306,6 +306,14 @@ std::string translation::translated( const int num ) const
     return *cached_translation;
 }
 
+std::string translation::translated_or( const std::string_view &other ) const
+{
+    if( !needs_translation || raw.empty() ) {
+        return raw;
+    }
+    return gettext_or( raw, other );
+}
+
 bool translation::empty() const
 {
     return raw.empty();

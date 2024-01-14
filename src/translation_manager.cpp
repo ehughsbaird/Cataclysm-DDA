@@ -38,6 +38,12 @@ const char *TranslationManager::Translate( const char *message ) const
     return impl->Translate( message );
 }
 
+const char *TranslationManager::Translate_or( const std::string_view &message,
+        const std::string_view &other ) const
+{
+    return impl->Translate_or( message, other );
+}
+
 const char *TranslationManager::TranslatePlural( const char *singular, const char *plural,
         std::size_t n ) const
 {

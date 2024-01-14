@@ -352,6 +352,12 @@
         "weight": 5
       },
       {
+	      "id": "new",
+	      "name": { "str_sp": "untranslated moisturizer" },
+	      "description": "...",
+	      "weight": 2
+      },
+      {
         "id": "healthy_moisturizer",
         "name": { "str_sp": "healthy moisturizer" },
         "description": "Using various plants as ingredients, this moisturizer will give your skin all the vitamins it needs for the day.",
