@@ -69,6 +69,7 @@
 #include "mongroup.h"
 #include "monstergenerator.h"
 #include "mood_face.h"
+#include "morale.h"
 #include "morale_types.h"
 #include "move_mode.h"
 #include "mutation.h"
@@ -453,6 +454,7 @@ void DynamicDataLoader::initialize()
 
     add( "sound_effect", &sfx::load_sound_effects );
     add( "sound_effect_preload", &sfx::load_sound_effect_preload );
+    add( "clothing_style", &stylish_style::load_stylish_style );
     add( "playlist", &sfx::load_playlist );
 
     add( "gate", &gates::load );
@@ -650,6 +652,7 @@ void DynamicDataLoader::unload_data()
     SNIPPET.clear_snippets();
     spell_type::reset_all();
     start_locations::reset();
+    stylish_style::reset();
     ter_furn_transform::reset();
     trap::reset();
     unload_talk_topics();
@@ -839,6 +842,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Overmap specials" ), &overmap_specials::check_consistency },
             { _( "Map extras" ), &MapExtras::check_consistency },
             { _( "Shop rates" ), &shopkeeper_cons_rates::check_all },
+            { _( "Clothing Styles" ), &stylish_style::check_consistency },
             { _( "Start locations" ), &start_locations::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },

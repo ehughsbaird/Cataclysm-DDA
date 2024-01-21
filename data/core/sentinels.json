@@ -20,6 +20,12 @@
     "sub_parts": [ "sub_limb_debug" ]
   },
   {
+    "//": "Clothing style that everything belongs to",
+    "type": "clothing_style",
+    "id": "null",
+    "max_morale": 0
+  },
+  {
     "id": "mx_null",
     "type": "map_extra",
     "name": { "str": "Nothing" },

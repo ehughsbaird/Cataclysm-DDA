@@ -18,6 +18,39 @@ class item;
 struct itype;
 struct morale_mult;
 
+template<typename T>
+class generic_factory;
+
+class stylish_style
+{
+    public:
+        string_id<stylish_style> id;
+        bool was_loaded = false;
+
+        // The maximum morale bonus that can be received from this style
+        float max_morale;
+
+    private:
+        // Items belong to this style if they belong to either of these
+        std::set<itype_id> allowed_types;
+        std::vector<flag_id> allowed_flags;
+        // And they strongly belong (higher bonus) for either of these
+        std::set<itype_id> allowed_types_strong;
+        std::vector<flag_id> allowed_flags_strong;
+
+    public:
+        // Does this item belong? 0 if no, 1 or 2 if yes (2 for strongly)
+        int score( const item &it ) const;
+
+        void load( const JsonObject &jo, const std::string & );
+        void verify() const;
+
+        static const std::vector<stylish_style> &all();
+        static void load_stylish_style( const JsonObject &jo, const std::string &src );
+        static void check_consistency();
+        static void reset();
+};
+
 class player_morale
 {
     public:
@@ -163,14 +196,15 @@ class player_morale
 
         struct body_part_data {
             unsigned int covered;
-            unsigned int fancy;
             unsigned int filthy;
             int hot;
             int cold;
+            int worn_items = 0;
+            // The style, and the number of items in that style
+            std::map<string_id<stylish_style>, int> styles;
 
             body_part_data() :
                 covered( 0 ),
-                fancy( 0 ),
                 filthy( 0 ),
                 hot( 0 ),
                 cold( 0 ) {}
@@ -197,8 +231,6 @@ class player_morale
                 bool active = false;
         };
         std::map<trait_id, mutation_data> mutations;
-
-        std::map<itype_id, int> super_fancy_items;
 
         // Mutability is required for lazy initialization
         mutable int level;

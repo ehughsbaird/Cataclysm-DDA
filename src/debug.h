@@ -263,6 +263,7 @@ enum debug_filter : int {
     DF_MELEE, // melee generic
     DF_MONMOVE, // movement/pathfinding-related
     DF_MONSTER, // monster generic
+    DF_MORALE, // morale generic
     DF_MUTATION, // mutation/purification logic
     DF_NPC, // npc generic, less verbose comments
     DF_NPC_COMBATAI, // npc combat and danger assessment logic

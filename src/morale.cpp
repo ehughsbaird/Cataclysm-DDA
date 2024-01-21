@@ -16,6 +16,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
+#include "generic_factory.h"
 #include "input.h"
 #include "item.h"
 #include "localized_comparator.h"
@@ -49,6 +50,102 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_STYLISH( "STYLISH" );
 static const trait_id trait_VANITY( "VANITY" );
+
+namespace
+{
+generic_factory<stylish_style> style_factory( "clothing_style" );
+} //namespace
+
+template<>
+const stylish_style &string_id<stylish_style>::obj() const
+{
+    return style_factory.obj( *this );
+}
+
+template<>
+bool string_id<stylish_style>::is_valid() const
+{
+    return style_factory.is_valid( *this );
+}
+
+const std::vector<stylish_style> &stylish_style::all()
+{
+    return style_factory.get_all();
+}
+
+void stylish_style::load_stylish_style( const JsonObject &jo, const std::string &src )
+{
+    style_factory.load( jo, src );
+}
+
+void stylish_style::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "max_morale", max_morale );
+    optional( jo, was_loaded, "items", allowed_types );
+    optional( jo, was_loaded, "strong_items", allowed_types_strong );
+    optional( jo, was_loaded, "flags", allowed_flags );
+    optional( jo, was_loaded, "strong_flags", allowed_flags_strong );
+}
+
+void stylish_style::check_consistency()
+{
+    for( const stylish_style &style : all() ) {
+        style.verify();
+    }
+}
+
+void stylish_style::verify() const
+{
+    for( const itype_id &type : allowed_types ) {
+        if( !type.is_valid() ) {
+            debugmsg( "Invalid item %s allowed for style %s\n", type.str(), id.str() );
+        }
+    }
+    for( const itype_id &type : allowed_types_strong ) {
+        if( !type.is_valid() ) {
+            debugmsg( "Invalid item %s allowed for style %s\n", type.str(), id.str() );
+        }
+    }
+    for( const flag_id &flag : allowed_flags ) {
+        if( !flag.is_valid() ) {
+            debugmsg( "Invalid flag %s allowed for style %s\n", flag.str(), id.str() );
+        }
+    }
+    for( const flag_id &flag : allowed_flags_strong ) {
+        if( !flag.is_valid() ) {
+            debugmsg( "Invalid flag %s allowed for style %s\n", flag.str(), id.str() );
+        }
+    }
+}
+
+void stylish_style::reset()
+{
+    style_factory.reset();
+}
+
+int stylish_style::score( const item &it ) const
+{
+    // Everything is part of the "null" style, which gives no bonus
+    if( id == STATIC( string_id<stylish_style>( "null" ) ) ) {
+        return 1;
+    }
+
+    const auto it_has_flag = [&it]( const flag_id & flag ) {
+        return it.has_flag( flag );
+    };
+
+    // Strong pieces are counted twice
+    if( allowed_types_strong.count( it.typeId() ) != 0 ||
+        std::any_of( allowed_flags_strong.begin(), allowed_flags_strong.end(), it_has_flag ) ) {
+        return 2;
+    }
+    if( allowed_types.count( it.typeId() ) != 0 ||
+        std::any_of( allowed_flags.begin(), allowed_flags.end(), it_has_flag ) ) {
+        return 1;
+    }
+
+    return 0;
+}
 
 namespace
 {
@@ -874,7 +971,6 @@ void player_morale::clear()
     took_prozac = false;
     took_prozac_bad = false;
     stylish = false;
-    super_fancy_items.clear();
 
     invalidate();
 }
@@ -979,22 +1075,24 @@ void player_morale::on_effect_int_change( const efftype_id &eid, int intensity,
 
 void player_morale::set_worn( const item &it, bool worn )
 {
-    const bool fancy = it.has_flag( STATIC( flag_id( "FANCY" ) ) );
-    const bool super_fancy = it.has_flag( STATIC( flag_id( "SUPER_FANCY" ) ) );
     const bool filthy_gear = it.has_flag( STATIC( flag_id( "FILTHY" ) ) );
     const bool integrated = it.has_flag( STATIC( flag_id( "INTEGRATED" ) ) );
     const int sign = worn ? 1 : -1;
 
     const auto update_body_part = [&]( body_part_data & bp_data ) {
-        if( fancy || super_fancy ) {
-            bp_data.fancy += sign;
-        }
         if( filthy_gear ) {
             bp_data.filthy += sign;
         }
         // If armor is integrated (Subdermal CBM, Skin armor mutation) don't count it as covering
         if( !integrated ) {
             bp_data.covered += sign;
+        }
+        bp_data.worn_items += sign;
+        for( const stylish_style &style : stylish_style::all() ) {
+            int score = style.score( it );
+            if( score > 0 ) {
+                bp_data.styles.emplace( style.id, 0 ).first->second += sign * score;
+            }
         }
     };
 
@@ -1010,24 +1108,7 @@ void player_morale::set_worn( const item &it, bool worn )
         update_body_part( no_body_part );
     }
 
-    if( super_fancy ) {
-        const itype_id id = it.typeId();
-        const auto iter = super_fancy_items.find( id );
-
-        if( iter != super_fancy_items.end() ) {
-            iter->second += sign;
-            if( iter->second == 0 ) {
-                super_fancy_items.erase( iter );
-            }
-        } else if( worn ) {
-            super_fancy_items[id] = 1;
-        } else {
-            debugmsg( "Tried to take off \"%s\" which isn't worn.", id.c_str() );
-        }
-    }
-    if( fancy || super_fancy ) {
-        update_stylish_bonus();
-    }
+    update_stylish_bonus();
     if( filthy_gear ) {
         update_squeamish_penalty();
     }
@@ -1061,18 +1142,45 @@ void player_morale::set_stylish( bool new_stylish )
 
 void player_morale::update_stylish_bonus()
 {
+    if( !stylish ) {
+        set_permanent( MORALE_PERM_FANCY, 0 );
+        return;
+    }
+    // All of the styles we satisfy, and to what extent
+    std::map<string_id<stylish_style>, float> styles;
+    // Sum of all stylish bonuses of body parts, to normalize scores
+    float total_body = 0.f;
+    for( const bodypart_id &bp : get_player_character().get_all_body_parts() ) {
+        total_body += bp->stylish_bonus;
+    }
     int bonus = 0;
 
-    if( stylish ) {
-        float tmp_bonus = 0.0f;
-        for( const std::pair<const bodypart_id, body_part_data> &bpt : body_parts ) {
-            if( bpt.second.fancy > 0 ) {
-                tmp_bonus += bpt.first->stylish_bonus;
+    for( const std::pair<const bodypart_id, body_part_data> &bpt : body_parts ) {
+        for( const std::pair<const string_id<stylish_style>, int> &style : bpt.second.styles ) {
+            float score = bpt.first->stylish_bonus *
+                          static_cast<float>( style.second ) / bpt.second.worn_items;
+            if( style.first != STATIC( string_id<stylish_style>( "null" ) ) ) {
+                add_msg_debug( debugmode::DF_MORALE, "  On %s, style %s is %f",
+                               bpt.first.id().str(), style.first.str(), score );
             }
+            // emplace will not overwrite, and returns an iterator to the entry with provided key
+            styles.emplace( style.first, 0 ).first->second += score;
         }
-        bonus = std::min( static_cast<int>( 2 * super_fancy_items.size() ) +
-                          2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) + static_cast<int>( tmp_bonus ), 20 );
     }
+
+    // Pick the style that will give us the most morale
+    float max = -1.f;
+    for( std::pair<const string_id<stylish_style>, float> &pr : styles ) {
+        float score = ( pr.second / total_body ) * pr.first->max_morale;
+        add_msg_debug( debugmode::DF_MORALE, "Style %s scores %f", pr.first.str(), pr.second );
+
+        if( score < max ) {
+            continue;
+        }
+        max = score;
+        bonus = std::clamp<int>( std::round( score ), 0, pr.first->max_morale );
+    }
+
     set_permanent( MORALE_PERM_FANCY, bonus );
 }
 

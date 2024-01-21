@@ -1,0 +1,9 @@
+[
+  {
+    "type": "clothing_style",
+    "id": "fancy",
+    "max_morale": 20,
+    "flags": [ "FANCY" ],
+    "strong_flags": [ "SUPER_FANCY" ]
+  }
+]
