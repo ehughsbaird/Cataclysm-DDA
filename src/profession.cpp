@@ -204,7 +204,7 @@ void profession::load( const JsonObject &jo, const std::string_view )
 {
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jo.has_object( "name" ) ) {
-        JsonObject name_obj = jo.get_object( "name" );
+        const JsonObject &name_obj = jo.get_object( "name" );
         // Specifying translation context here to avoid adding unnecessary json code for every profession
         // NOLINTNEXTLINE(cata-json-translation-input)
         _name_male = to_translation( "profession_male", name_obj.get_string( "male" ) );
@@ -227,8 +227,7 @@ void profession::load( const JsonObject &jo, const std::string_view )
 
         bool use_default_description = true;
         if( jo.has_object( "description" ) ) {
-            JsonObject desc_obj = jo.get_object( "description" );
-            desc_obj.allow_omitted_members();
+            const JsonObject &desc_obj = jo.get_object( "description" );
 
             if( desc_obj.has_member( "male" ) && desc_obj.has_member( "female" ) ) {
                 use_default_description = false;
@@ -274,7 +273,7 @@ void profession::load( const JsonObject &jo, const std::string_view )
 
     if( !was_loaded || jo.has_member( "items" ) ) {
         std::string c = "items for profession " + id.str();
-        JsonObject items_obj = jo.get_object( "items" );
+        const JsonObject &items_obj = jo.get_object( "items" );
 
         if( items_obj.has_array( "both" ) ) {
             optional( items_obj, was_loaded, "both", legacy_starting_items, item_reader {} );

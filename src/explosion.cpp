@@ -115,7 +115,7 @@ explosion_data load_explosion_data( const JsonObject &jo )
         ret.shrapnel.recovery = 0;
         ret.shrapnel.drop = fuel_type_none;
     } else if( jo.has_object( "shrapnel" ) ) {
-        JsonObject shr = jo.get_object( "shrapnel" );
+        const JsonObject &shr = jo.get_object( "shrapnel" );
         ret.shrapnel = load_shrapnel_data( shr );
     }
 

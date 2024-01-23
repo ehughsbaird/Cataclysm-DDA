@@ -460,7 +460,7 @@ void read_condition( const JsonObject &jo, const std::string &member_name,
             return sub_condition( d );
         };
     } else if( jo.has_object( member_name ) ) {
-        JsonObject con_obj = jo.get_object( member_name );
+        const JsonObject &con_obj = jo.get_object( member_name );
         conditional_t sub_condition( con_obj );
         condition = [sub_condition]( dialogue & d ) {
             return sub_condition( d );
@@ -807,7 +807,7 @@ conditional_t::func f_has_item( const JsonObject &jo, std::string_view member, b
 conditional_t::func f_has_items( const JsonObject &jo, const std::string_view member,
                                  bool is_npc )
 {
-    JsonObject has_items = jo.get_object( member );
+    const JsonObject &has_items = jo.get_object( member );
     if( !has_items.has_member( "item" ) || ( !has_items.has_member( "count" ) &&
             !has_items.has_member( "charges" ) ) ) {
         return []( dialogue const & ) {
@@ -2428,7 +2428,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             const addiction_id add_id( jo.get_string( "addiction" ) );
             if( jo.has_object( "mod" ) ) {
                 // final_value = (val / (val - step * intensity)) - 1
-                JsonObject jobj = jo.get_object( "mod" );
+                const JsonObject &jobj = jo.get_object( "mod" );
                 const int val = jobj.get_int( "val", 0 );
                 const int step = jobj.get_int( "step", 0 );
                 return [is_npc, add_id, val, step]( dialogue const & d ) {
@@ -3469,7 +3469,7 @@ conditional_t::conditional_t( const JsonObject &jo )
             } );
         };
     } else if( jo.has_object( "not" ) ) {
-        JsonObject cond = jo.get_object( "not" );
+        const JsonObject &cond = jo.get_object( "not" );
         const conditional_t sub_condition = conditional_t( cond );
         found_sub_member = true;
         condition = [sub_condition]( dialogue & d ) {

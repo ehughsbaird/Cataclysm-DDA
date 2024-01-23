@@ -225,7 +225,7 @@ static distribution load_distribution( const JsonObject &jo, const std::string_v
     }
 
     if( jo.has_object( name ) ) {
-        JsonObject obj = jo.get_object( name );
+        const JsonObject &obj = jo.get_object( name );
         return load_distribution( obj );
     }
 

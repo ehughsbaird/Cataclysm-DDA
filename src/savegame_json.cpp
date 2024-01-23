@@ -701,7 +701,7 @@ void Character::load( const JsonObject &data )
         data.read( "martial_arts_data", martial_arts_data );
     }
 
-    JsonObject vits = data.get_object( "vitamin_levels" );
+    const JsonObject &vits = data.get_object( "vitamin_levels" );
     vits.allow_omitted_members();
     for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
         if( vits.has_member( v.first.str() ) ) {
@@ -709,7 +709,7 @@ void Character::load( const JsonObject &data )
             vitamin_levels[v.first] = clamp( lvl, v.first->min(), v.first->max() );
         }
     }
-    JsonObject vits_daily = data.get_object( "daily_vitamins" );
+    const JsonObject &vits_daily = data.get_object( "daily_vitamins" );
     vits_daily.allow_omitted_members();
     for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
         if( vits_daily.has_member( v.first.str() ) ) {
@@ -1013,7 +1013,7 @@ void Character::load( const JsonObject &data )
     morale->load( data );
 
     _skills->clear();
-    JsonObject skill_data = data.get_object( "skills" );
+    const JsonObject &skill_data = data.get_object( "skills" );
     skill_data.allow_omitted_members();
     for( const JsonMember member : skill_data ) {
         member.read( ( *_skills )[skill_id( member.name() )] );
@@ -3243,7 +3243,7 @@ void item::deserialize( const JsonObject &data )
         contents.combine( read_contents, false, true, false, true );
 
         if( data.has_object( "contents" ) ) {
-            JsonObject tested = data.get_object( "contents" );
+            const JsonObject &tested = data.get_object( "contents" );
             tested.allow_omitted_members();
             if( tested.has_array( "items" ) ) {
                 // migration for nested containers. leave until after 0.F

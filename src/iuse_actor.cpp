@@ -598,7 +598,7 @@ static std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int r
 void explosion_iuse::load( const JsonObject &obj )
 {
     if( obj.has_object( "explosion" ) ) {
-        JsonObject expl = obj.get_object( "explosion" );
+        const JsonObject &expl = obj.get_object( "explosion" );
         explosion = load_explosion_data( expl );
     }
 
@@ -1173,7 +1173,7 @@ void reveal_map_actor::load( const JsonObject &obj )
             ter = entry.get_string();
             ter_match_type = ot_match_type::contains;
         } else {
-            JsonObject jo = entry.get_object();
+            const JsonObject &jo = entry.get_object();
             ter = jo.get_string( "om_terrain" );
             ter_match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
                              ot_match_type::contains );
@@ -3251,7 +3251,7 @@ void heal_actor::load( const JsonObject &obj )
     if( obj.has_string( "used_up_item" ) ) {
         obj.read( "used_up_item", used_up_item_id, true );
     } else if( obj.has_object( "used_up_item" ) ) {
-        JsonObject u = obj.get_object( "used_up_item" );
+        const JsonObject &u = obj.get_object( "used_up_item" );
         u.read( "id", used_up_item_id, true );
         used_up_item_quantity = u.get_int( "quantity", used_up_item_quantity );
         used_up_item_charges = u.get_int( "charges", used_up_item_charges );
@@ -3722,7 +3722,7 @@ void place_trap_actor::load( const JsonObject &obj )
     assign( obj, "needs_neighbor_terrain", needs_neighbor_terrain );
     assign( obj, "bury_question", bury_question );
     if( !bury_question.empty() ) {
-        JsonObject buried_json = obj.get_object( "bury" );
+        const JsonObject &buried_json = obj.get_object( "bury" );
         buried_data.load( buried_json );
     }
     unburied_data.load( obj );

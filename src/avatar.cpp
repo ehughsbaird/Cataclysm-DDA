@@ -1678,7 +1678,7 @@ void avatar::daily_calories::read_activity( const JsonObject &data )
         return;
     }
     // Fallback to legacy format for backward compatibility
-    JsonObject jo = data.get_object( "activity" );
+    const JsonObject &jo = data.get_object( "activity" );
     for( const std::pair<const std::string, float> &member : activity_levels_map ) {
         int times;
         if( !jo.read( member.first, times ) ) {

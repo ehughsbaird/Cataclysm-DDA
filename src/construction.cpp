@@ -1895,7 +1895,7 @@ void load_construction( const JsonObject &jo )
         if( jo.has_string( "pre_flags" ) ) {
             con.pre_flags.emplace( jo.get_string( "pre_flags" ), false );
         } else if( jo.has_object( "pre_flags" ) ) {
-            JsonObject jflag = jo.get_object( "pre_flags" );
+            const JsonObject &jflag = jo.get_object( "pre_flags" );
             con.pre_flags.emplace( jflag.get_string( "flag" ), jflag.get_bool( "force_terrain" ) );
         } else if( jo.has_array( "pre_flags" ) ) {
             for( JsonValue jval : jo.get_array( "pre_flags" ) ) {

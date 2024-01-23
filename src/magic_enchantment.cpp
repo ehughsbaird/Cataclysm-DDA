@@ -290,7 +290,7 @@ void enchantment::load( const JsonObject &jo, const std::string_view,
     jo.read( "emitter", emitter );
 
     if( jo.has_object( "intermittent_activation" ) ) {
-        JsonObject jobj = jo.get_object( "intermittent_activation" );
+        const JsonObject &jobj = jo.get_object( "intermittent_activation" );
         for( const JsonObject effect_obj : jobj.get_array( "effects" ) ) {
             time_duration dur = read_from_json_string<time_duration>( effect_obj.get_member( "frequency" ),
                                 time_duration::units );
@@ -302,7 +302,7 @@ void enchantment::load( const JsonObject &jo, const std::string_view,
                 }
             } else if( effect_obj.has_object( "spell_effects" ) ) {
                 fake_spell fake;
-                JsonObject fake_spell_obj = effect_obj.get_object( "spell_effects" );
+                const JsonObject &fake_spell_obj = effect_obj.get_object( "spell_effects" );
                 fake.load( fake_spell_obj );
                 add_activation( dur, fake );
             }

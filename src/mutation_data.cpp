@@ -82,7 +82,7 @@ static void load_mutation_mods(
     std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &mods )
 {
     if( jsobj.has_object( member ) ) {
-        JsonObject j = jsobj.get_object( member );
+        const JsonObject &j = jsobj.get_object( member );
         bool active = false;
         if( member == "active_mods" ) {
             active = true;
@@ -182,14 +182,14 @@ static mut_attack load_mutation_attack( const JsonObject &jo )
     if( jo.has_array( "base_damage" ) ) {
         ret.base_damage = load_damage_instance( jo.get_array( "base_damage" ) );
     } else if( jo.has_object( "base_damage" ) ) {
-        JsonObject jo_dam = jo.get_object( "base_damage" );
+        const JsonObject &jo_dam = jo.get_object( "base_damage" );
         ret.base_damage = load_damage_instance( jo_dam );
     }
 
     if( jo.has_array( "strength_damage" ) ) {
         ret.strength_damage = load_damage_instance( jo.get_array( "strength_damage" ) );
     } else if( jo.has_object( "strength_damage" ) ) {
-        JsonObject jo_dam = jo.get_object( "strength_damage" );
+        const JsonObject &jo_dam = jo.get_object( "strength_damage" );
         ret.strength_damage = load_damage_instance( jo_dam );
     }
 
@@ -228,7 +228,7 @@ mut_transform::mut_transform() = default;
 
 bool mut_transform::load( const JsonObject &jsobj, const std::string_view member )
 {
-    JsonObject j = jsobj.get_object( member );
+    const JsonObject &j = jsobj.get_object( member );
 
     assign( j, "target", target );
     assign( j, "msg_transform", msg_transform );
@@ -243,7 +243,7 @@ mut_personality_score::mut_personality_score() = default;
 
 bool mut_personality_score::load( const JsonObject &jsobj, const std::string_view member )
 {
-    JsonObject j = jsobj.get_object( member );
+    const JsonObject &j = jsobj.get_object( member );
 
     optional( j, false, "min_aggression", min_aggression, -10 );
     optional( j, false, "max_aggression", max_aggression, 10 );
@@ -261,14 +261,14 @@ void reflex_activation_data::load( const JsonObject &jsobj )
 {
     read_condition( jsobj, "condition", trigger, false );
     if( jsobj.has_object( "msg_on" ) ) {
-        JsonObject jo = jsobj.get_object( "msg_on" );
+        const JsonObject &jo = jsobj.get_object( "msg_on" );
         optional( jo, was_loaded, "text", msg_on.first );
         std::string tmp_rating;
         optional( jo, was_loaded, "rating", tmp_rating, "neutral" );
         msg_on.second = io::string_to_enum<game_message_type>( tmp_rating );
     }
     if( jsobj.has_object( "msg_off" ) ) {
-        JsonObject jo = jsobj.get_object( "msg_off" );
+        const JsonObject &jo = jsobj.get_object( "msg_off" );
         optional( jo, was_loaded, "text", msg_off.first );
         std::string tmp_rating;
         optional( jo, was_loaded, "rating", tmp_rating, "neutral" );
@@ -358,12 +358,12 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_object( "spawn_item" ) ) {
-        JsonObject si = jo.get_object( "spawn_item" );
+        const JsonObject &si = jo.get_object( "spawn_item" );
         optional( si, was_loaded, "type", spawn_item );
         optional( si, was_loaded, "message", raw_spawn_item_message );
     }
     if( jo.has_object( "ranged_mutation" ) ) {
-        JsonObject si = jo.get_object( "ranged_mutation" );
+        const JsonObject &si = jo.get_object( "ranged_mutation" );
         optional( si, was_loaded, "type", ranged_mutation );
         optional( si, was_loaded, "message", raw_ranged_mutation_message );
     }
@@ -472,19 +472,19 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "casting_time_multiplier", casting_time_multiplier, std::nullopt );
 
     if( jo.has_object( "rand_cut_bonus" ) ) {
-        JsonObject sm = jo.get_object( "rand_cut_bonus" );
+        const JsonObject &sm = jo.get_object( "rand_cut_bonus" );
         rand_cut_bonus.first = sm.get_int( "min" );
         rand_cut_bonus.second = sm.get_int( "max" );
     }
 
     if( jo.has_object( "rand_bash_bonus" ) ) {
-        JsonObject sm = jo.get_object( "rand_bash_bonus" );
+        const JsonObject &sm = jo.get_object( "rand_bash_bonus" );
         rand_bash_bonus.first = sm.get_int( "min" );
         rand_bash_bonus.second = sm.get_int( "max" );
     }
 
     if( jo.has_object( "social_modifiers" ) ) {
-        JsonObject sm = jo.get_object( "social_modifiers" );
+        const JsonObject &sm = jo.get_object( "social_modifiers" );
         social_mods = load_mutation_social_mods( sm );
     }
 
@@ -638,7 +638,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
             attacks_granted.emplace_back( load_mutation_attack( ao ) );
         }
     } else if( jo.has_object( "attacks" ) ) {
-        JsonObject attack = jo.get_object( "attacks" );
+        const JsonObject &attack = jo.get_object( "attacks" );
         attacks_granted.emplace_back( load_mutation_attack( attack ) );
     }
 }

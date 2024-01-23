@@ -790,7 +790,7 @@ void tileset_cache::loader::load_internal( const JsonObject &config,
             G = -1;
             B = -1;
             if( tile_part_def.has_object( "transparency" ) ) {
-                JsonObject tra = tile_part_def.get_object( "transparency" );
+                const JsonObject &tra = tile_part_def.get_object( "transparency" );
                 R = tra.get_int( "R" );
                 G = tra.get_int( "G" );
                 B = tra.get_int( "B" );

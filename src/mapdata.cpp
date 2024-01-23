@@ -416,7 +416,7 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string_view
     if( !jsobj.has_object( member ) ) {
         return false;
     }
-    JsonObject j = jsobj.get_object( member );
+    const JsonObject &j = jsobj.get_object( member );
     furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
 
     if( !is_furniture ) {
@@ -461,7 +461,7 @@ furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( u
 
 bool furn_workbench_info::load( const JsonObject &jsobj, const std::string_view member )
 {
-    JsonObject j = jsobj.get_object( member );
+    const JsonObject &j = jsobj.get_object( member );
 
     assign( j, "multiplier", multiplier );
     assign( j, "mass", allowed_mass );
@@ -475,7 +475,7 @@ plant_data::plant_data() : transform( furn_str_id::NULL_ID() ), base( furn_str_i
 
 bool plant_data::load( const JsonObject &jsobj, const std::string_view member )
 {
-    JsonObject j = jsobj.get_object( member );
+    const JsonObject &j = jsobj.get_object( member );
 
     assign( j, "transform", transform );
     assign( j, "base", base );
@@ -1396,7 +1396,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
         examine_actor = nullptr;
         examine_func = iexamine_functions_from_string( jo.get_string( "examine_action" ) );
     } else if( jo.has_object( "examine_action" ) ) {
-        JsonObject data = jo.get_object( "examine_action" );
+        const JsonObject &data = jo.get_object( "examine_action" );
         examine_actor = iexamine_actor_from_jsobj( data );
         examine_actor->load( data );
         examine_func = iexamine_functions_from_string( "invalid" );

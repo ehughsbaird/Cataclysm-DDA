@@ -118,7 +118,7 @@ void damage_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "mon_difficulty", mon_difficulty );
     optional( jo, was_loaded, "no_resist", no_resist );
     if( jo.has_object( "immune_flags" ) ) {
-        JsonObject jsobj = jo.get_object( "immune_flags" );
+        const JsonObject &jsobj = jo.get_object( "immune_flags" );
         if( jsobj.has_array( "monster" ) ) {
             mon_immune_flags.clear();
             for( const std::string flg : jsobj.get_array( "monster" ) ) {
@@ -175,7 +175,7 @@ void damage_info_order::damage_info_order_entry::load( const JsonObject &jo,
             show_type = true;
             order = jo.get_int( member );
         } else {
-            JsonObject jsobj = jo.get_object( member );
+            const JsonObject &jsobj = jo.get_object( member );
             mandatory( jsobj, false, "order", order );
             optional( jsobj, false, "show_type", show_type, true );
         }

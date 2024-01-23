@@ -2349,7 +2349,7 @@ void map_extra::load( const JsonObject &jo, const std::string_view )
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "description", description_ );
     if( jo.has_object( "generator" ) ) {
-        JsonObject jg = jo.get_object( "generator" );
+        const JsonObject &jg = jo.get_object( "generator" );
         generator_method = jg.get_enum_value<map_extra_method>( "generator_method",
                            map_extra_method::null );
         mandatory( jg, was_loaded, "generator_id", generator_id );

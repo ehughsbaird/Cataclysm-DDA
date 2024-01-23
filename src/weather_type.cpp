@@ -129,7 +129,7 @@ void weather_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "debug_leave_eoc", debug_leave_eoc );
 
     if( jo.has_member( "weather_animation" ) ) {
-        JsonObject weather_animation_jo = jo.get_object( "weather_animation" );
+        const JsonObject &weather_animation_jo = jo.get_object( "weather_animation" );
         mandatory( weather_animation_jo, was_loaded, "factor", weather_animation.factor );
         if( !assign( weather_animation_jo, "color", weather_animation.color ) ) {
             weather_animation_jo.throw_error( "missing mandatory member \"color\"" );

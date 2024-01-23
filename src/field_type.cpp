@@ -245,7 +245,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
                 optional( joe, was_loaded, "message_npc", fe.message_npc );
                 const auto game_message_type_reader = enum_flags_reader<game_message_type> { "game message types" };
                 optional( joe, was_loaded, "message_type", fe.env_message_type, game_message_type_reader );
-                JsonObject jid = joe.get_object( "immunity_data" );
+                const JsonObject &jid = joe.get_object( "immunity_data" );
                 field_types::load_immunity( jid, fe.immunity_data );
 
                 intensity_level.field_effects.emplace_back( fe );
@@ -263,7 +263,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
     }
 
     if( jo.has_object( "npc_complain" ) ) {
-        JsonObject joc = jo.get_object( "npc_complain" );
+        const JsonObject &joc = jo.get_object( "npc_complain" );
         int chance;
         std::string issue;
         time_duration duration;
@@ -275,7 +275,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
         npc_complain_data = std::make_tuple( chance, issue, duration, speech );
     }
 
-    JsonObject jid = jo.get_object( "immunity_data" );
+    const JsonObject &jid = jo.get_object( "immunity_data" );
     field_types::load_immunity( jid, immunity_data );
 
     optional( jo, was_loaded, "immune_mtypes", immune_mtypes );

@@ -84,7 +84,7 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
 
     if( jsobj.has_object( "resist" ) ) {
         _res_was_loaded.clear();
-        JsonObject jo = jsobj.get_object( "resist" );
+        const JsonObject &jo = jsobj.get_object( "resist" );
         _resistances = load_resistances_instance( jo );
         for( const JsonMember &jmemb : jo ) {
             _res_was_loaded.emplace_back( jmemb.name() );

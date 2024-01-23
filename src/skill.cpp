@@ -133,7 +133,7 @@ void Skill::load_skill( const JsonObject &jsobj )
     }
     time_info_t time_to_attack;
     if( jsobj.has_object( "time_to_attack" ) ) {
-        JsonObject jso_tta = jsobj.get_object( "time_to_attack" );
+        const JsonObject &jso_tta = jsobj.get_object( "time_to_attack" );
         jso_tta.read( "min_time", time_to_attack.min_time );
         jso_tta.read( "base_time", time_to_attack.base_time );
         jso_tta.read( "time_reduction_per_level", time_to_attack.time_reduction_per_level );

@@ -442,7 +442,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
         }
     }
     if( jsobj.has_object( "social_modifiers" ) ) {
-        JsonObject sm = jsobj.get_object( "social_modifiers" );
+        const JsonObject &sm = jsobj.get_object( "social_modifiers" );
         social_mods = load_bionic_social_mods( sm );
     }
 

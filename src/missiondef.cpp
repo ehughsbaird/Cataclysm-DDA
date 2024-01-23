@@ -328,7 +328,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     if( std::any_of( origins.begin(), origins.end(), []( mission_origin origin ) {
     return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
 } ) ) {
-        JsonObject djo = jo.get_object( "dialogue" );
+        const JsonObject &djo = jo.get_object( "dialogue" );
         // TODO: There should be a cleaner way to do it
         mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
         mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
@@ -360,7 +360,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
         if( jo.has_string( phase ) ) {
             assign_function( jo, phase, phase_func, mission_function_map );
         } else if( jo.has_member( phase ) ) {
-            JsonObject j_start = jo.get_object( phase );
+            const JsonObject &j_start = jo.get_object( phase );
             if( !parse_funcs( j_start, phase_func ) ) {
                 deferred.emplace_back( jo, src );
                 jo.allow_omitted_members();

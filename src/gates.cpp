@@ -89,7 +89,7 @@ void gate_data::load( const JsonObject &jo, const std::string_view )
     mandatory( jo, was_loaded, "walls", walls, string_id_reader<ter_t> {} );
 
     if( !was_loaded || jo.has_member( "messages" ) ) {
-        JsonObject messages_obj = jo.get_object( "messages" );
+        const JsonObject &messages_obj = jo.get_object( "messages" );
 
         optional( messages_obj, was_loaded, "pull", pull_message );
         optional( messages_obj, was_loaded, "open", open_message );

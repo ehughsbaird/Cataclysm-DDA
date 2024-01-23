@@ -408,7 +408,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 bp_build_reqs = cata::make_value<parameterized_build_reqs>();
                 build_reqs &default_reqs =
                     bp_build_reqs->reqs_by_parameters.emplace().first->second;
-                const JsonObject jneeds = jo.get_object( "blueprint_needs" );
+                const JsonObject &jneeds = jo.get_object( "blueprint_needs" );
                 if( jneeds.has_member( "time" ) ) {
                     default_reqs.time =
                         to_moves<int>( read_from_json_string<time_duration>(

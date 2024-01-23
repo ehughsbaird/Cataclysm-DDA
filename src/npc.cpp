@@ -572,7 +572,7 @@ void npc_template::load( const JsonObject &jsobj )
     jsobj.read( "int", tem.intl );
     jsobj.read( "per", tem.per );
     if( jsobj.has_object( "personality" ) ) {
-        const JsonObject personality = jsobj.get_object( "personality" );
+        const JsonObject &personality = jsobj.get_object( "personality" );
         tem.personality = npc_personality();
         tem.personality->aggression = personality.get_int( "aggression" );
         tem.personality->bravery = personality.get_int( "bravery" );

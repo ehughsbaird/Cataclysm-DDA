@@ -442,7 +442,7 @@ void Messages::deserialize( const JsonObject &json )
         return;
     }
 
-    JsonObject obj = json.get_object( "player_messages" );
+    const JsonObject &obj = json.get_object( "player_messages" );
     obj.read( "messages", player_messages.messages );
     obj.read( "curmes", player_messages.curmes );
 }

@@ -248,17 +248,17 @@ void relic_charge_template::load( const JsonObject &jo )
 {
     int tmp_power = 0;
 
-    const JsonObject max_charge = jo.get_object( "max_charges" );
+    const JsonObject &max_charge = jo.get_object( "max_charges" );
     max_charge.read( "range", max_charges );
     max_charge.read( "power", tmp_power );
     power_level += tmp_power;
 
-    const JsonObject charge = jo.get_object( "charges" );
+    const JsonObject &charge = jo.get_object( "charges" );
     charge.read( "range", init_charges );
     charge.read( "power", tmp_power );
     power_level += tmp_power;
 
-    const JsonObject init_charge = jo.get_object( "charges_per_use" );
+    const JsonObject &init_charge = jo.get_object( "charges_per_use" );
     init_charge.read( "range", charges_per_use );
     init_charge.read( "power", tmp_power );
     power_level += tmp_power;

@@ -186,7 +186,7 @@ void VehicleSpawn::load( const JsonObject &jo )
     VehicleSpawn &spawn = vspawns[vspawn_id( jo.get_string( "id" ) )];
     for( JsonObject type : jo.get_array( "spawn_types" ) ) {
         if( type.has_object( "vehicle_json" ) ) {
-            JsonObject vjo = type.get_object( "vehicle_json" );
+            const JsonObject &vjo = type.get_object( "vehicle_json" );
             spawn.add( type.get_float( "weight" ), make_shared_fast<VehicleFunction_json>( vjo ) );
         } else if( type.has_string( "vehicle_function" ) ) {
             if( builtin_functions.count( type.get_string( "vehicle_function" ) ) == 0 ) {

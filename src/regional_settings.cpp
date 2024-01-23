@@ -198,7 +198,7 @@ static void load_forest_trail_settings( const JsonObject &jo,
             jo.throw_error( "\"forest_trail_settings\": { … } required for default" );
         }
     } else {
-        JsonObject forest_trail_settings_jo = jo.get_object( "forest_trail_settings" );
+        const JsonObject &forest_trail_settings_jo = jo.get_object( "forest_trail_settings" );
         read_and_set_or_throw<int>( forest_trail_settings_jo, "chance", forest_trail_settings.chance,
                                     !overlay );
         read_and_set_or_throw<int>( forest_trail_settings_jo, "border_point_chance",
@@ -240,7 +240,7 @@ static void load_overmap_feature_flag_settings( const JsonObject &jo,
             jo.throw_error( "\"overmap_feature_flag_settings\": { … } required for default" );
         }
     } else {
-        JsonObject overmap_feature_flag_settings_jo = jo.get_object( "overmap_feature_flag_settings" );
+        const JsonObject &overmap_feature_flag_settings_jo = jo.get_object( "overmap_feature_flag_settings" );
         read_and_set_or_throw<bool>( overmap_feature_flag_settings_jo, "clear_blacklist",
                                      overmap_feature_flag_settings.clear_blacklist, !overlay );
         read_and_set_or_throw<bool>( overmap_feature_flag_settings_jo, "clear_whitelist",
@@ -285,7 +285,7 @@ static void load_overmap_forest_settings(
             jo.throw_error( "\"overmap_forest_settings\": { … } required for default" );
         }
     } else {
-        JsonObject overmap_forest_settings_jo = jo.get_object( "overmap_forest_settings" );
+        const JsonObject &overmap_forest_settings_jo = jo.get_object( "overmap_forest_settings" );
         read_and_set_or_throw<double>( overmap_forest_settings_jo, "noise_threshold_forest",
                                        overmap_forest_settings.noise_threshold_forest, !overlay );
         read_and_set_or_throw<double>( overmap_forest_settings_jo, "noise_threshold_forest_thick",
@@ -310,7 +310,7 @@ static void load_overmap_ravine_settings(
             jo.throw_error( "\"overmap_ravine_settings\": { … } required for default" );
         }
     } else {
-        JsonObject overmap_ravine_settings_jo = jo.get_object( "overmap_ravine_settings" );
+        const JsonObject &overmap_ravine_settings_jo = jo.get_object( "overmap_ravine_settings" );
         read_and_set_or_throw<int>( overmap_ravine_settings_jo, "num_ravines",
                                     overmap_ravine_settings.num_ravines, !overlay );
         read_and_set_or_throw<int>( overmap_ravine_settings_jo, "ravine_range",
@@ -331,7 +331,7 @@ static void load_overmap_lake_settings( const JsonObject &jo,
             jo.throw_error( "\"overmap_lake_settings\": { … } required for default" );
         }
     } else {
-        JsonObject overmap_lake_settings_jo = jo.get_object( "overmap_lake_settings" );
+        const JsonObject &overmap_lake_settings_jo = jo.get_object( "overmap_lake_settings" );
         read_and_set_or_throw<double>( overmap_lake_settings_jo, "noise_threshold_lake",
                                        overmap_lake_settings.noise_threshold_lake, !overlay );
         read_and_set_or_throw<int>( overmap_lake_settings_jo, "lake_size_min",
@@ -378,7 +378,7 @@ static void load_overmap_ocean_settings( const JsonObject &jo,
             jo.throw_error( "OVERMAP_PLACE_OCEANS set to true, but \"overmap_ocean_settings\" not defined in region_settings" );
         }
     } else {
-        JsonObject overmap_ocean_settings_jo = jo.get_object( "overmap_ocean_settings" );
+        const JsonObject &overmap_ocean_settings_jo = jo.get_object( "overmap_ocean_settings" );
         read_and_set_or_throw<double>( overmap_ocean_settings_jo, "noise_threshold_ocean",
                                        overmap_ocean_settings.noise_threshold_ocean, !overlay );
         read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_size_min",
@@ -518,7 +518,7 @@ void load_region_settings( const JsonObject &jo )
             jo.throw_error( "\"city\": { … } required for default" );
         }
     } else {
-        JsonObject cjo = jo.get_object( "city" );
+        const JsonObject &cjo = jo.get_object( "city" );
         if( !cjo.read( "shop_radius", new_region.city_spec.shop_radius ) && strict ) {
             jo.throw_error( "city: shop_radius required for default" );
         }
@@ -554,7 +554,7 @@ void load_region_settings( const JsonObject &jo )
             jo.throw_error( "\"weather\": { … } required for default" );
         }
     } else {
-        JsonObject wjo = jo.get_object( "weather" );
+        const JsonObject &wjo = jo.get_object( "weather" );
         new_region.weather = weather_generator::load( wjo );
     }
 
@@ -688,7 +688,7 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
         }
     }
 
-    JsonObject cityjo = jo.get_object( "city" );
+    const JsonObject &cityjo = jo.get_object( "city" );
 
     cityjo.read( "shop_radius", region.city_spec.shop_radius );
     cityjo.read( "shop_sigma", region.city_spec.shop_sigma );

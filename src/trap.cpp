@@ -193,7 +193,7 @@ void trap::load( const JsonObject &jo, const std::string_view )
         }
     }
     if( jo.has_object( "vehicle_data" ) ) {
-        JsonObject jv = jo.get_object( "vehicle_data" );
+        const JsonObject &jv = jo.get_object( "vehicle_data" );
         vehicle_data.remove_trap = jv.get_bool( "remove_trap", false );
         vehicle_data.do_explosion = jv.get_bool( "do_explosion", false );
         vehicle_data.is_falling = jv.get_bool( "is_falling", false );

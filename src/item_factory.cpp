@@ -2537,7 +2537,7 @@ void Item_factory::load_slot_optional( cata::value_ptr<SlotType> &slotptr, const
     if( !jo.has_member( member ) ) {
         return;
     }
-    JsonObject slotjo = jo.get_object( member );
+    const JsonObject &slotjo = jo.get_object( member );
     load_slot( slotptr, slotjo, src );
 }
 
@@ -2992,8 +2992,7 @@ void islot_armor::load( const JsonObject &jo )
     get_optional( jo, was_loaded, "environmental_protection", _env_resist );
     get_optional( jo, was_loaded, "environmental_protection_with_filter", _env_resist_w_filter );
 
-    JsonObject relative = jo.get_object( "relative" );
-    relative.allow_omitted_members();
+    const JsonObject &relative = jo.get_object( "relative" );
     get_relative( relative, "material_thickness", _material_thickness, 0.f );
     get_relative( relative, "environmental_protection", _env_resist, 0 );
     get_relative( relative, "environmental_protection_with_filter", _env_resist_w_filter, 0 );
@@ -3002,8 +3001,7 @@ void islot_armor::load( const JsonObject &jo )
         _rel_encumb = relative.get_float( "encumbrance" );
     }
 
-    JsonObject proportional = jo.get_object( "proportional" );
-    proportional.allow_omitted_members();
+    const JsonObject &proportional = jo.get_object( "proportional" );
     get_proportional( proportional, "material_thickness", _material_thickness, 0.f );
     get_proportional( proportional, "environmental_protection", _env_resist, 0 );
     get_proportional( proportional, "environmental_protection_with_filter", _env_resist_w_filter, 0 );
@@ -3234,10 +3232,8 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 {
     bool strict = src == "dda";
 
-    JsonObject relative = jo.get_object( "relative" );
-    JsonObject proportional = jo.get_object( "proportional" );
-    relative.allow_omitted_members();
-    proportional.allow_omitted_members();
+    const JsonObject &relative = jo.get_object( "relative" );
+    const JsonObject &proportional = jo.get_object( "proportional" );
 
     // !slot.comesttype.empty() for was_loaded - we don't have a proper was_loaded, but
     // if it's been loaded before, this should have a value. If it's not, we'll catch it later.
@@ -4111,16 +4107,14 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     }
     def.melee_proportional.clear();
     if( jo.has_object( "proportional" ) ) {
-        JsonObject jprop = jo.get_object( "proportional" );
-        jprop.allow_omitted_members();
+        const JsonObject &jprop = jo.get_object( "proportional" );
         if( jprop.has_object( "melee_damage" ) ) {
             def.melee_proportional = load_damage_map( jprop.get_object( "melee_damage" ) );
         }
     }
     def.melee_relative.clear();
     if( jo.has_object( "relative" ) ) {
-        JsonObject jrel = jo.get_object( "relative" );
-        jrel.allow_omitted_members();
+        const JsonObject &jrel = jo.get_object( "relative" );
         if( jrel.has_object( "melee_damage" ) ) {
             def.melee_relative = load_damage_map( jrel.get_object( "melee_damage" ) );
         }
@@ -4271,7 +4265,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     }
 
     if( jo.has_member( "explosion" ) ) {
-        JsonObject je = jo.get_object( "explosion" );
+        const JsonObject &je = jo.get_object( "explosion" );
         def.explosion = load_explosion_data( je );
     }
 
@@ -4292,18 +4286,15 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_qualities_from_json( jo, "qualities", def );
     } else {
         if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_object( "extend" );
             extend_qualities_from_json( tmp, "qualities", def );
         }
         if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_object( "delete" );
             delete_qualities_from_json( tmp, "qualities", def );
         }
         if( jo.has_object( "relative" ) ) {
-            JsonObject tmp = jo.get_object( "relative" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_object( "relative" );
             relative_qualities_from_json( tmp, "qualities", def );
         }
     }
@@ -4320,13 +4311,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_techniques_from_json( jo, "techniques", def );
     } else {
         if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_object( "extend" );
             extend_techniques_from_json( tmp, "techniques", def );
         }
         if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_object( "delete" );
             delete_techniques_from_json( tmp, "techniques", def );
         }
     }
@@ -4341,7 +4330,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.countdown_action = usage_from_string( jo.get_string( "countdown_action" ) );
 
     } else if( jo.has_object( "countdown_action" ) ) {
-        JsonObject tmp = jo.get_object( "countdown_action" );
+        const JsonObject &tmp = jo.get_object( "countdown_action" );
         use_function fun = usage_from_object( tmp ).second;
         if( fun ) {
             def.countdown_action = fun;
@@ -4352,7 +4341,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.drop_action = usage_from_string( jo.get_string( "drop_action" ) );
 
     } else if( jo.has_object( "drop_action" ) ) {
-        JsonObject tmp = jo.get_object( "drop_action" );
+        const JsonObject &tmp = jo.get_object( "drop_action" );
         use_function fun = usage_from_object( tmp ).second;
         if( fun ) {
             def.drop_action = fun;
@@ -4391,7 +4380,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     if( jo.has_member( "gunmod_data" ) ) {
         // use the same JsonObject for the two load_slot calls to avoid
         // warnings about unvisited Json members
-        JsonObject jo_gunmod = jo.get_object( "gunmod_data" );
+        const JsonObject &jo_gunmod = jo.get_object( "gunmod_data" );
         load_slot( def.gunmod, jo_gunmod, src );
         load_slot( def.mod, jo_gunmod, src );
     }
@@ -4438,8 +4427,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     optional( jo, def.was_loaded, "expand_snippets", def.expand_snippets, false );
 
     // potentially replace materials and update their values
-    JsonObject replace_val = jo.get_object( "replace_materials" );
-    replace_val.allow_omitted_members();
+    const JsonObject &replace_val = jo.get_object( "replace_materials" );
     replace_materials( replace_val, def );
 
     if( jo.has_string( "abstract" ) ) {
@@ -4924,7 +4912,7 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
         sptr->container_item = itype_id( obj.get_string( "entry-wrapper" ) );
     }
     if( obj.has_object( "container-item" ) ) {
-        JsonObject jo = obj.get_object( "container-item" );
+        const JsonObject &jo = obj.get_object( "container-item" );
         sptr->container_item = itype_id( jo.get_string( "item" ) );
         sptr->container_item_variant = jo.get_string( "variant" );
     } else {
@@ -5132,7 +5120,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
             std::string type = jo.get_string( member );
             emplace_usage( use_methods, type );
         } else if( jo.has_object( member ) ) {
-            JsonObject obj = jo.get_object( member );
+            const JsonObject &obj = jo.get_object( member );
             std::pair<std::string, use_function> fun = usage_from_object( obj );
             if( fun.second ) {
                 use_methods.insert( fun );

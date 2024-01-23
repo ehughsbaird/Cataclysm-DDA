@@ -170,7 +170,7 @@ static void parse_vp_reqs( const JsonObject &obj, const vpart_id &id, const std:
     if( !obj.has_object( key ) ) {
         return;
     }
-    JsonObject src = obj.get_object( key );
+    const JsonObject &src = obj.get_object( key );
 
     JsonArray sk = src.get_array( "skills" );
     if( !sk.empty() ) {
@@ -216,7 +216,7 @@ static void parse_vp_control_reqs( const JsonObject &obj, const vpart_id &id,
     if( !obj.has_object( key ) ) {
         return;
     }
-    JsonObject src = obj.get_object( key );
+    const JsonObject &src = obj.get_object( key );
 
     JsonArray sk = src.get_array( "skills" );
     if( !sk.empty() ) {
@@ -316,7 +316,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "requirements" ) ) {
-        JsonObject reqs = jo.get_object( "requirements" );
+        const JsonObject &reqs = jo.get_object( "requirements" );
 
         parse_vp_reqs( reqs, id, "install", install_reqs, install_skills, install_moves );
         parse_vp_reqs( reqs, id, "removal", removal_reqs, removal_skills, removal_moves );
@@ -324,7 +324,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "control_requirements" ) ) {
-        JsonObject reqs = jo.get_object( "control_requirements" );
+        const JsonObject &reqs = jo.get_object( "control_requirements" );
 
         parse_vp_control_reqs( reqs, id, "air", control_air );
         parse_vp_control_reqs( reqs, id, "land", control_land );
@@ -364,7 +364,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "unfolding_time", unfolding_time, strict );
 
     if( jo.has_member( "damage_reduction" ) ) {
-        JsonObject dred = jo.get_object( "damage_reduction" );
+        const JsonObject &dred = jo.get_object( "damage_reduction" );
         damage_reduction = load_damage_map( dred );
     }
 
@@ -412,7 +412,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
             workbench_info.emplace();
         }
 
-        JsonObject wb_jo = jo.get_object( "workbench" );
+        const JsonObject &wb_jo = jo.get_object( "workbench" );
         assign( wb_jo, "multiplier", workbench_info->multiplier, strict );
         assign( wb_jo, "mass", workbench_info->allowed_mass, strict );
         assign( wb_jo, "volume", workbench_info->allowed_volume, strict );
@@ -429,7 +429,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         if( !transform_terrain_info ) {
             transform_terrain_info.emplace();
         }
-        JsonObject jttd = jo.get_object( "transform_terrain" );
+        const JsonObject &jttd = jo.get_object( "transform_terrain" );
         vpslot_terrain_transform &vtt = *transform_terrain_info;
         optional( jttd, was_loaded, "pre_flags", vtt.pre_flags, {} );
         optional( jttd, was_loaded, "post_terrain", vtt.post_terrain, "t_null" );

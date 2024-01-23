@@ -636,7 +636,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
         if( !jio.has_object( "object" ) ) {
             jio.throw_error( R"(mapgen with method "json" must define key "object")" );
         }
-        JsonObject jo = jio.get_object( "object" );
+        const JsonObject &jo = jio.get_object( "object" );
         jo.allow_omitted_members();
         return std::make_shared<mapgen_function_json>(
                    jo, std::move( weight ), "mapgen " + id_base, offset, total );
@@ -660,7 +660,7 @@ static void load_nested_mapgen( const JsonObject &jio, const nested_mapgen_id &i
     if( mgtype == "json" ) {
         if( jio.has_object( "object" ) ) {
             int weight = jio.get_int( "weight", 1000 );
-            JsonObject jo = jio.get_object( "object" );
+            const JsonObject &jo = jio.get_object( "object" );
             jo.allow_omitted_members();
             nested_mapgens[id_base].add(
                 std::make_shared<mapgen_function_json_nested>(
@@ -680,8 +680,7 @@ static void load_update_mapgen( const JsonObject &jio, const update_mapgen_id &i
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
         if( jio.has_object( "object" ) ) {
-            JsonObject jo = jio.get_object( "object" );
-            jo.allow_omitted_members();
+            const JsonObject &jo = jio.get_object( "object" );
             update_mapgens[id_base].add(
                 std::make_unique<update_mapgen_function_json>(
                     jo, "update mapgen " + id_base.str() ) );
@@ -3139,11 +3138,11 @@ class jmapgen_sealed_item : public jmapgen_piece
             : furniture( jsi.get_member( "furniture" ) )
             , chance( jsi, "chance", 100, 100 ) {
             if( jsi.has_object( "item" ) ) {
-                JsonObject item_obj = jsi.get_object( "item" );
+                const JsonObject &item_obj = jsi.get_object( "item" );
                 item_spawner = jmapgen_spawn_item( item_obj, "item for " + context );
             }
             if( jsi.has_object( "items" ) ) {
-                JsonObject items_obj = jsi.get_object( "items" );
+                const JsonObject &items_obj = jsi.get_object( "items" );
                 item_group_spawner = jmapgen_item_group( items_obj, "items for " + context );
             }
         }

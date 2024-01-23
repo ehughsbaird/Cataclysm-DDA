@@ -3410,7 +3410,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, std::string
     const bool passable_only = jo.get_bool( "passable_only", false );
     std::optional<mission_target_params> target_params;
     if( jo.has_object( "target_params" ) ) {
-        JsonObject target_obj = jo.get_object( "target_params" );
+        const JsonObject &target_obj = jo.get_object( "target_params" );
         target_params = mission_util::parse_mission_om_target( target_obj );
     }
 
@@ -4157,7 +4157,7 @@ void talk_effect_fun_t::set_open_dialogue( const JsonObject &jo, std::string_vie
     bool has_member = false;
     if( jo.has_object( member ) ) {
         has_member = true;
-        JsonObject innerJo = jo.get_object( member );
+        const JsonObject &innerJo = jo.get_object( member );
         true_eocs = load_eoc_vector( innerJo, "true_eocs" );
         false_eocs = load_eoc_vector( innerJo, "false_eocs" );
         topic = get_str_or_var( innerJo.get_member( "topic" ), "topic" );
@@ -4286,7 +4286,7 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, std::string_view m
     if( jo.has_object( "loc" ) ) {
         loc_var = read_var_info( jo.get_object( "loc" ) );
     }
-    JsonObject spell_jo = jo.get_object( member );
+    const JsonObject &spell_jo = jo.get_object( member );
     str_or_var id = get_str_or_var( spell_jo.get_member( "id" ), "id" );
     bool hit_self = spell_jo.get_bool( "hit_self", false );
 
@@ -5650,7 +5650,7 @@ void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
 
 void talk_effect_fun_t::set_give_equipment( const JsonObject &jo, std::string_view member )
 {
-    JsonObject jobj = jo.get_object( member );
+    const JsonObject &jobj = jo.get_object( member );
     int allowance = 0;
     std::vector<trial_mod> debt_modifiers;
     if( jobj.has_int( "allowance" ) ) {
@@ -6674,7 +6674,7 @@ void talk_effect_t::load_effect( const JsonObject &jo, const std::string &member
         const std::string type = jo.get_string( member_name );
         parse_string_effect( type, jo );
     } else if( jo.has_object( member_name ) ) {
-        JsonObject sub_effect = jo.get_object( member_name );
+        const JsonObject &sub_effect = jo.get_object( member_name );
         parse_sub_effect( sub_effect );
     } else if( jo.has_array( member_name ) ) {
         for( const JsonValue entry : jo.get_array( member_name ) ) {
@@ -6712,7 +6712,7 @@ talk_response::talk_response()
 talk_response::talk_response( const JsonObject &jo )
 {
     if( jo.has_member( "truefalsetext" ) ) {
-        JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
+        const JsonObject &truefalse_jo = jo.get_object( "truefalsetext" );
         read_condition( truefalse_jo, "condition", truefalse_condition, true );
         truefalse_jo.read( "true", truetext );
         truefalse_jo.read( "false", falsetext );
@@ -6723,11 +6723,11 @@ talk_response::talk_response( const JsonObject &jo )
         };
     }
     if( jo.has_member( "trial" ) ) {
-        JsonObject trial_obj = jo.get_object( "trial" );
+        const JsonObject &trial_obj = jo.get_object( "trial" );
         trial = talk_trial( trial_obj );
     }
     if( jo.has_member( "success" ) ) {
-        JsonObject success_obj = jo.get_object( "success" );
+        const JsonObject &success_obj = jo.get_object( "success" );
         success = talk_effect_t( success_obj, "effect" );
     } else if( jo.has_string( "topic" ) ) {
         // This is for simple topic switching without a possible failure
@@ -6740,7 +6740,7 @@ talk_response::talk_response( const JsonObject &jo )
         jo.throw_error( "the failure effect is mandatory if a talk_trial has been defined" );
     }
     if( jo.has_member( "failure" ) ) {
-        JsonObject failure_obj = jo.get_object( "failure" );
+        const JsonObject &failure_obj = jo.get_object( "failure" );
         failure = talk_effect_t( failure_obj, "effect" );
     }
 
@@ -6776,7 +6776,7 @@ json_talk_repeat_response::json_talk_repeat_response( const JsonObject &jo )
         jo.throw_error( "Repeat response with empty repeat information!" );
     }
     if( jo.has_object( "response" ) ) {
-        JsonObject response_obj = jo.get_object( "response" );
+        const JsonObject &response_obj = jo.get_object( "response" );
         response = json_talk_response( response_obj );
     } else {
         jo.throw_error( "Repeat response with no response!" );
@@ -6876,7 +6876,7 @@ dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo,
     if( jo.has_array( member_name ) ) {
         return dynamic_line_t( jo.get_array( member_name ) );
     } else if( jo.has_object( member_name ) ) {
-        JsonObject dl = jo.get_object( member_name );
+        const JsonObject &dl = jo.get_object( member_name );
         if( dl.has_member( "str" ) ) {
             dl.allow_omitted_members();
             translation line;
@@ -7089,7 +7089,7 @@ void json_talk_topic::load( const JsonObject &jo )
             id = jo.get_array( "id" ).next_string();
         }
         if( jo.has_object( "speaker_effect" ) ) {
-            JsonObject speaker_effect = jo.get_object( "speaker_effect" );
+            const JsonObject &speaker_effect = jo.get_object( "speaker_effect" );
             speaker_effects.emplace_back( speaker_effect, id );
         } else if( jo.has_array( "speaker_effect" ) ) {
             for( JsonObject speaker_effect : jo.get_array( "speaker_effect" ) ) {

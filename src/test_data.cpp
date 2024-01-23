@@ -116,7 +116,7 @@ void test_data::load( const JsonObject &jo )
     }
 
     if( jo.has_object( "spawn_data" ) )  {
-        JsonObject spawn_jo = jo.get_object( "spawn_data" );
+        const JsonObject &spawn_jo = jo.get_object( "spawn_data" );
         if( spawn_jo.has_array( "group" ) ) {
             std::vector<container_spawn_test_data> test_groups;
             spawn_jo.read( "group", test_groups );
