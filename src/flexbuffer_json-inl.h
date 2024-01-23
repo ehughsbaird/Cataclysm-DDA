@@ -861,6 +861,21 @@ inline JsonArray JsonObject::get_array( const std::string_view key ) const
     return JsonArray{};
 }
 
+inline const JsonObject &JsonObject::get_object( const std::string_view key ) const
+{
+	static JsonObject empty;
+	auto child_iter = child_objects_.find( std::string( key ) );
+	if( child_iter != child_objects_.end() ) {
+		return child_iter->second;
+	}
+    std::optional<JsonValue> member_opt = get_member_opt( key );
+    if( member_opt.has_value() ) {
+	    return child_objects_.emplace( key, std::move( *member_opt ) ).first->second;
+    }
+    return empty;
+}
+
+/*
 inline JsonObject JsonObject::get_object( const std::string_view key ) const
 {
     std::optional<JsonValue> member_opt = get_member_opt( key );
@@ -869,6 +884,7 @@ inline JsonObject JsonObject::get_object( const std::string_view key ) const
     }
     return JsonObject{};
 }
+*/
 
 template<typename E, typename >
 E JsonObject::get_enum_value( const std::string &name ) const

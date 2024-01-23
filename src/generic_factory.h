@@ -735,7 +735,6 @@ inline bool handle_proportional( const JsonObject &jo, const std::string_view na
 {
     if( jo.has_object( "proportional" ) ) {
         JsonObject proportional = jo.get_object( "proportional" );
-        proportional.allow_omitted_members();
         if( proportional.has_member( name ) ) {
             debugmsg( "Member %s of type %s does not support proportional", name,
                       demangle( typeid( MemberType ).name() ) );
@@ -755,7 +754,6 @@ inline bool handle_proportional( const JsonObject &jo, const std::string_view na
 {
     if( jo.has_object( "proportional" ) ) {
         JsonObject proportional = jo.get_object( "proportional" );
-        proportional.allow_omitted_members();
         // We need to check this here, otherwise we get problems with unvisited members
         if( !proportional.has_member( name ) ) {
             return false;
@@ -785,7 +783,6 @@ inline bool handle_relative( const JsonObject &jo, const std::string_view name, 
 {
     if( jo.has_object( "relative" ) ) {
         JsonObject relative = jo.get_object( "relative" );
-        relative.allow_omitted_members();
         if( !relative.has_member( name ) ) {
             return false;
         }
@@ -804,7 +801,6 @@ inline bool handle_relative( const JsonObject &jo, const std::string_view name, 
 {
     if( jo.has_object( "relative" ) ) {
         JsonObject relative = jo.get_object( "relative" );
-        relative.allow_omitted_members();
         // This needs to happen here, otherwise we get unvisited members
         if( !relative.has_member( name ) ) {
             return false;
@@ -1079,12 +1075,10 @@ public:
         } else {
             if( jo.has_object( "extend" ) ) {
                 JsonObject tmp = jo.get_object( "extend" );
-                tmp.allow_omitted_members();
                 derived.insert_values_from( tmp, member_name, container );
             }
             if( jo.has_object( "delete" ) ) {
                 JsonObject tmp = jo.get_object( "delete" );
-                tmp.allow_omitted_members();
                 derived.erase_values_from( tmp, member_name, container );
             }
             return true;
@@ -1105,7 +1099,6 @@ public:
     bool do_relative( const JsonObject &jo, const std::string_view name, C & ) const {
         if( jo.has_object( "relative" ) ) {
             JsonObject relative = jo.get_object( "relative" );
-            relative.allow_omitted_members();
             if( !relative.has_member( name ) ) {
                 return false;
             }
@@ -1121,7 +1114,6 @@ public:
     bool do_relative( const JsonObject &jo, const std::string_view name, C &member ) const {
         if( jo.has_object( "relative" ) ) {
             JsonObject relative = jo.get_object( "relative" );
-            relative.allow_omitted_members();
             const Derived &derived = static_cast<const Derived &>( *this );
             // This needs to happen here, otherwise we get unvisited members
             if( !relative.has_member( name ) ) {
