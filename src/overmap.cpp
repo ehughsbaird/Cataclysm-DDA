@@ -3063,7 +3063,7 @@ void overmap::set_seen( const tripoint_om_omt &p, om_vision_level val )
 
     layer[p.z() + OVERMAP_DEPTH].visible[p.xy()] = val;
 
-    if( val ) {
+    if( val > om_vision_level::outlines ) {
         add_extra_note( p );
     }
 }
@@ -3334,7 +3334,7 @@ void overmap::add_extra( const tripoint_om_omt &p, const map_extra_id &id )
 
 void overmap::add_extra_note( const tripoint_om_omt &p )
 {
-    if( !seen( p ) ) {
+    if( seen( p ) < om_vision_level::details ) {
         return;
     }
 
@@ -3917,7 +3917,8 @@ std::vector<point_abs_omt> overmap::find_terrain( const std::string_view term, i
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             tripoint_om_omt p( x, y, zlevel );
-            if( seen( p ) &&
+            static_assert( false, "FIX vision levels" );
+            if( seen( p ) != om_vision_level::unseen &&
                 lcmatch( ter( p )->get_name(), term ) ) {
                 found.push_back( project_combine( pos(), p.xy() ) );
             }

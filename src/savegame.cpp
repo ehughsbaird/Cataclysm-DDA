@@ -995,6 +995,33 @@ void overmap::unserialize_view( const JsonObject &jsobj )
     }
 }
 template<typename MdArray>
+static void serialize_enum_array_to_compacted_sequence( JsonOut &json, const MdArray &array )
+{
+    using enum_type = typename MdArray::value_type;
+    int count = 0;
+    enum_type lastval = enum_traits<enum_type>::last;
+    for( size_t j = 0; j < MdArray::size_y; ++j ) {
+        for( size_t i = 0; i < MdArray::size_x; ++i ) {
+            const enum_type value = array[i][j];
+            if( value == lastval ) {
+                ++count;
+                continue;
+            }
+            if( count != 0 ) {
+                json.write( count );
+                json.end_array();
+            }
+            lastval = value;
+            json.start_array();
+            json.write( static_cast<int>( value ) );
+            count = 1;
+        }
+    }
+    json.write( count );
+    json.end_array();
+}
+
+template<typename MdArray>
 static void serialize_array_to_compacted_sequence( JsonOut &json, const MdArray &array )
 {
     static_assert( std::is_same_v<typename MdArray::value_type, bool>,
@@ -1034,7 +1061,7 @@ void overmap::serialize_view( std::ostream &fout ) const
     json.start_array();
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
         json.start_array();
-        serialize_array_to_compacted_sequence( json, layer[z].visible );
+        serialize_enum_array_to_compacted_sequence( json, layer[z].visible );
         json.end_array();
         fout << std::endl;
     }

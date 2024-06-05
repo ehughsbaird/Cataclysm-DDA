@@ -3662,7 +3662,7 @@ void debug()
             for( int i = 0; i < OMAPX; i++ ) {
                 for( int j = 0; j < OMAPY; j++ ) {
                     for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                        cur_om.set_seen( { i, j, k }, true );
+                        cur_om.set_seen( { i, j, k }, om_vision_level::full );
                     }
                 }
             }

@@ -837,7 +837,8 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
     for( int i = -radius; i <= radius; i++ ) {
         for( int j = -radius; j <= radius; j++ ) {
             const tripoint_abs_omt p = center + point( i, j );
-            if( seen( p ) ) {
+            static_assert( false, "FIX vision levels" );
+            if( seen( p ) != om_vision_level::unseen ) {
                 continue;
             }
             if( trigdist && i * i + j * j > radius_squared ) {
@@ -847,7 +848,7 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
                 continue;
             }
             result = true;
-            set_seen( p, true );
+            set_seen( p, om_vision_level::full );
         }
     }
     return result;
@@ -911,7 +912,8 @@ overmap_path_params overmap_path_params::for_aircraft()
 
 static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path_params &params )
 {
-    if( params.only_known_by_player && !overmap_buffer.seen( omt_pos ) ) {
+    if( params.only_known_by_player &&
+        !overmap_buffer.seen_more_than( omt_pos, om_vision_level::vague ) ) {
         return -1;
     }
     if( params.avoid_danger && overmap_buffer.is_marked_dangerous( omt_pos ) ) {
@@ -1102,10 +1104,10 @@ bool overmapbuffer::is_findable_location( const tripoint_abs_omt &location,
         return false;
     }
 
-    if( params.must_see && !seen( location ) ) {
+    if( params.must_see && seen( location ) == om_vision_level::unseen ) {
         return false;
     }
-    if( params.cant_see && seen( location ) ) {
+    if( params.cant_see && seen( location ) != om_vision_level::unseen ) {
         return false;
     }
 

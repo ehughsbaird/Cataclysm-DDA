@@ -196,6 +196,7 @@ class overmapbuffer
         bool is_explored( const tripoint_abs_omt &p );
         void toggle_explored( const tripoint_abs_omt &p );
         om_vision_level seen( const tripoint_abs_omt &p );
+        bool seen_more_than( const tripoint_abs_omt &p, om_vision_level test );
         void set_seen( const tripoint_abs_omt &p, om_vision_level seen );
         bool has_camp( const tripoint_abs_omt &p );
         bool has_vehicle( const tripoint_abs_omt &p );

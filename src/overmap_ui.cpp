@@ -155,7 +155,8 @@ static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_o
          tripoint_range<tripoint_abs_omt>( current - shift, current + shift ) ) {
         nc_color ter_color = c_black;
         std::string ter_sym = " ";
-        const bool see = has_debug_vision || overmap_buffer.seen( dest );
+        static_assert( false, "FIX vision levels" );
+        const bool see = has_debug_vision || overmap_buffer.seen( dest ) != om_vision_level::unseen;
         if( see ) {
             // Only load terrain if we can actually see it
             oter_id cur_ter = overmap_buffer.ter( dest );
@@ -294,7 +295,8 @@ static void draw_city_labels( const catacurses::window &w, const tripoint_abs_om
             continue;   // right under the cursor.
         }
 
-        if( !overmap_buffer.seen( tripoint_abs_omt( city_pos, center.z() ) ) ) {
+        if( !overmap_buffer.seen_more_than( tripoint_abs_omt( city_pos, center.z() ),
+                                            om_vision_level::vague ) ) {
             continue;   // haven't seen it.
         }
 
@@ -333,7 +335,8 @@ static void draw_camp_labels( const catacurses::window &w, const tripoint_abs_om
             continue;   // right under the cursor.
         }
 
-        if( !overmap_buffer.seen( tripoint_abs_omt( camp_pos, center.z() ) ) ) {
+        if( !overmap_buffer.seen_more_than( tripoint_abs_omt( camp_pos, center.z() ),
+                                            om_vision_level::vague ) ) {
             continue;   // haven't seen it.
         }
 
@@ -638,7 +641,7 @@ static void draw_ascii(
             }
 
             const tripoint_abs_omt pos = np->global_omt_location();
-            if( has_debug_vision || overmap_buffer.seen( pos ) ) {
+            if( has_debug_vision || overmap_buffer.seen_more_than( pos, om_vision_level::outlines ) ) {
                 auto iter = npc_color.find( pos );
                 nc_color np_color = np->basic_symbol_color();
                 if( iter == npc_color.end() ) {
@@ -710,13 +713,14 @@ static void draw_ascii(
             nc_color ter_color = c_black;
             std::string ter_sym = " ";
 
-            const bool see = has_debug_vision || overmap_buffer.seen( omp );
-            if( see ) {
+            const om_vision_level vision = has_debug_vision ? om_vision_level::full :
+                                                              overmap_buffer.seen( omp );
+            if( vision == om_vision_level::unseen ) {
                 // Only load terrain if we can actually see it
                 cur_ter = overmap_buffer.ter( omp );
             }
 
-            oter_display_args oter_args( see );
+            oter_display_args oter_args( vision );
             std::tie( ter_sym, ter_color ) = oter_symbol_and_color( omp, oter_args, oter_opts, &lru_cache );
 
             // Are we debugging monster groups?
@@ -853,7 +857,7 @@ static void draw_ascii(
         }
     }
 
-    if( has_debug_vision || overmap_buffer.seen( center ) ) {
+    if( has_debug_vision || overmap_buffer.seen_more_than( center, om_vision_level::outlines ) ) {
         for( const auto &npc : npcs_near_player ) {
             if( !npc->marked_for_death && npc->global_omt_location() == center ) {
                 corner_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
@@ -931,7 +935,9 @@ static void draw_om_sidebar(
     const int sight_points = !has_debug_vision ?
                              player_character.overmap_sight_range( g->light_level( player_character.posz() ) ) :
                              100;
-    const bool center_seen = has_debug_vision || overmap_buffer.seen( center );
+    static_assert( false, "FIX vision level" );
+    const bool center_seen = has_debug_vision ||
+                             overmap_buffer.seen( center ) != om_vision_level::unseen;
     const tripoint_abs_omt target = player_character.get_active_mission_target();
     const bool has_target = target != overmap::invalid_tripoint;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
@@ -1290,7 +1296,8 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
                 locations.insert( locations.end(), notes.begin(), notes.end() );
             }
 
-            if( om_loc.om->seen( om_relative ) &&
+            static_assert( false, "FIX vision level" );
+            if( om_loc.om->seen( om_relative ) != om_vision_level::unseen &&
                 match_include_exclude( om_loc.om->ter( om_relative )->get_name(), term ) ) {
                 locations.push_back( project_combine( om_loc.om->pos(), om_relative.xy() ) );
             }
@@ -1513,13 +1520,13 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
             } else if( action == "CONFIRM" ) { // Actually modify the overmap
                 if( terrain ) {
                     overmap_buffer.ter_set( curs, uistate.place_terrain->id.id() );
-                    overmap_buffer.set_seen( curs, true );
+                    overmap_buffer.set_seen( curs, om_vision_level::full );
                 } else {
                     if( std::optional<std::vector<tripoint_abs_omt>> used_points =
                             overmap_buffer.place_special( *uistate.place_special, curs,
                                                           uistate.omedit_rotation, false, true ) ) {
                         for( const tripoint_abs_omt &pos : *used_points ) {
-                            overmap_buffer.set_seen( pos, true );
+                            overmap_buffer.set_seen( pos, om_vision_level::full );
                         }
                     }
                 }
@@ -1583,7 +1590,7 @@ static void set_special_args( tripoint_abs_omt &curs )
 static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt &dest,
         bool driving )
 {
-    if( !overmap_buffer.seen( dest ) ) {
+    if( overmap_buffer.seen( dest ) != om_vision_level::unseen ) {
         return {};
     }
     const Character &player_character = get_player_character();
@@ -2004,7 +2011,8 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         plist = line_to( opts.center.xy(), opts.mission_target->xy() );
     }
 
-    if( args.see ) {
+    // Only load terrain if we can see it
+    if( args.vision != om_vision_level::unseen ) {
         cur_ter = overmap_buffer.ter( omp );
     }
 
@@ -2041,7 +2049,7 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         // Display notes in all situations, even when not seen
         std::tie( ret.first, ret.second,
                   std::ignore ) = overmap_ui::get_note_display_info( overmap_buffer.note( omp ) );
-    } else if( !args.see ) {
+    } else if( args.vision == om_vision_level::unseen ) {
         // All cases above ignore the seen-status,
         ret.second = oter_unexplored.obj().get_color();
         ret.first = oter_unexplored.obj().get_symbol();
@@ -2072,6 +2080,7 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         ret.first = "&";
     } else if( opts.blink && opts.showhordes &&
                overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE &&
+               args.vision > om_vision_level::outlines &&
                ( overmap_ui::get_and_assign_los( args.los, player_character, omp, opts.sight_points ) ||
                  uistate.overmap_debug_mongroup || player_character.has_trait( trait_DEBUG_CLAIRVOYANCE ) ) ) {
         // Display Hordes only when within player line-of-sight

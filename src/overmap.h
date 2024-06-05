@@ -257,6 +257,7 @@ class overmap
         std::vector<oter_id> predecessors( const tripoint_om_omt & );
         void set_seen( const tripoint_om_omt &p, om_vision_level val );
         om_vision_level seen( const tripoint_om_omt &p ) const;
+        bool seen_more_than( const tripoint_om_omt &p, om_vision_level test ) const;
         bool &explored( const tripoint_om_omt &p );
         bool is_explored( const tripoint_om_omt &p ) const;
 
@@ -653,10 +654,10 @@ struct oter_display_options {
 // arguments for oter_symbol_and_color pertaining to a single point
 struct oter_display_args {
 
-    oter_display_args( bool seen ) : see( seen ) {}
+    oter_display_args( om_vision_level vis ) : vision( vis ) {}
 
     // Can the/has the PC seen this tile
-    bool see;
+    om_vision_level vision;
     // If this tile is on the edge of the drawn tiles, we may draw a mission indicator on it
     bool edge_tile = false;
     // Check if location is within player line-of-sight
