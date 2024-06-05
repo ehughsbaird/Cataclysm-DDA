@@ -2963,7 +2963,7 @@ void overmap::init_layers()
         const oter_id tid = get_default_terrain( k - OVERMAP_DEPTH );
         map_layer &l = layer[k];
         l.terrain.fill( tid );
-        l.visible.fill( false );
+        l.visible.fill( om_vision_level::unseen );
         l.explored.fill( false );
     }
 }
@@ -3051,7 +3051,7 @@ std::vector<oter_id> overmap::predecessors( const tripoint_om_omt &p )
     return it->second;
 }
 
-void overmap::set_seen( const tripoint_om_omt &p, bool val )
+void overmap::set_seen( const tripoint_om_omt &p, om_vision_level val )
 {
     if( !inbounds( p ) ) {
         return;
@@ -3068,10 +3068,10 @@ void overmap::set_seen( const tripoint_om_omt &p, bool val )
     }
 }
 
-bool overmap::seen( const tripoint_om_omt &p ) const
+om_vision_level overmap::seen( const tripoint_om_omt &p ) const
 {
     if( !inbounds( p ) ) {
-        return false;
+        return om_vision_level::unseen;
     }
     return layer[p.z() + OVERMAP_DEPTH].visible[p.xy()];
 }

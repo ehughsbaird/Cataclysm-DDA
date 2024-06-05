@@ -763,15 +763,15 @@ void overmapbuffer::add_camp( const basecamp &camp )
     om_loc.om->camps.push_back( camp );
 }
 
-bool overmapbuffer::seen( const tripoint_abs_omt &p )
+om_vision_level overmapbuffer::seen( const tripoint_abs_omt &p )
 {
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
         return om_loc.om->seen( om_loc.local );
     }
-    return false;
+    return om_vision_level::unseen;
 }
 
-void overmapbuffer::set_seen( const tripoint_abs_omt &p, bool seen )
+void overmapbuffer::set_seen( const tripoint_abs_omt &p, om_vision_level seen )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );
     om_loc.om->set_seen( om_loc.local, seen );
