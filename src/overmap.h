@@ -597,7 +597,7 @@ struct oter_display_lru {
     std::array<std::pair<oter_id, oter_t const *>, cache_size> cache;
     size_t cache_next = 0;
 
-    std::pair<std::string, nc_color> get_symbol_and_color( const oter_id &cur_ter );
+    std::pair<std::string, nc_color> get_symbol_and_color( const oter_id &cur_ter, om_vision_level );
 };
 
 // "arguments" to oter_symbol_and_color that do not change between calls in a batch

@@ -42,6 +42,8 @@ struct mapgen_arguments;
 struct oter_t;
 struct overmap_location;
 
+enum class om_vision_level : int8_t;
+
 inline const overmap_land_use_code_id land_use_code_forest( "forest" );
 inline const overmap_land_use_code_id land_use_code_wetland( "wetland" );
 inline const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
@@ -242,15 +244,37 @@ struct enum_traits<oter_travel_cost_type> {
     static constexpr oter_travel_cost_type last = oter_travel_cost_type::last;
 };
 
+class oter_vision
+{
+    public:
+        struct level {
+            translation name;
+            uint32_t symbol = 0;
+            nc_color color = c_black;
+            std::string looks_like;
+
+            void deserialize( const JsonObject &jo );
+        };
+        const level *viewed( om_vision_level ) const;
+
+        void deserialize( const JsonObject &jo );
+        void check() const;
+    private:
+        std::vector<level> levels;
+};
+
 struct oter_type_t {
     public:
         static const oter_type_t null_type;
 
         string_id<oter_type_t> id;
         std::vector<std::pair<string_id<oter_type_t>, mod_id>> src;
+    private:
+        friend struct oter_t;
         translation name;
         uint32_t symbol = 0;
         nc_color color = c_black;
+    public:
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
         std::vector<std::string> looks_like;
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
@@ -263,6 +287,8 @@ struct oter_type_t {
         // Spawns are added to the submaps *once* upon mapgen of the submaps
         overmap_static_spawns static_spawns;
         bool was_loaded = false;
+
+        oter_vision vision_levels;
 
         std::string get_symbol() const;
 
@@ -328,20 +354,35 @@ struct oter_t {
         std::string get_mapgen_id() const;
         oter_id get_rotated( om_direction::type dir ) const;
 
-        std::string get_name() const {
+        std::string get_name( om_vision_level vision ) const {
+            if( const oter_vision::level *seen = type->vision_levels.viewed( vision ) ) {
+                return seen->name.translated();
+            }
             return type->name.translated();
         }
 
-        std::string get_symbol( const bool from_land_use_code = false ) const {
-            return utf32_to_utf8( from_land_use_code ? symbol_alt : symbol );
+        std::string get_symbol( om_vision_level vision, const bool from_land_use_code = false ) const {
+            if( from_land_use_code ) {
+                return utf32_to_utf8( symbol_alt );
+            }
+            if( const oter_vision::level *seen = type->vision_levels.viewed( vision ) ) {
+                return utf32_to_utf8( seen->symbol );
+            }
+            return utf32_to_utf8( symbol );
         }
 
         uint32_t get_uint32_symbol() const {
             return symbol;
         }
 
-        nc_color get_color( const bool from_land_use_code = false ) const {
-            return from_land_use_code ? type->land_use_code->color : type->color;
+        nc_color get_color( om_vision_level vision, const bool from_land_use_code = false ) const {
+            if( from_land_use_code ) {
+                return type->land_use_code->color;
+            }
+            if( const oter_vision::level *seen = type->vision_levels.viewed( vision ) ) {
+                return seen->color;
+            }
+            return type->color;
         }
 
         // dir is only meaningful for rotatable, non-linear terrain.  If you

@@ -156,15 +156,16 @@ static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_o
         nc_color ter_color = c_black;
         std::string ter_sym = " ";
         static_assert( false, "FIX vision levels" );
-        const bool see = has_debug_vision || overmap_buffer.seen( dest ) != om_vision_level::unseen;
-        if( see ) {
+        om_vision_level vision = has_debug_vision ? om_vision_level::full :
+                                 overmap_buffer.seen( dest );
+        if( vision != om_vision_level::unseen ) {
             // Only load terrain if we can actually see it
             oter_id cur_ter = overmap_buffer.ter( dest );
-            ter_color = cur_ter->get_color();
-            ter_sym = cur_ter->get_symbol();
+            ter_color = cur_ter->get_color( vision );
+            ter_sym = cur_ter->get_symbol( vision );
         } else {
-            ter_color = oter_unexplored.obj().get_color();
-            ter_sym = oter_unexplored.obj().get_symbol();
+            ter_color = oter_unexplored.obj().get_color( om_vision_level::full );
+            ter_sym = oter_unexplored.obj().get_symbol( om_vision_level::full );
         }
         map_around[index++] = std::make_pair( ter_color, ter_sym );
     }
@@ -617,8 +618,8 @@ static void draw_ascii(
             const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
             const oter_id oter = s_ter.terrain->get_rotated( uistate.omedit_rotation );
 
-            special_cache.insert( std::make_pair(
-                                      rp, std::make_pair( oter->get_symbol(), oter->get_color() ) ) );
+            special_cache.insert( std::make_pair( rp, std::make_pair( oter->get_symbol( om_vision_level::full ),
+                                                  oter->get_color( om_vision_level::full ) ) ) );
 
             s_begin.x() = std::min( s_begin.x(), rp.x() );
             s_begin.y() = std::min( s_begin.y(), rp.y() );
@@ -714,7 +715,7 @@ static void draw_ascii(
             std::string ter_sym = " ";
 
             const om_vision_level vision = has_debug_vision ? om_vision_level::full :
-                                                              overmap_buffer.seen( omp );
+                                           overmap_buffer.seen( omp );
             if( vision == om_vision_level::unseen ) {
                 // Only load terrain if we can actually see it
                 cur_ter = overmap_buffer.ter( omp );
@@ -768,8 +769,8 @@ static void draw_ascii(
             // Preview for place_terrain or place_special
             if( uistate.place_terrain || uistate.place_special ) {
                 if( blink && uistate.place_terrain && omp.xy() == center.xy() ) {
-                    ter_color = uistate.place_terrain->get_color();
-                    ter_sym = uistate.place_terrain->get_symbol();
+                    ter_color = uistate.place_terrain->get_color( om_vision_level::full );
+                    ter_sym = uistate.place_terrain->get_symbol( om_vision_level::full );
                 } else if( blink && uistate.place_special ) {
                     const point_rel_omt from_center = omp.xy() - center.xy();
                     if( from_center.x() >= s_begin.x() && from_center.x() <= s_end.x() &&
@@ -936,8 +937,8 @@ static void draw_om_sidebar(
                              player_character.overmap_sight_range( g->light_level( player_character.posz() ) ) :
                              100;
     static_assert( false, "FIX vision level" );
-    const bool center_seen = has_debug_vision ||
-                             overmap_buffer.seen( center ) != om_vision_level::unseen;
+    om_vision_level center_vision = has_debug_vision ? om_vision_level::full :
+                                    overmap_buffer.seen( center );
     const tripoint_abs_omt target = player_character.get_active_mission_target();
     const bool has_target = target != overmap::invalid_tripoint;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
@@ -967,7 +968,7 @@ static void draw_om_sidebar(
 
     // Draw text describing the overmap tile at the cursor position.
     int lines = 1;
-    if( center_seen ) {
+    if( center_vision != om_vision_level::unseen ) {
         if( !mgroups.empty() ) {
             const point desc_pos( 3, 6 );
             ui.set_cursor( wbar, desc_pos );
@@ -992,7 +993,7 @@ static void draw_om_sidebar(
             const auto sm_pos = project_to<coords::sm>( center );
 
             // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
+            mvwputch( wbar, point( 1, 1 ), ter.get_color( center_vision ), ter.get_symbol( center_vision ) );
 
             const point desc_pos( 3, 1 );
             ui.set_cursor( wbar, desc_pos );
@@ -1004,12 +1005,13 @@ static void draw_om_sidebar(
         const oter_t &ter = oter_unexplored.obj();
 
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
+        mvwputch( wbar, point( 1, 1 ), ter.get_color( om_vision_level::full ),
+                  ter.get_symbol( om_vision_level::full ) );
 
         const point desc_pos( 3, 1 );
         ui.set_cursor( wbar, desc_pos );
         lines = fold_and_print( wbar, desc_pos, getmaxx( wbar ) - desc_pos.x,
-                                ter.get_color(), ter.get_name() );
+                                ter.get_color( om_vision_level::full ), ter.get_name( om_vision_level::full ) );
     }
 
     // Describe the weather conditions on the following line, if weather is visible
@@ -1026,7 +1028,7 @@ static void draw_om_sidebar(
         }
     }
 
-    if( ( data.debug_editor && center_seen ) || data.debug_info ) {
+    if( ( data.debug_editor && center_vision != om_vision_level::unseen ) || data.debug_info ) {
         mvwprintz( wbar, point( 1, ++lines ), c_white,
                    "abs_omt: %s", center.to_string() );
         const oter_t &oter = overmap_buffer.ter( center ).obj();
@@ -1297,8 +1299,9 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
             }
 
             static_assert( false, "FIX vision level" );
-            if( om_loc.om->seen( om_relative ) != om_vision_level::unseen &&
-                match_include_exclude( om_loc.om->ter( om_relative )->get_name(), term ) ) {
+            om_vision_level vision = om_loc.om->seen( om_relative );
+            if( vision != om_vision_level::unseen &&
+                match_include_exclude( om_loc.om->ter( om_relative )->get_name( vision ), term ) ) {
                 locations.push_back( project_combine( om_loc.om->pos(), om_relative.xy() ) );
             }
         }
@@ -1415,14 +1418,20 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
     if( terrain ) {
         pmenu.title = _( "Select terrain to place:" );
         for( const oter_t &oter : overmap_terrains::get_all() ) {
-            const std::string entry_text = string_format(
-                                               _( "sym: [ %s %s ], color: [ %s %s], name: [ %s ], id: [ %s ]" ),
-                                               colorize( oter.get_symbol(), oter.get_color() ),
-                                               colorize( oter.get_symbol( true ), oter.get_color( true ) ),
-                                               colorize( string_from_color( oter.get_color() ), oter.get_color() ),
-                                               colorize( string_from_color( oter.get_color( true ) ), oter.get_color( true ) ),
-                                               colorize( oter.get_name(), oter.get_color() ),
-                                               colorize( oter.id.str(), c_white ) );
+            const std::string entry_text =
+                string_format(
+                    _( "sym: [ %s %s ], color: [ %s %s], name: [ %s ], id: [ %s ]" ),
+                    colorize( oter.get_symbol( om_vision_level::full ),
+                              oter.get_color( om_vision_level::full ) ),
+                    colorize( oter.get_symbol( om_vision_level::full, true ),
+                              oter.get_color( om_vision_level::full, true ) ),
+                    colorize( string_from_color( oter.get_color( om_vision_level::full ) ),
+                              oter.get_color( om_vision_level::full ) ),
+                    colorize( string_from_color( oter.get_color( om_vision_level::full, true ) ),
+                              oter.get_color( om_vision_level::full, true ) ),
+                    colorize( oter.get_name( om_vision_level::full ),
+                              oter.get_color( om_vision_level::full ) ),
+                    colorize( oter.id.str(), c_white ) );
             pmenu.addentry( oter.id.id().to_i(), true, 0, entry_text );
         }
     } else {
@@ -1973,7 +1982,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
 
 } // namespace overmap_ui
 
-std::pair<std::string, nc_color> oter_display_lru::get_symbol_and_color( const oter_id &cur_ter )
+std::pair<std::string, nc_color> oter_display_lru::get_symbol_and_color( const oter_id &cur_ter,
+        om_vision_level vision )
 {
     std::pair<std::string, nc_color> ret = {"?", c_red};
     // First see if we have the oter_t cached
@@ -1992,8 +2002,8 @@ std::pair<std::string, nc_color> oter_display_lru::get_symbol_and_color( const o
     }
     // Ok, we found something
     if( info ) {
-        ret.second = info->get_color( uistate.overmap_show_land_use_codes );
-        ret.first = info->get_symbol( uistate.overmap_show_land_use_codes );
+        ret.second = info->get_color( vision, uistate.overmap_show_land_use_codes );
+        ret.first = info->get_symbol( vision, uistate.overmap_show_land_use_codes );
     }
     return ret;
 };
@@ -2051,8 +2061,8 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
                   std::ignore ) = overmap_ui::get_note_display_info( overmap_buffer.note( omp ) );
     } else if( args.vision == om_vision_level::unseen ) {
         // All cases above ignore the seen-status,
-        ret.second = oter_unexplored.obj().get_color();
-        ret.first = oter_unexplored.obj().get_symbol();
+        ret.second = oter_unexplored.obj().get_color( om_vision_level::full );
+        ret.first = oter_unexplored.obj().get_symbol( om_vision_level::full );
         // All cases below assume that see is true.
     } else if( opts.blink && opts.npc_color.count( omp ) != 0 ) {
         // Visible NPCs are cached already
@@ -2096,18 +2106,19 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
                ( cur_ter->get_type_id() == oter_type_forest_trail ) ) {
         // If forest trails shouldn't be displayed, and this is a forest trail, then
         // instead render it like a forest.
-        ret = lru ? lru->get_symbol_and_color( oter_forest.id() ) : std::pair<std::string, nc_color> {
-            oter_forest->get_symbol( uistate.overmap_show_land_use_codes ),
-            oter_forest->get_color( uistate.overmap_show_land_use_codes )
+        ret = lru ? lru->get_symbol_and_color( oter_forest.id(),
+        args.vision ) : std::pair<std::string, nc_color> {
+            oter_forest->get_symbol( args.vision, uistate.overmap_show_land_use_codes ),
+            oter_forest->get_color( args.vision, uistate.overmap_show_land_use_codes )
         };
         if( opts.show_explored && overmap_buffer.is_explored( omp ) ) {
             ret.second = c_dark_gray;
         }
     } else {
         // Nothing special, but is visible to the player.
-        ret = lru ? lru->get_symbol_and_color( cur_ter ) : std::pair<std::string, nc_color> {
-            cur_ter->get_symbol( uistate.overmap_show_land_use_codes ),
-            cur_ter->get_color( uistate.overmap_show_land_use_codes )
+        ret = lru ? lru->get_symbol_and_color( cur_ter, args.vision ) : std::pair<std::string, nc_color> {
+            cur_ter->get_symbol( args.vision, uistate.overmap_show_land_use_codes ),
+            cur_ter->get_color( args.vision, uistate.overmap_show_land_use_codes )
         };
         if( opts.show_explored && overmap_buffer.is_explored( omp ) ) {
             ret.second = c_dark_gray;

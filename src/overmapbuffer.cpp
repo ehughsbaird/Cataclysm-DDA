@@ -1505,8 +1505,9 @@ city_reference overmapbuffer::closest_known_city( const tripoint_abs_sm &center 
 std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
 {
     const oter_id oter = ter( project_to<coords::omt>( where ) );
-    const nc_color ter_color = oter->get_color();
-    std::string ter_name = colorize( oter->get_name(), ter_color );
+    om_vision_level vision = seen( project_to<coords::omt>( where ) );
+    const nc_color ter_color = oter->get_color( vision );
+    std::string ter_name = colorize( oter->get_name( vision ), ter_color );
 
     if( where.z() != 0 ) {
         return ter_name;

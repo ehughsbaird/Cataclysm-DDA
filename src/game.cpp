@@ -7407,10 +7407,11 @@ void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window
 {
     // get global area info according to look_around caret position
     // TODO: fix point types
-    const oter_id &cur_ter_m = overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( m.getabs(
-                                   lp ) ) ) );
+    tripoint_abs_omt omp( ms_to_omt_copy( m.getabs( lp ) ) );
+    const oter_id &cur_ter_m = overmap_buffer.ter( omp );
+    om_vision_level vision = overmap_buffer.seen( omp );
     // we only need the area name and then pass it to print_all_tile_info() function below
-    const std::string area_name = cur_ter_m->get_name();
+    const std::string area_name = cur_ter_m->get_name( vision );
     print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, cache );
 }
 

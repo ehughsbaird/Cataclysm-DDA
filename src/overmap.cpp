@@ -151,6 +151,15 @@ static oter_id ot_null;
 
 const oter_type_t oter_type_t::null_type{};
 
+generic_factory<oter_vision::level> oter_vision_level_factory;
+
+template<>
+const oter_vision::level &string_id<oter_vision::level>::obj() const
+{
+	return oter_vision_level_factory.obj(*this);
+}
+
+
 namespace io
 {
 
@@ -761,6 +770,49 @@ std::string enum_to_string<oter_travel_cost_type>( oter_travel_cost_type data )
 }
 } // namespace io
 
+void oter_vision::level::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "name", name );
+    mandatory( jo, false, "sym", symbol, unicode_codepoint_from_symbol_reader );
+    assign( jo, "color", color );
+    optional( jo, false, "looks_like", looks_like );
+}
+
+const oter_vision::level *oter_vision::viewed( om_vision_level vision ) const
+{
+    size_t idx = -1;
+    switch( vision ) {
+        case om_vision_level::vague:
+            idx = 0;
+            break;
+        case om_vision_level::outlines:
+            idx = 1;
+            break;
+        case om_vision_level::details:
+            idx = 2;
+            break;
+        default:
+            return nullptr;
+    }
+    if( idx >= levels.size() ) {
+        return nullptr;
+    }
+    return &levels[idx];
+}
+
+void oter_vision::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "levels", levels );
+}
+
+void oter_vision::check() const
+{
+    if( levels.size() > 3 ) {
+        debugmsg( "Too many vision levels assigned!" );
+    }
+}
+
+
 void oter_type_t::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
@@ -796,6 +848,8 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "connect_group", connect_group, string_reader{} );
     optional( jo, was_loaded, "travel_cost_type", travel_cost_type, oter_travel_cost_type::other );
 
+    optional( jo, was_loaded, "vision_levels", vision_levels );
+
     if( has_flag( oter_flags::line_drawing ) ) {
         if( has_flag( oter_flags::no_rotate ) ) {
             jo.throw_error( R"(Mutually exclusive flags: "NO_ROTATE" and "LINEAR".)" );
@@ -827,7 +881,7 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
 
 void oter_type_t::check() const
 {
-
+    vision_levels.check();
 }
 
 void oter_type_t::finalize()
@@ -3918,8 +3972,9 @@ std::vector<point_abs_omt> overmap::find_terrain( const std::string_view term, i
         for( int y = 0; y < OMAPY; y++ ) {
             tripoint_om_omt p( x, y, zlevel );
             static_assert( false, "FIX vision levels" );
-            if( seen( p ) != om_vision_level::unseen &&
-                lcmatch( ter( p )->get_name(), term ) ) {
+            om_vision_level vision = seen( p );
+            if( vision != om_vision_level::unseen &&
+                lcmatch( ter( p )->get_name( vision ), term ) ) {
                 found.push_back( project_combine( pos(), p.xy() ) );
             }
         }
