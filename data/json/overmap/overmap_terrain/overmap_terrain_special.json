@@ -3,6 +3,7 @@
     "type": "overmap_terrain",
     "id": "special_deep_rock",
     "//": "For placing terrain lookalikes that unlike placing said terrain don't allow mapgen intended for the naturally found version",
+    "vision_levels": "always_full",
     "name": "solid rock",
     "looks_like": "deep_rock",
     "sym": "%",
@@ -13,6 +14,7 @@
   {
     "type": "overmap_terrain",
     "id": "special_rock",
+    "vision_levels": "always_full",
     "name": "solid rock",
     "sym": "%",
     "color": "dark_gray",
@@ -24,6 +26,7 @@
     "type": "overmap_terrain",
     "id": "special_earth",
     "name": "solid earth",
+    "vision_levels": "always_full",
     "sym": "#",
     "color": "brown",
     "looks_like": "solid_earth",
@@ -34,6 +37,7 @@
     "type": "overmap_terrain",
     "id": [ "special_field" ],
     "copy-from": "generic_open_land",
+    "vision_levels": "open_land",
     "name": "field",
     "sym": ".",
     "color": "brown",
@@ -70,6 +74,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_air",
+    "vision_levels": "roof_or_air",
     "name": "open air",
     "sym": ".",
     "color": "blue",
@@ -134,6 +139,7 @@
       "mil_base_8j1",
       "s_gas_g0_roof"
     ],
+    "vision_levels": "roof_or_air",
     "copy-from": "generic_air"
   },
   {
@@ -146,6 +152,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_road",
     "name": "road",
+    "vision_levels": "blends_till_outlines",
     "looks_like": "road",
     "color": "dark_gray",
     "see_cost": 1,
@@ -170,6 +177,7 @@
       "mil_base_6j",
       "mil_base_7j"
     ],
+    "vision_levels": "blends_till_outlines",
     "copy-from": "generic_road",
     "sym": "─"
   },

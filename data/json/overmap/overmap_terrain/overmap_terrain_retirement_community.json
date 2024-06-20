@@ -17,6 +17,7 @@
       "retirement_community_2f_6",
       "retirement_community_2f_7"
     ],
+    "vision_levels": "city_building",
     "name": "retirement home",
     "sym": "v",
     "color": "light_green"
@@ -32,6 +33,7 @@
       "retirement_community_3f_6",
       "retirement_community_3f_7"
     ],
+    "vision_levels": "roof_or_air",
     "name": "retirement home roof",
     "sym": "v",
     "color": "light_green"
@@ -55,6 +57,7 @@
       "retirement_community_2f_33",
       "retirement_community_2f_37"
     ],
+    "vision_levels": "always_full",
     "name": "open air",
     "sym": ".",
     "color": "blue"
@@ -76,6 +79,7 @@
       "retirement_community_b_23",
       "retirement_community_b_26"
     ],
+    "vision_levels": "always_full",
     "name": "basement",
     "sym": "O",
     "color": "dark_gray"
@@ -90,6 +94,7 @@
       "retirement_community_2f_19",
       "retirement_community_2f_23"
     ],
+    "vision_levels": "city_building",
     "name": "retirement home",
     "sym": ">",
     "color": "light_green"
@@ -97,6 +102,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_3f_15", "retirement_community_3f_19", "retirement_community_3f_23" ],
+    "vision_levels": "city_building",
     "name": "retirement home roof",
     "sym": ">",
     "color": "light_green"
@@ -111,6 +117,7 @@
       "retirement_community_20",
       "retirement_community_24"
     ],
+    "vision_levels": "blends_till_outlines",
     "name": "road",
     "sym": "│",
     "color": "dark_gray"
@@ -118,6 +125,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_37", "retirement_community_road" ],
+    "vision_levels": "blends_till_outlines",
     "name": "retirement community entrance",
     "sym": "│",
     "color": "dark_gray"
@@ -132,6 +140,7 @@
       "retirement_community_2f_22",
       "retirement_community_2f_26"
     ],
+    "vision_levels": "city_building",
     "name": "retirement home",
     "sym": "<",
     "color": "light_green"
@@ -139,6 +148,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_3f_18", "retirement_community_3f_22", "retirement_community_3f_26" ],
+    "vision_levels": "roof_or_air",
     "name": "retirement home roof",
     "sym": "<",
     "color": "light_green"
@@ -146,6 +156,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_8", "retirement_community_14", "retirement_community_27", "retirement_community_33" ],
+    "vision_levels": "large_pavement",
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray"
@@ -159,6 +170,7 @@
       "retirement_community_29",
       "retirement_community_31"
     ],
+    "vision_levels": "blends_till_outlines",
     "name": "road",
     "sym": "─",
     "color": "dark_gray"
@@ -166,6 +178,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_9", "retirement_community_13", "retirement_community_30" ],
+    "vision_levels": "blends_till_outlines",
     "name": "road",
     "sym": "┬",
     "color": "dark_gray"
@@ -173,6 +186,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_28", "retirement_community_32" ],
+    "vision_levels": "blends_till_outlines",
     "name": "road",
     "sym": "┴",
     "color": "dark_gray"
@@ -180,6 +194,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_34", "retirement_community_35", "retirement_community_36" ],
+    "vision_levels": "city_building",
     "name": "community building",
     "sym": "C",
     "color": "pink"
@@ -187,6 +202,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_38", "retirement_community_39", "retirement_community_40" ],
+    "vision_levels": "city_building",
     "name": "administration building",
     "sym": "A",
     "color": "light_gray"
@@ -194,6 +210,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_b_37", "retirement_community_b_38" ],
+    "vision_levels": "city_building",
     "name": "administration building basement",
     "sym": "A",
     "color": "light_gray"
@@ -201,6 +218,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_2f_34", "retirement_community_2f_35", "retirement_community_2f_36" ],
+    "vision_levels": "city_building",
     "name": "community building roof",
     "sym": "C",
     "color": "pink"
@@ -208,6 +226,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_2f_38", "retirement_community_2f_39", "retirement_community_2f_40" ],
+    "vision_levels": "city_building",
     "name": "administration building roof",
     "sym": "A",
     "color": "light_gray"
@@ -225,6 +244,7 @@
       "retirement_community_park_8",
       "retirement_community_park_9"
     ],
+    "vision_levels": "forested",
     "name": "retirement community park",
     "sym": "┼",
     "color": "green"
@@ -232,6 +252,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_park_2f_2", "retirement_community_park_2f_5" ],
+    "vision_levels": "always_full",
     "name": "open air",
     "sym": ".",
     "color": "blue"
@@ -249,6 +270,7 @@
       "retirement_community_park_b_8",
       "retirement_community_park_b_9"
     ],
+    "vision_levels": "city_building",
     "name": "retirement community park underground",
     "sym": "┼",
     "color": "brown"
@@ -256,6 +278,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_sewer" ],
+    "vision_levels": "city_building",
     "name": "sewer",
     "sym": "┐",
     "color": "green"
