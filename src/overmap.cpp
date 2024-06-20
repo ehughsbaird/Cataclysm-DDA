@@ -863,7 +863,7 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "connect_group", connect_group, string_reader{} );
     optional( jo, was_loaded, "travel_cost_type", travel_cost_type, oter_travel_cost_type::other );
 
-    optional( jo, was_loaded, "vision_levels", vision_levels );
+    optional( jo, was_loaded, "vision_levels", vision_levels, oter_vision_id( "default" ) );
 
     if( has_flag( oter_flags::line_drawing ) ) {
         if( has_flag( oter_flags::no_rotate ) ) {
@@ -896,6 +896,9 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
 
 void oter_type_t::check() const
 {
+    if( vision_levels.str() == "default" ) {
+        fprintf( stderr, "%s (%s)\n", id.c_str(), name.translated().c_str() );
+    }
 }
 
 void oter_type_t::finalize()

@@ -12639,7 +12639,7 @@ void game::update_overmap_seen()
     const int dist_squared = dist * dist;
     // We can always see where we're standing
     overmap_buffer.set_seen( ompos, om_vision_level::full );
-    static_assert( false, "FIX vision levels" );
+    static_assert( true, "FIX vision levels" );
     for( const tripoint_abs_omt &p : points_in_radius( ompos, dist ) ) {
         const point_rel_omt delta = p.xy() - ompos.xy();
         const int h_squared = delta.x() * delta.x() + delta.y() * delta.y();
@@ -12662,12 +12662,21 @@ void game::update_overmap_seen()
             const oter_id &ter = overmap_buffer.ter( *it );
             sight_points -= static_cast<int>( ter->get_see_cost() ) * multiplier;
         }
-        if( sight_points >= 0 ) {
+        const auto set_seen = []( const tripoint_abs_omt & p, om_vision_level level ) {
             tripoint_abs_omt seen( p );
             do {
-                overmap_buffer.set_seen( seen, om_vision_level::details );
+                overmap_buffer.set_seen( seen, level );
                 --seen.z();
             } while( seen.z() >= 0 );
+        };
+        add_msg( m_info, "Sight points: %g, dist: %d (%d %d)", sight_points, dist, dist / 2, dist / 4 );
+        int dist = rl_dist( ompos.xy(), p.xy() );
+        if( dist < 7 ) {
+            set_seen( p, om_vision_level::details );
+        } else if( dist < 20 ) {
+            set_seen( p, om_vision_level::outlines );
+        } else {
+            set_seen( p, om_vision_level::vague );
         }
     }
 }

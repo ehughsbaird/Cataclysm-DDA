@@ -845,7 +845,7 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
     for( int i = -radius; i <= radius; i++ ) {
         for( int j = -radius; j <= radius; j++ ) {
             const tripoint_abs_omt p = center + point( i, j );
-            static_assert( false, "FIX vision levels" );
+            static_assert( true, "FIX vision levels" );
             if( seen( p ) != om_vision_level::unseen ) {
                 continue;
             }
