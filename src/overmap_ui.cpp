@@ -41,6 +41,7 @@
 #include "game_ui.h"
 #include "input_context.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
@@ -990,14 +991,39 @@ static void draw_om_sidebar(
             const oter_t &ter = overmap_buffer.ter( center ).obj();
             const auto sm_pos = project_to<coords::sm>( center );
 
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwputch( wbar, point( 1, 1 ), ter.get_color( center_vision ), ter.get_symbol( center_vision ) );
+            if( ter.blends_adjacent( center_vision ) ) {
+                oter_vision::blended_omt info = get_blended_omt_info( center );
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                mvwputch( wbar, point( 1, 1 ), info.color, info.sym );
+            } else {
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                mvwputch( wbar, point( 1, 1 ), ter.get_color( center_vision ), ter.get_symbol( center_vision ) );
+            }
 
             const point desc_pos( 3, 1 );
             ui.set_cursor( wbar, desc_pos );
             lines = fold_and_print( wbar, desc_pos, getmaxx( wbar ) - desc_pos.x,
                                     c_light_gray,
                                     overmap_buffer.get_description_at( sm_pos ) );
+            if( center_vision != om_vision_level::full ) {
+                std::string vision_level_string;
+                switch( center_vision ) {
+                    case om_vision_level::vague:
+                        vision_level_string = _( "You can only make out vague details of what's here." );
+                        break;
+                    case om_vision_level::outlines:
+                        vision_level_string = _( "You can only make out outlines of what's here." );
+                        break;
+                    case om_vision_level::details:
+                        vision_level_string = _( "You can make out some details of what's here." );
+                        break;
+                    default:
+                        vision_level_string = _( "This is a bug!" );
+                        break;
+                }
+                lines = fold_and_print( wbar, point( 3, lines + 1 ), getmaxx( wbar ) - 3, c_light_gray,
+                                        vision_level_string );
+            }
         }
     } else {
         const oter_t &ter = oter_unexplored.obj();
@@ -1264,7 +1290,8 @@ static void create_note( const tripoint_abs_omt &curs )
 }
 
 // if false, search yielded no results
-static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripoint_abs_omt &orig )
+static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs,
+                    const tripoint_abs_omt &orig )
 {
     std::string term = string_input_popup()
                        .title( _( "Search term:" ) )
@@ -1979,6 +2006,88 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
 
 } // namespace overmap_ui
 
+struct blended_omt {
+    oter_id id;
+    std::string sym;
+    nc_color color;
+    std::string name;
+};
+
+oter_vision::blended_omt get_blended_omt_info( const tripoint_abs_omt &omp )
+{
+    std::vector<std::pair<oter_id, om_vision_level>> neighbors;
+    const auto add_to_neighbors = [&neighbors, &omp]( const tripoint_abs_omt & next ) {
+        if( next == omp ) {
+            return;
+        }
+        om_vision_level vision = overmap_buffer.seen( next );
+        if( vision == om_vision_level::unseen ) {
+            return;
+        }
+        oter_id ter = overmap_buffer.ter( next );
+        if( ter->blends_adjacent( vision ) ) {
+            return;
+        }
+        neighbors.emplace_back( ter, vision );
+    };
+    for( const tripoint_abs_omt &next : tripoint_range<tripoint_abs_omt>( omp + point_north_west,
+            omp + point_south_east ) ) {
+        add_to_neighbors( next );
+    }
+    // if nothing's immediately adjacent, reach out further
+    if( neighbors.empty() ) {
+        for( const tripoint_abs_omt &next : tripoint_range<tripoint_abs_omt>( omp + point( -2, -2 ),
+                omp + point( 2, 2 ) ) ) {
+            add_to_neighbors( next );
+        }
+    }
+    // Okay, it didn't work, we can't see this tile
+    if( neighbors.empty() ) {
+        oter_vision::blended_omt ret;
+        ret.id = oter_unexplored;
+        ret.sym = oter_unexplored->get_symbol( om_vision_level::full );
+        ret.color = oter_unexplored->get_color( om_vision_level::full );
+        ret.name = oter_unexplored->get_name( om_vision_level::full );
+        return ret;
+    }
+    std::vector<std::pair<size_t, int>> counts;
+    for( size_t i = 0; i < neighbors.size(); ++i ) {
+        const auto refers_to_same = [i, &neighbors]( const std::pair<size_t, int> &entry ) {
+            return neighbors[entry.first] == neighbors[i];
+        };
+        auto it = std::find_if( counts.begin(), counts.end(), refers_to_same );
+        if( it == counts.end() ) {
+            counts.emplace_back( i, 1 );
+            continue;
+        }
+        it->second += 1;
+    }
+    const auto sort_counts = [&neighbors]( const std::pair<size_t, int> &l,
+    const std::pair<size_t, int> &r ) {
+        // Put in descending order
+        if( l.second != r.second ) {
+            return l.second > r.second;
+        }
+        // And do something stable so it doesn't shift if they're all
+        // equal
+        const std::pair<oter_id, om_vision_level> left = neighbors[l.first];
+        const std::pair<oter_id, om_vision_level> right = neighbors[r.first];
+        return localized_compare( left.first->get_name( left.second ),
+                                  right.first->get_name( right.second ) );
+    };
+    std::sort( counts.begin(), counts.end(), sort_counts );
+    for( const std::pair<size_t, int> &entry : counts ) {
+        fprintf( stderr, "%s - %d\n", neighbors[entry.first].first.id().c_str(), entry.second );
+    }
+    fprintf( stderr, "\n" );
+    oter_vision::blended_omt ret;
+    ret.id = neighbors[0].first;
+    ret.sym = ret.id->get_symbol( neighbors[0].second );
+    ret.color = ret.id->get_color( neighbors[0].second );
+    ret.name = ret.id->get_name( neighbors[0].second );
+    return ret;
+}
+
 std::pair<std::string, nc_color> oter_display_lru::get_symbol_and_color( const oter_id &cur_ter,
         om_vision_level vision )
 {
@@ -2099,6 +2208,10 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
     } else if( !opts.sZoneName.empty() && opts.tripointZone.xy() == omp.xy() ) {
         ret.second = c_yellow;
         ret.first = "Z";
+    } else if( cur_ter->blends_adjacent( args.vision ) ) {
+        oter_vision::blended_omt here = get_blended_omt_info( omp );
+        ret.first = here.sym;
+        ret.second = here.color;
     } else if( !uistate.overmap_show_forest_trails && cur_ter &&
                ( cur_ter->get_type_id() == oter_type_forest_trail ) ) {
         // If forest trails shouldn't be displayed, and this is a forest trail, then

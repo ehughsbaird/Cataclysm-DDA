@@ -791,6 +791,7 @@ void oter_vision::level::deserialize( const JsonObject &jo )
     mandatory( jo, false, "sym", symbol, unicode_codepoint_from_symbol_reader );
     assign( jo, "color", color );
     optional( jo, false, "looks_like", looks_like );
+    optional( jo, false, "blends_adjacent", blends_adjacent, false );
 }
 
 void oter_vision::load( const JsonObject &jo, const std::string & )

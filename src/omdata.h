@@ -247,11 +247,19 @@ struct enum_traits<oter_travel_cost_type> {
 class oter_vision
 {
     public:
+        struct blended_omt {
+            oter_id id;
+            std::string sym;
+            nc_color color;
+            std::string name;
+        };
+
         struct level {
             translation name;
             uint32_t symbol = 0;
             nc_color color = c_black;
             std::string looks_like;
+            bool blends_adjacent;
 
             void deserialize( const JsonObject &jo );
         };
@@ -273,6 +281,8 @@ class oter_vision
 
         std::vector<level> levels;
 };
+
+oter_vision::blended_omt get_blended_omt_info( const tripoint_abs_omt &omp );
 
 struct oter_type_t {
     public:
@@ -364,6 +374,13 @@ struct oter_t {
 
         std::string get_mapgen_id() const;
         oter_id get_rotated( om_direction::type dir ) const;
+
+        bool blends_adjacent( om_vision_level vision ) const {
+            if( const oter_vision::level *seen = type->vision_levels->viewed( vision ) ) {
+                return seen->blends_adjacent;
+            }
+            return false;
+        }
 
         std::string get_name( om_vision_level vision ) const {
             if( const oter_vision::level *seen = type->vision_levels->viewed( vision ) ) {
