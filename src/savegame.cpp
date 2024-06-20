@@ -1013,7 +1013,7 @@ static void serialize_enum_array_to_compacted_sequence( JsonOut &json, const MdA
             }
             lastval = value;
             json.start_array();
-            json.write( static_cast<int>( value ) );
+            json.write( value );
             count = 1;
         }
     }

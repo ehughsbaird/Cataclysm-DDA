@@ -155,7 +155,6 @@ static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_o
          tripoint_range<tripoint_abs_omt>( current - shift, current + shift ) ) {
         nc_color ter_color = c_black;
         std::string ter_sym = " ";
-        static_assert( false, "FIX vision levels" );
         om_vision_level vision = has_debug_vision ? om_vision_level::full :
                                  overmap_buffer.seen( dest );
         if( vision != om_vision_level::unseen ) {
@@ -936,7 +935,6 @@ static void draw_om_sidebar(
     const int sight_points = !has_debug_vision ?
                              player_character.overmap_sight_range( g->light_level( player_character.posz() ) ) :
                              100;
-    static_assert( false, "FIX vision level" );
     om_vision_level center_vision = has_debug_vision ? om_vision_level::full :
                                     overmap_buffer.seen( center );
     const tripoint_abs_omt target = player_character.get_active_mission_target();
@@ -1298,7 +1296,6 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
                 locations.insert( locations.end(), notes.begin(), notes.end() );
             }
 
-            static_assert( false, "FIX vision level" );
             om_vision_level vision = om_loc.om->seen( om_relative );
             if( vision != om_vision_level::unseen &&
                 match_include_exclude( om_loc.om->ter( om_relative )->get_name( vision ), term ) ) {

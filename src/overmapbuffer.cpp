@@ -777,6 +777,14 @@ void overmapbuffer::set_seen( const tripoint_abs_omt &p, om_vision_level seen )
     om_loc.om->set_seen( om_loc.local, seen );
 }
 
+bool overmapbuffer::seen_more_than( const tripoint_abs_omt &p, om_vision_level test )
+{
+    if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
+        return om_loc.om->seen( om_loc.local ) > test;
+    }
+    return false;
+}
+
 const oter_id &overmapbuffer::ter( const tripoint_abs_omt &p )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );

@@ -151,12 +151,27 @@ static oter_id ot_null;
 
 const oter_type_t oter_type_t::null_type{};
 
-generic_factory<oter_vision::level> oter_vision_level_factory;
+generic_factory<oter_vision> oter_vision_factory( "oter_vision" );
 
 template<>
-const oter_vision::level &string_id<oter_vision::level>::obj() const
+const oter_vision &string_id<oter_vision>::obj() const
 {
-	return oter_vision_level_factory.obj(*this);
+    return oter_vision_factory.obj( *this );
+}
+
+void oter_vision::load_oter_vision( const JsonObject &jo, const std::string &src )
+{
+    oter_vision_factory.load( jo, src );
+}
+
+void oter_vision::reset()
+{
+    oter_vision_factory.reset();
+}
+
+void oter_vision::check_oter_vision()
+{
+    oter_vision_factory.check();
 }
 
 
@@ -778,6 +793,11 @@ void oter_vision::level::deserialize( const JsonObject &jo )
     optional( jo, false, "looks_like", looks_like );
 }
 
+void oter_vision::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "levels", levels );
+}
+
 const oter_vision::level *oter_vision::viewed( om_vision_level vision ) const
 {
     size_t idx = -1;
@@ -798,11 +818,6 @@ const oter_vision::level *oter_vision::viewed( om_vision_level vision ) const
         return nullptr;
     }
     return &levels[idx];
-}
-
-void oter_vision::deserialize( const JsonObject &jo )
-{
-    mandatory( jo, false, "levels", levels );
 }
 
 void oter_vision::check() const
@@ -881,7 +896,6 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
 
 void oter_type_t::check() const
 {
-    vision_levels.check();
 }
 
 void oter_type_t::finalize()
@@ -3111,7 +3125,7 @@ void overmap::set_seen( const tripoint_om_omt &p, om_vision_level val )
         return;
     }
 
-    if( seen( p ) == val ) {
+    if( seen( p ) >= val ) {
         return;
     }
 
@@ -3971,7 +3985,6 @@ std::vector<point_abs_omt> overmap::find_terrain( const std::string_view term, i
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             tripoint_om_omt p( x, y, zlevel );
-            static_assert( false, "FIX vision levels" );
             om_vision_level vision = seen( p );
             if( vision != om_vision_level::unseen &&
                 lcmatch( ter( p )->get_name( vision ), term ) ) {
@@ -7571,6 +7584,24 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
             break;
     }
     cata_fatal( "Invalid ot_match_type" );
+}
+
+template<>
+std::string enum_to_string<om_vision_level>( om_vision_level data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case om_vision_level::unseen: return "unseen";
+        case om_vision_level::vague: return "vague";
+        case om_vision_level::outlines: return "outlines";
+        case om_vision_level::details: return "details";
+        case om_vision_level::full: return "full";
+        // *INDENT-ON*
+        default:
+            break;
+    }
+    debugmsg( "Unknown om_vision_level %d", static_cast<int>( data ) );
+    return "unseen";
 }
 } // namespace io
 

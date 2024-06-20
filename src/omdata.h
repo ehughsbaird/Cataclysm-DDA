@@ -257,9 +257,20 @@ class oter_vision
         };
         const level *viewed( om_vision_level ) const;
 
-        void deserialize( const JsonObject &jo );
+        static void load_oter_vision( const JsonObject &jo, const std::string &src );
+        static void reset();
+        static void check_oter_vision();
+
+        void load( const JsonObject &jo, const std::string &src );
         void check() const;
+
     private:
+        friend class generic_factory<oter_vision>;
+        friend struct mod_tracker;
+        oter_vision_id id;
+        std::vector<std::pair<oter_vision_id, mod_id>> src;
+        bool was_loaded = false;
+
         std::vector<level> levels;
 };
 
@@ -288,7 +299,7 @@ struct oter_type_t {
         overmap_static_spawns static_spawns;
         bool was_loaded = false;
 
-        oter_vision vision_levels;
+        oter_vision_id vision_levels;
 
         std::string get_symbol() const;
 
@@ -355,7 +366,7 @@ struct oter_t {
         oter_id get_rotated( om_direction::type dir ) const;
 
         std::string get_name( om_vision_level vision ) const {
-            if( const oter_vision::level *seen = type->vision_levels.viewed( vision ) ) {
+            if( const oter_vision::level *seen = type->vision_levels->viewed( vision ) ) {
                 return seen->name.translated();
             }
             return type->name.translated();
@@ -365,7 +376,7 @@ struct oter_t {
             if( from_land_use_code ) {
                 return utf32_to_utf8( symbol_alt );
             }
-            if( const oter_vision::level *seen = type->vision_levels.viewed( vision ) ) {
+            if( const oter_vision::level *seen = type->vision_levels->viewed( vision ) ) {
                 return utf32_to_utf8( seen->symbol );
             }
             return utf32_to_utf8( symbol );
@@ -379,7 +390,7 @@ struct oter_t {
             if( from_land_use_code ) {
                 return type->land_use_code->color;
             }
-            if( const oter_vision::level *seen = type->vision_levels.viewed( vision ) ) {
+            if( const oter_vision::level *seen = type->vision_levels->viewed( vision ) ) {
                 return seen->color;
             }
             return type->color;
