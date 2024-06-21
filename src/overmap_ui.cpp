@@ -2076,15 +2076,12 @@ oter_vision::blended_omt get_blended_omt_info( const tripoint_abs_omt &omp )
                                   right.first->get_name( right.second ) );
     };
     std::sort( counts.begin(), counts.end(), sort_counts );
-    for( const std::pair<size_t, int> &entry : counts ) {
-        fprintf( stderr, "%s - %d\n", neighbors[entry.first].first.id().c_str(), entry.second );
-    }
-    fprintf( stderr, "\n" );
     oter_vision::blended_omt ret;
-    ret.id = neighbors[0].first;
-    ret.sym = ret.id->get_symbol( neighbors[0].second );
-    ret.color = ret.id->get_color( neighbors[0].second );
-    ret.name = ret.id->get_name( neighbors[0].second );
+    size_t idx = counts[0].first;
+    ret.id = neighbors[idx].first;
+    ret.sym = ret.id->get_symbol( neighbors[idx].second );
+    ret.color = ret.id->get_color( neighbors[idx].second );
+    ret.name = ret.id->get_name( neighbors[idx].second );
     return ret;
 }
 
