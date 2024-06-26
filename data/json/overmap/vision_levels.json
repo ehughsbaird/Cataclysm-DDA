@@ -185,9 +185,7 @@
   {
     "id": "blends_till_vague",
     "type": "oter_vision",
-    "levels": [
-      { "name": "blended", "sym": ".", "color": "white", "blends_adjacent": true }
-    ]
+    "levels": [ { "name": "blended", "sym": ".", "color": "white", "blends_adjacent": true } ]
   },
   {
     "id": "blends_till_outlines",
