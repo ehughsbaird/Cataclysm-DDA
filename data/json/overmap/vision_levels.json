@@ -17,9 +17,9 @@
     "id": "isolated_building",
     "type": "oter_vision",
     "levels": [
-      { "name": "building", "sym": "^", "color": "light_gray" },
-      { "name": "building", "sym": "^", "color": "light_gray" },
-      { "name": "building", "sym": "^", "color": "light_gray" }
+      { "name": "building", "sym": "^", "color": "light_gray", "looks_like": "cabin" },
+      { "name": "building", "sym": "^", "color": "light_gray", "looks_like": "cabin" },
+      { "name": "building", "sym": "^", "color": "light_gray", "looks_like": "cabin" }
     ]
   },
   {
@@ -53,57 +53,72 @@
     "id": "forested",
     "type": "oter_vision",
     "levels": [
-      { "name": "forest", "sym": "F", "color": "green" },
-      { "name": "forest", "sym": "F", "color": "green" },
-      { "name": "forest", "sym": "F", "color": "green" }
+      { "name": "forest", "sym": "F", "color": "green", "looks_like": "forest_thick" },
+      { "name": "forest", "sym": "F", "color": "green", "looks_like": "forest_thick" },
+      { "name": "forest", "sym": "F", "color": "green", "looks_like": "forest_thick" }
     ]
   },
   {
     "id": "first_glance_forest",
     "type": "oter_vision",
-    "levels": [ { "name": "forest", "sym": "F", "color": "green" } ]
+    "levels": [ { "name": "forest", "sym": "F", "color": "green", "looks_like": "forest_thick" } ]
   },
   {
     "id": "forested_swampy",
     "type": "oter_vision",
     "levels": [
-      { "name": "forest", "sym": "F", "color": "green" },
-      { "name": "swamp", "sym": "F", "color": "cyan" },
-      { "name": "swamp", "sym": "F", "color": "cyan" }
+      { "name": "forest", "sym": "F", "color": "green", "looks_like": "forest_thick" },
+      { "name": "swamp", "sym": "F", "color": "cyan", "looks_like": "forest_water" },
+      { "name": "swamp", "sym": "F", "color": "cyan", "looks_like": "forest_water" }
     ]
   },
   {
     "id": "open_land",
     "type": "oter_vision",
-    "levels": [ { "name": "field", "sym": ".", "color": "brown" }, { "name": "field", "sym": ".", "color": "brown" } ]
+    "levels": [
+      { "name": "field", "sym": ".", "color": "brown", "looks_like": "field" },
+      { "name": "field", "sym": ".", "color": "brown", "looks_like": "field" }
+    ]
   },
   {
     "id": "farm_field",
     "type": "oter_vision",
-    "levels": [ { "name": "field", "sym": ".", "color": "brown" }, { "name": "farm field", "sym": "#", "color": "i_brown" } ]
+    "levels": [
+      { "name": "field", "sym": ".", "color": "brown", "looks_like": "field" },
+      { "name": "farm field", "sym": "#", "color": "i_brown" }
+    ]
   },
   {
     "id": "large_pavement",
     "type": "oter_vision",
     "levels": [
       { "name": "blended", "sym": ".", "color": "white", "blends_adjacent": true },
-      { "name": "pavement", "sym": "O", "color": "dark_gray" }
+      { "name": "pavement", "sym": "O", "color": "dark_gray", "looks_like": "s_lot" }
     ]
   },
   {
     "id": "single_water",
     "type": "oter_vision",
-    "levels": [ { "name": "water", "sym": "O", "color": "blue" }, { "name": "water", "sym": "O", "color": "blue" } ]
+    "levels": [
+      { "name": "water", "sym": "O", "color": "blue", "looks_like": "pond_field" },
+      { "name": "water", "sym": "O", "color": "blue", "looks_like": "pond_field" }
+    ]
   },
   {
     "id": "water_body",
     "type": "oter_vision",
-    "levels": [ { "name": "water body", "sym": "#", "color": "blue" }, { "name": "water body", "sym": "#", "color": "blue" } ]
+    "levels": [
+      { "name": "water body", "sym": "#", "color": "blue", "looks_like": "lake" },
+      { "name": "water body", "sym": "#", "color": "blue", "looks_like": "lake" }
+    ]
   },
   {
     "id": "roof_or_air",
     "type": "oter_vision",
-    "levels": [ { "name": "open air", "color": "blue", "sym": "." }, { "name": "open air", "color": "blue", "sym": "." } ]
+    "levels": [
+      { "name": "open air", "color": "blue", "sym": ".", "looks_like": "open_air" },
+      { "name": "open air", "color": "blue", "sym": ".", "looks_like": "open_air" }
+    ]
   },
   {
     "id": "underground_dirt",
