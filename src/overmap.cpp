@@ -130,7 +130,7 @@ static const oter_type_str_id oter_type_slimepit_down( "slimepit_down" );
 static const oter_type_str_id oter_type_solid_earth( "solid_earth" );
 static const oter_type_str_id oter_type_sub_station( "sub_station" );
 
-static const oter_vision_id oter_vision_always_full( "always_full" );
+static const oter_vision_id oter_vision_default( "default" );
 
 static const overmap_location_id overmap_location_land( "land" );
 static const overmap_location_id overmap_location_swamp( "swamp" );
@@ -872,11 +872,7 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "connect_group", connect_group, string_reader{} );
     optional( jo, was_loaded, "travel_cost_type", travel_cost_type, oter_travel_cost_type::other );
 
-    // FIXME: Make this mandatory and drop the if below
-    optional( jo, was_loaded, "vision_levels", vision_levels );
-    if( !vision_levels.is_valid() ) {
-        vision_levels = oter_vision_always_full;
-    }
+    optional( jo, was_loaded, "vision_levels", vision_levels, oter_vision_default );
 
     if( has_flag( oter_flags::line_drawing ) ) {
         if( has_flag( oter_flags::no_rotate ) ) {
@@ -909,7 +905,10 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
 
 void oter_type_t::check() const
 {
-    if( vision_levels.str() == "default" ) {
+    if( !vision_levels.is_valid() ) {
+        debugmsg( "Invalid vision_levels '%s' for '%s'", vision_levels.str(), id.str() );
+    }
+    if( vision_levels == oter_vision_default && !has_flag( oter_flags::should_not_spawn ) ) {
         fprintf( stderr, "%s (%s)\n", id.c_str(), name.translated().c_str() );
     }
 }
