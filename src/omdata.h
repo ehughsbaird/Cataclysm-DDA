@@ -113,6 +113,12 @@ type from_cube( cube_direction, const std::string &error_msg );
 
 } // namespace om_direction
 
+namespace io
+{
+template<>
+std::string enum_to_string<om_vision_level>( om_vision_level );
+} // namespace io
+
 template<>
 struct enum_traits<om_direction::type> {
     static constexpr om_direction::type last = om_direction::type::last;
@@ -313,6 +319,14 @@ struct oter_type_t {
 
         std::string get_symbol() const;
 
+        uint32_t get_uint32_symbol() const {
+            return symbol;
+        }
+
+        nc_color get_color() const {
+            return color;
+        }
+
         oter_type_t() = default;
 
         oter_id get_first() const;
@@ -380,6 +394,16 @@ struct oter_t {
                 return seen->blends_adjacent;
             }
             return false;
+        }
+
+        std::string get_tileset_id( om_vision_level vision ) const {
+            if( const oter_vision::level *seen = type->vision_levels->viewed( vision ) ) {
+                if( seen->looks_like.empty() ) {
+                    return string_format( "vl#%s$%s", type->vision_levels.str(), io::enum_to_string( vision ) );
+                }
+                return "om#" + seen->looks_like;
+            }
+            return "om#" + type->id.str();
         }
 
         std::string get_name( om_vision_level vision ) const {

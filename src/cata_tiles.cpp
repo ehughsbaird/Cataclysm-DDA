@@ -52,6 +52,7 @@
 #include "npc.h"
 #include "output.h"
 #include "overlay_ordering.h"
+#include "overmap.h"
 #include "path_info.h"
 #include "pixel_minimap.h"
 #include "rect_range.h"
@@ -2308,8 +2309,16 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             }
         }
     }
-    if( auto ret = find_tile_with_season( id ) ) {
-        return ret; // no variant
+    if( category == TILE_CATEGORY::OVERMAP_TERRAIN ) {
+        // strip the leading sugar
+        std::string tile_id = id.substr( 3 );
+        if( auto ret = find_tile_with_season( tile_id ) ) {
+            return ret;
+        }
+    } else {
+        if( auto ret = find_tile_with_season( id ) ) {
+            return ret; // no variant
+        }
     }
 
     // Then do looks_like
@@ -2325,6 +2334,10 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
         case TILE_CATEGORY::MONSTER:
             return find_tile_looks_like_by_string_id<mtype>( id, category, looks_like_jumps_limit );
         case TILE_CATEGORY::OVERMAP_TERRAIN: {
+            bool is_omt = id.substr( 0, 3 ) == "om#";
+            if( !is_omt ) {
+                return std::nullopt;
+            }
             std::optional<tile_lookup_res> ret;
             const oter_type_str_id type_tmp( id );
             if( !type_tmp.is_valid() ) {
@@ -2334,7 +2347,7 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             int jump_limit = looks_like_jumps_limit;
             for( const std::string &looks_like : type_tmp.obj().looks_like ) {
 
-                ret = find_tile_looks_like( looks_like, category, "", jump_limit - 1 );
+                ret = find_tile_looks_like( "om#" + looks_like, category, "", jump_limit - 1 );
                 if( ret.has_value() ) {
                     return ret;
                 }
@@ -2525,7 +2538,10 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
     }
 
     map &here = get_map();
-    const std::string &found_id = res ? res->id() : id;
+    std::string found_id = res ? res->id() : id;
+    if( category == TILE_CATEGORY::OVERMAP_TERRAIN && res ) {
+        found_id = string_format( "om#%s", found_id );
+    }
 
     if( !tt ) {
         // Use fog overlay as fallback for transparent terrain
@@ -2608,17 +2624,28 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             sym = static_cast<uint8_t>( tmp.symbol().empty() ? ' ' : tmp.symbol().front() );
             col = tmp.color();
         } else if( category == TILE_CATEGORY::OVERMAP_TERRAIN ) {
-            const oter_type_str_id tmp( id );
-            if( tmp.is_valid() ) {
-                if( !tmp->is_linear() ) {
-                    // if rota is for a omt with connections, it can be outside the bounds of
-                    // om_direction::type. We can't do anything about that now, so just stay inbounds
-                    rota %= om_direction::size;
-                    sym = tmp->get_rotated( static_cast<om_direction::type>( rota ) )->get_uint32_symbol();
-                } else {
-                    sym = tmp->symbol;
+            bool is_vision = id.substr( 0, 3 ) == "vl#";
+            if( is_vision ) {
+                size_t id_end = id.find( "$" );
+                om_vision_level level = io::string_to_enum<om_vision_level>( id.substr( id_end + 1 ) );
+                oter_vision_id vision_id( id.substr( 3, id_end - 3 ) );
+                if( const oter_vision::level *viewed = vision_id->viewed( level ) ) {
+                    sym = viewed->symbol;
+                    col = viewed->color;
                 }
-                col = tmp->color;
+            } else {
+                const oter_type_str_id tmp( id );
+                if( tmp.is_valid() ) {
+                    if( !tmp->is_linear() ) {
+                        // if rota is for a omt with connections, it can be outside the bounds of
+                        // om_direction::type. We can't do anything about that now, so just stay inbounds
+                        rota %= om_direction::size;
+                        sym = tmp->get_rotated( static_cast<om_direction::type>( rota ) )->get_uint32_symbol();
+                    } else {
+                        sym = tmp->get_uint32_symbol();
+                    }
+                    col = tmp->get_color();
+                }
             }
         } else if( category == TILE_CATEGORY::OVERMAP_NOTE ) {
             sym = static_cast<uint8_t>( id[5] );

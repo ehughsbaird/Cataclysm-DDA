@@ -663,7 +663,12 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
     const tripoint_abs_omt &omp, int &rota, int &subtile )
 {
     auto oter_at = []( const tripoint_abs_omt & p ) {
-        const oter_id &cur_ter = overmap_buffer.ter( p );
+        oter_id cur_ter = overmap_buffer.ter( p );
+        om_vision_level vision = overmap_buffer.seen( p );
+        if( cur_ter->blends_adjacent( vision ) ) {
+            oter_vision::blended_omt info = get_blended_omt_info( p );
+            cur_ter = info.id;
+        }
 
         if( !uistate.overmap_show_forest_trails &&
             ( cur_ter->get_type_id() == oter_type_forest_trail ) ) {
@@ -705,7 +710,8 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
         ot.get_rotation_and_subtile( rota, subtile );
     }
 
-    return ot_type_id.id().str();
+    om_vision_level vision = overmap_buffer.seen( omp );
+    return ot_id->get_tileset_id( vision );
 }
 
 static point draw_string( Font &font,
@@ -811,14 +817,14 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 const tripoint_abs_omt omp_sky( omp.xy(), OVERMAP_HEIGHT );
                 if( uistate.overmap_debug_weather ||
                     you.overmap_los( omp_sky, sight_points * 2 ) ) {
-                    id = overmap_ui::get_weather_at_point( omp_sky ).c_str();
+                    id = string_format( "om#%s", overmap_ui::get_weather_at_point( omp_sky ).c_str() );
                 } else {
-                    id = "unexplored_terrain";
+                    id = "om#unexplored_terrain";
                 }
             } else if( vision == om_vision_level::unseen ) {
-                id = "unknown_terrain";
+                id = "om#unknown_terrain";
             } else {
-                static_assert( false, "FIX vision levels" );
+                static_assert( true, "FIX vision levels" );
                 id = get_omt_id_rotation_and_subtile( omp, rotation, subtile );
                 mx = overmap_buffer.extra( omp );
             }
@@ -944,7 +950,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
                 oter_id rotated_id = s_ter.terrain->get_rotated( uistate.omedit_rotation );
                 const oter_t &terrain = *rotated_id;
-                std::string id = terrain.get_type_id().str();
+                std::string id = "om#" + terrain.get_type_id().str();
                 int rotation;
                 int subtile;
                 terrain.get_rotation_and_subtile( rotation, subtile );
