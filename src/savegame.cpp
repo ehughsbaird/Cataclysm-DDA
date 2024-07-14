@@ -69,7 +69,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 33;
+const int savegame_version = 34;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -932,7 +932,19 @@ void overmap::unserialize_view( const JsonObject &jsobj )
             JsonArray visible_json = view_member;
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
                 JsonArray visible_by_z_json = visible_json.next_array();
-                unserialize_array_from_compacted_sequence( visible_by_z_json, layer[z].visible );
+                if( savegame_loading_version < 34 ) {
+                    cata::mdarray<bool, point_om_omt> old_vision;
+                    unserialize_array_from_compacted_sequence( visible_by_z_json, old_vision );
+                    for( int y = 0; y < OMAPY; ++y ) {
+                        for( int x = 0; x < OMAPX; ++x ) {
+                            point_om_omt idx( x, y );
+                            layer[z].visible[idx] = old_vision[idx] ? om_vision_level::full :
+                                                    om_vision_level::unseen;
+                        }
+                    }
+                } else {
+                    unserialize_array_from_compacted_sequence( visible_by_z_json, layer[z].visible );
+                }
                 if( visible_by_z_json.has_more() ) {
                     visible_by_z_json.throw_error( "Too many sequences for z visible view" );
                 }

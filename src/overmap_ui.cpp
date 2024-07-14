@@ -642,7 +642,7 @@ static void draw_ascii(
             }
 
             const tripoint_abs_omt pos = np->global_omt_location();
-            if( has_debug_vision || overmap_buffer.seen_more_than( pos, om_vision_level::outlines ) ) {
+            if( has_debug_vision || overmap_buffer.seen_more_than( pos, om_vision_level::details ) ) {
                 auto iter = npc_color.find( pos );
                 nc_color np_color = np->basic_symbol_color();
                 if( iter == npc_color.end() ) {
@@ -858,7 +858,7 @@ static void draw_ascii(
         }
     }
 
-    if( has_debug_vision || overmap_buffer.seen_more_than( center, om_vision_level::outlines ) ) {
+    if( has_debug_vision || overmap_buffer.seen_more_than( center, om_vision_level::details ) ) {
         for( const auto &npc : npcs_near_player ) {
             if( !npc->marked_for_death && npc->global_omt_location() == center ) {
                 corner_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
@@ -2196,7 +2196,7 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         ret.first = "&";
     } else if( opts.blink && opts.showhordes &&
                overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE &&
-               args.vision > om_vision_level::outlines &&
+               args.vision > om_vision_level::details &&
                ( overmap_ui::get_and_assign_los( args.los, player_character, omp, opts.sight_points ) ||
                  uistate.overmap_debug_mongroup || player_character.has_trait( trait_DEBUG_CLAIRVOYANCE ) ) ) {
         // Display Hordes only when within player line-of-sight

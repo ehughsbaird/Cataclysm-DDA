@@ -3165,7 +3165,7 @@ void overmap::set_seen( const tripoint_om_omt &p, om_vision_level val )
 
     layer[p.z() + OVERMAP_DEPTH].visible[p.xy()] = val;
 
-    if( val > om_vision_level::outlines ) {
+    if( val > om_vision_level::details ) {
         add_extra_note( p );
     }
 }
