@@ -560,7 +560,7 @@ static void draw_ascii(
     const bool has_debug_vision = player_character.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
-                             player_character.overmap_sight_range( g->light_level( player_character.posz() ) ) :
+                             player_character.overmap_modified_sight_range( g->light_level( player_character.posz() ) ) :
                              100;
 
     oter_display_lru lru_cache;
@@ -934,7 +934,7 @@ static void draw_om_sidebar(
     const bool has_debug_vision = player_character.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
-                             player_character.overmap_sight_range( g->light_level( player_character.posz() ) ) :
+                             player_character.overmap_modified_sight_range( g->light_level( player_character.posz() ) ) :
                              100;
     om_vision_level center_vision = has_debug_vision ? om_vision_level::full :
                                     overmap_buffer.seen( center );

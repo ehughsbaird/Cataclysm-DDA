@@ -1123,7 +1123,8 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     const int top = -( height / 2 );
     const int bottom = height + top - 1;
 
-    oter_display_options opts( center_xyz, u.overmap_sight_range( g->light_level( u.posz() ) ) );
+    oter_display_options opts( center_xyz,
+                               u.overmap_modified_sight_range( g->light_level( u.posz() ) ) );
     opts.showhordes = true;
     if( mission_xyz != overmap::invalid_tripoint ) {
         opts.mission_target = mission_xyz;
