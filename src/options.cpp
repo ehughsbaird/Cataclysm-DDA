@@ -2846,6 +2846,45 @@ void options_manager::add_options_debug()
         this->add_empty_line( "debug" );
     };
 
+    add( "DISTANCE_INITIAL_VISIBILITY", "debug", to_translation( "Distance initial visibility" ),
+         to_translation( "Determines the scope, which is known in the beginning of the game." ),
+         3, 20, 15
+       );
+
+    add( "OVERMAP_SIGHT_DISTANCE_DIVISOR", "debug", to_translation( "Overmap sight distance divisor" ),
+         to_translation( "Divisor on sight distance on the overmap. Higher values will reduce visible range" ),
+         1, 20, 10
+       );
+
+    add_empty_line();
+
+    add_option_group( "debug", Group( "chargen_point_opts",
+                                      to_translation( "Character Generation Points Options" ),
+                                      to_translation( "Options regarding character generation points." ) ),
+    [&]( const std::string & page_id ) {
+        add( "INITIAL_STAT_POINTS", page_id, to_translation( "Initial stat points" ),
+             to_translation( "Initial points available to spend on stats on character generation." ),
+             0, 1000, 6
+           );
+
+        add( "INITIAL_TRAIT_POINTS", page_id, to_translation( "Initial trait points" ),
+             to_translation( "Initial points available to spend on traits on character generation." ),
+             0, 1000, 0
+           );
+
+        add( "INITIAL_SKILL_POINTS", page_id, to_translation( "Initial skill points" ),
+             to_translation( "Initial points available to spend on skills on character generation." ),
+             0, 1000, 2
+           );
+
+        add( "MAX_TRAIT_POINTS", page_id, to_translation( "Maximum trait points" ),
+             to_translation( "Maximum trait points available for character generation." ),
+             0, 1000, 12
+           );
+    } );
+
+    add_empty_line();
+
     add( "DEBUG_DIFFICULTIES", "debug", to_translation( "Show values for character creation" ),
          to_translation( "In character creation will show the underlying value that is used to determine difficulty." ),
          false
