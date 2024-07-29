@@ -775,6 +775,24 @@ std::string oter_type_t::get_symbol() const
     return utf32_to_utf8( symbol );
 }
 
+double oter_type_t::see_cost_value( oter_type_t::see_costs data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case oter_type_t::see_costs::pit: return 0.0;
+        case oter_type_t::see_costs::flat: return 0.0;
+        case oter_type_t::see_costs::brush: return 0.3;
+        case oter_type_t::see_costs::fence: return 0.4;
+        case oter_type_t::see_costs::forest: return 0.75;
+        case oter_type_t::see_costs::buildings: return 0.9;
+        case oter_type_t::see_costs::obstacle: return 0.99;
+        case oter_type_t::see_costs::opaque: return 1.0;
+        default: break;
+        // *INDENT-ON*
+    }
+    return 0.0;
+}
+
 namespace io
 {
 template<>
@@ -863,7 +881,7 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
 
     assign( jo, "name", name, strict );
-    assign( jo, "see_cost", see_cost, strict );
+    mandatory( jo, was_loaded, "see_cost", see_cost );
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );
     assign( jo, "entry_eoc", entry_EOC, strict );
@@ -7689,6 +7707,27 @@ std::string enum_to_string<om_vision_level>( om_vision_level data )
     }
     debugmsg( "Unknown om_vision_level %d", static_cast<int>( data ) );
     return "unseen";
+}
+
+template<>
+std::string enum_to_string<oter_type_t::see_costs>( oter_type_t::see_costs data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case oter_type_t::see_costs::pit: return "SC1:pit";
+        case oter_type_t::see_costs::flat: return "SC2:flat";
+        case oter_type_t::see_costs::brush: return "SC3:brush";
+        case oter_type_t::see_costs::fence: return "SC4:fence";
+        case oter_type_t::see_costs::forest: return "SC5:forest";
+        case oter_type_t::see_costs::buildings: return "SC6:buildings";
+        case oter_type_t::see_costs::obstacle: return "SC7:obstacle";
+        case oter_type_t::see_costs::opaque: return "SC8:opaque";
+        // *INDENT-ON*
+        default:
+            break;
+    }
+    debugmsg( "Unknown see_cost %d", static_cast<int>( data ) );
+    return "SC2:flat";
 }
 } // namespace io
 
