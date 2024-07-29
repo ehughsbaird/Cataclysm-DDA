@@ -5,7 +5,7 @@
     "vision_levels": "underground_dirt",
     "name": "sewer",
     "color": "green",
-    "see_cost": 5,
+    "see_cost": "SC7:obstacle",
     "extras": "sewer"
   },
   {
@@ -34,7 +34,7 @@
     "vision_levels": "isolated_building",
     "sym": "P",
     "color": "red",
-    "see_cost": 5,
+    "see_cost": "SC6:buildings",
     "flags": [ "KNOWN_DOWN" ]
   },
   {
@@ -44,7 +44,7 @@
     "name": "open air",
     "sym": ".",
     "color": "blue",
-    "see_cost": 5
+    "see_cost": "SC1:pit"
   },
   {
     "type": "overmap_terrain",
@@ -53,7 +53,7 @@
     "vision_levels": "isolated_building",
     "sym": "P",
     "color": "red",
-    "see_cost": 5
+    "see_cost": "SC6:buildings"
   },
   {
     "type": "overmap_terrain",
@@ -62,7 +62,7 @@
     "sym": "O",
     "color": "blue",
     "vision_levels": "single_water",
-    "see_cost": 5,
+    "see_cost": "SC2:flat",
     "flags": [ "KNOWN_DOWN" ]
   },
   {
@@ -72,7 +72,7 @@
     "sym": "O",
     "color": "blue",
     "vision_levels": "roof_or_air",
-    "see_cost": 5
+    "see_cost": "SC2:flat"
   },
   {
     "type": "overmap_terrain",
@@ -88,7 +88,7 @@
     "sym": "P",
     "color": "green",
     "vision_levels": "underground_dirt",
-    "see_cost": 5,
+    "see_cost": "SC7:obstacle",
     "extras": "build",
     "flags": [ "KNOWN_UP" ]
   },
@@ -99,7 +99,7 @@
     "sym": "D",
     "color": "pink",
     "vision_levels": "isolated_building",
-    "see_cost": 2,
+    "see_cost": "SC5:forest",
     "flags": [ "RISK_HIGH" ]
   },
   {
@@ -122,7 +122,7 @@
     "sym": "X",
     "color": "pink",
     "vision_levels": "isolated_building",
-    "see_cost": 5,
+    "see_cost": "SC6:buildings",
     "flags": [ "RISK_HIGH" ]
   },
   {
@@ -162,7 +162,7 @@
     "vision_levels": "isolated_building",
     "sym": "P",
     "color": "green",
-    "see_cost": 999,
+    "see_cost": "SC6:buildings",
     "mondensity": 2
   },
   {

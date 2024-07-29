@@ -6,7 +6,7 @@
     "name": "ravine",
     "sym": ".",
     "color": "blue",
-    "see_cost": 1
+    "see_cost": "SC1:pit"
   },
   {
     "type": "overmap_terrain",

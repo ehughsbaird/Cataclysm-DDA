@@ -22,7 +22,7 @@
     "name": "monster corpse bowels",
     "sym": "O",
     "color": "light_red",
-    "see_cost": 5,
+    "see_cost": "SC7:obstacle",
     "flags": [ "RISK_HIGH" ]
   },
   {
@@ -32,7 +32,7 @@
     "name": "monster corpse bowels",
     "sym": "O",
     "color": "light_red",
-    "see_cost": 5,
+    "see_cost": "SC7:obstacle",
     "flags": [ "RISK_HIGH", "NO_ROTATE" ]
   },
   {
