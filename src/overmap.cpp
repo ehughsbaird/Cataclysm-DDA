@@ -779,18 +779,18 @@ double oter_type_t::see_cost_value( oter_type_t::see_costs data )
 {
     switch( data ) {
         // *INDENT-OFF*
-        case oter_type_t::see_costs::pit: return 0.0;
-        case oter_type_t::see_costs::flat: return 0.0;
-        case oter_type_t::see_costs::brush: return 0.3;
-        case oter_type_t::see_costs::fence: return 0.4;
-        case oter_type_t::see_costs::forest: return 0.75;
-        case oter_type_t::see_costs::buildings: return 0.9;
-        case oter_type_t::see_costs::obstacle: return 0.99;
-        case oter_type_t::see_costs::opaque: return 1.0;
+        case oter_type_t::see_costs::pit: return 0;
+        case oter_type_t::see_costs::flat: return 0;
+        case oter_type_t::see_costs::brush: return 1;
+        case oter_type_t::see_costs::fence: return 2;
+        case oter_type_t::see_costs::forest: return 4;
+        case oter_type_t::see_costs::buildings: return 5;
+        case oter_type_t::see_costs::obstacle: return 10;
+        case oter_type_t::see_costs::opaque: return 999;
         default: break;
         // *INDENT-ON*
     }
-    return 0.0;
+    return 0;
 }
 
 namespace io

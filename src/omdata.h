@@ -441,6 +441,9 @@ struct oter_t {
         double get_see_cost() const {
             return oter_type_t::see_cost_value( type->see_cost );
         }
+        bool can_see_down_through() const {
+            return type->see_cost == oter_type_t::see_costs::pit;
+        }
         oter_travel_cost_type get_travel_cost_type() const {
             return type->travel_cost_type;
         }

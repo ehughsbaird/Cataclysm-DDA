@@ -2858,6 +2858,11 @@ void options_manager::add_options_debug()
          3, 20, 15
        );
 
+    add( "OVERMAP_SIGHT_DISTANCE_DIVISOR", "debug", to_translation( "Overmap sight distance divisor" ),
+         to_translation( "Divisor on sight distance on the overmap. Higher values will reduce visible range" ),
+         1, 20, 10
+       );
+
     add_empty_line();
 
     add_option_group( "debug", Group( "chargen_point_opts",
