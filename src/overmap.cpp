@@ -3715,7 +3715,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     if( get_option<bool>( "OVERMAP_PLACE_SPECIALS" ) ) {
         place_specials( enabled_specials );
     }
-    if( get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) && !placed_highways.none() ) {
+    if( get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) /*&& !placed_highways.none()*/ ) {
         finalize_highways();
     }
     if( get_option<bool>( "OVERMAP_PLACE_FOREST_TRAILHEADS" ) ) {
@@ -4782,8 +4782,123 @@ void overmap::populate_connections_out_from_neighbors( const overmap *north, con
     } );
 }
 
+constexpr int HW_LAT_DIVERGE_MIN = 8;
+constexpr int HW_BEND_LENGTH = 8;
+static const std::map<om_direction::type, point_rel_omt> direction_to_offset = {
+    {om_direction::type::north, point_rel_omt( 0, -1 )},
+    {om_direction::type::south, point_rel_omt( 0, 1 )},
+    {om_direction::type::west, point_rel_omt( -1, 0 )},
+    {om_direction::type::east, point_rel_omt( 1, 0 )}
+};
+static const std::map<om_direction::type, om_direction::type> opposite_dirs = {
+    {om_direction::type::north, om_direction::type::south},
+    {om_direction::type::south, om_direction::type::north},
+    {om_direction::type::west, om_direction::type::east},
+    {om_direction::type::east, om_direction::type::west}
+};
+
+static om_direction::type left_or_right_of( om_direction::type dir, bool right )
+{
+    static const std::map<om_direction::type, om_direction::type> direction_to_left = {
+        {om_direction::type::north, om_direction::type::west},
+        {om_direction::type::south, om_direction::type::east},
+        {om_direction::type::west, om_direction::type::south},
+        {om_direction::type::east, om_direction::type::north}
+    };
+    static const std::map<om_direction::type, om_direction::type> direction_to_right = {
+        {om_direction::type::north, om_direction::type::east},
+        {om_direction::type::south, om_direction::type::west},
+        {om_direction::type::west, om_direction::type::north},
+        {om_direction::type::east, om_direction::type::south}
+    };
+    if( right ) {
+        return direction_to_right.at( dir );
+    } else {
+        return direction_to_left.at( dir );
+    }
+}
+
+// Place a highway starting at start, in direction dir, deviating laterally by lateral_divergence
+// (negative is to the left, positive is to the right), going length tiles.
+// returns end point
+point_om_omt overmap::place_highway( point_om_omt start, om_direction::type dir,
+                                     int lateral_divergence, int length )
+{
+    // Because of the shape required for bending a highway, the lateral divergence can only be certain numbers
+    if( std::abs( lateral_divergence ) % HW_LAT_DIVERGE_MIN != 0 ) {
+        debugmsg( "Tried to place a highway with invalid lateral divergence %d", lateral_divergence );
+        return start;
+    }
+
+    // number of bends required to shift the highway by lateral_divergence
+    int number_bends = std::abs( lateral_divergence ) / HW_LAT_DIVERGE_MIN;
+    if( length < number_bends * HW_BEND_LENGTH ) {
+        debugmsg( "Tried to place a highway with insufficient length %d for lateral divergence %d.",
+                  length, lateral_divergence );
+        return start;
+    }
+
+    // Highways must be placed in bounds
+    // FIXME: doesn't account for going out of bounds laterally
+    int bent_tiles = number_bends * HW_BEND_LENGTH;
+    if( ( dir == om_direction::type::north && start.y() - length < 0 ) ||
+        ( dir == om_direction::type::south && start.y() + length > OMAPY ) ||
+        ( dir == om_direction::type::west && start.x() - length < 0 ) ||
+        ( dir == om_direction::type::east && start.x() + length > OMAPX ) ) {
+        debugmsg( "Tried to place a highway out of bounds (%d, %d) + %d len %d bends",
+                  start.x(), start.y(), length, bent_tiles );
+    }
+
+    int remaining_bends = number_bends;
+    int remaining_length = length;
+    point_om_omt cursor = start;
+    point_rel_omt opposite_lane = direction_to_offset.at( left_or_right_of( dir, true ) );
+    point_rel_omt forward_offset = direction_to_offset.at( dir );
+    point_rel_omt bend_offset = direction_to_offset.at( left_or_right_of( dir,
+                                lateral_divergence > 0 ) );
+
+    while( remaining_length > 0 ) {
+        // portion of remaining length that is bends
+        float bend_pressure = static_cast<float>( remaining_bends * HW_BEND_LENGTH ) / remaining_length;
+        // 25% - magic number!
+        if( bend_pressure > 0.25 ) {
+            // place a bend
+            overmap_special_id bend = settings->overmap_highway.bends.pick();
+            om_direction::type rot1 = dir;
+            om_direction::type rot2 = opposite_dirs.at( dir ) ;
+            point off1 = ( 0 * bend_offset.raw() ) + ( 4 * forward_offset.raw() );
+            point off2 = ( 9 * bend_offset.raw() ) + ( 3 * forward_offset.raw() );
+            if( lateral_divergence < 0 ) {
+                rot1 = left_or_right_of( dir, true );
+                rot2 = left_or_right_of( dir, false );
+                off1 = ( -1 * bend_offset.raw() ) + ( 4 * forward_offset.raw() );
+                off2 = ( 8 * bend_offset.raw() ) + ( 3 * forward_offset.raw() );
+            }
+            place_special_forced( bend, tripoint_om_omt( cursor + off1, 0 ), rot1 );
+            place_special_forced( bend, tripoint_om_omt( cursor + off2, 0 ), rot2 );
+            remaining_length -= HW_BEND_LENGTH;
+            --remaining_bends;
+            point_om_omt old_cursor = cursor;
+            cursor += ( ( HW_BEND_LENGTH ) * forward_offset ) + ( HW_LAT_DIVERGE_MIN * bend_offset );
+            add_msg( m_info, "Cursor from (%d %d) -> (%d %d)", old_cursor.x(), old_cursor.y(), cursor.x(),
+                     cursor.y() );
+            continue;
+        }
+        ter_set( tripoint_om_omt( cursor, 0 ),// oter_type_empty_rock->get_rotated( dir ) );
+                 settings->overmap_highway.reserved_terrain_id->get_rotated( dir ) );
+        ter_set( tripoint_om_omt( cursor + opposite_lane, 0 ),// oter_type_empty_rock->get_rotated( dir ) );
+                 settings->overmap_highway.reserved_terrain_id->get_rotated( dir ) );
+        cursor += forward_offset;
+        --remaining_length;
+    }
+    return cursor;
+}
+
 void overmap::place_highways()
 {
+    point_om_omt start( 0, rng( 80, 100 ) );
+    place_highway( start, om_direction::type::east, rng( -2, 2 ) * -8, OMAPY );
+    return;
     const point_abs_om this_om = pos();
     const int this_om_x = this_om.x();
     const int this_om_y = this_om.y();
@@ -4994,24 +5109,44 @@ void overmap::place_highways()
 
 void overmap::finalize_highways()
 {
-    const int &segment_width = settings->overmap_highway.width_of_segments;
+    const int segment_width = settings->overmap_highway.width_of_segments;
     // Symbolic ids to change the omt flags, symbols and names without changing the maps themselves
-    const oter_type_str_id &ramp_up_id = settings->overmap_highway.symbolic_ramp_up_id;
-    const oter_type_str_id &ramp_down_id = settings->overmap_highway.symbolic_ramp_down_id;
-    const oter_type_str_id &overpass_road_id = settings->overmap_highway.symbolic_overpass_road_id;
+    const oter_type_str_id ramp_up_id = settings->overmap_highway.symbolic_ramp_up_id;
+    const oter_type_str_id ramp_down_id = settings->overmap_highway.symbolic_ramp_down_id;
+    const oter_type_str_id overpass_road_id = settings->overmap_highway.symbolic_overpass_road_id;
     // To indicate not to place anything
     const overmap_special_id segment_null( "segment_null" );
     // Segment of flat highway
-    const overmap_special_id &segment_flat = settings->overmap_highway.segment_flat;
+    const overmap_special_id segment_flat = settings->overmap_highway.segment_flat;
     // Segment of flat highway with a road bridge
-    const overmap_special_id &segment_road_bridge = settings->overmap_highway.segment_road_bridge;
+    const overmap_special_id segment_road_bridge = settings->overmap_highway.segment_road_bridge;
     // Segment of highway bridge for over rivers and lakes
-    const overmap_special_id &segment_bridge = settings->overmap_highway.segment_bridge;
+    const overmap_special_id segment_bridge = settings->overmap_highway.segment_bridge;
     // Segment used under segment_bridge in water
-    const overmap_special_id &segment_bridge_supports =
+    const overmap_special_id segment_bridge_supports =
         settings->overmap_highway.segment_bridge_supports;
     // Segment of raised highway for a city
-    const overmap_special_id &segment_overpass = settings->overmap_highway.segment_overpass;
+    const overmap_special_id segment_overpass = settings->overmap_highway.segment_overpass;
+
+    for( int y = 0; y < OMAPY; ++y ) {
+        for( int x = 0; x < OMAPX; ++x ) {
+            tripoint_om_omt pt( x, y, 0 );
+            oter_id omt = ter( pt );
+            if( !omt->is_highway_reserved() ) {
+                continue;
+            }
+            om_direction::type omt_dir = omt->get_dir();
+            tripoint_om_omt adj = omt_dir == om_direction::type::south ? pt + point( -1, 0 ) :
+                                  omt_dir == om_direction::type::north ? pt + point( 1, 0 ) :
+                                  omt_dir == om_direction::type::east ? pt + point( 0, 1 ) : pt + point( 0, -1 );
+
+            if( ter( adj )->is_highway_reserved() ) {
+                place_special_forced( segment_flat, pt, omt_dir );
+            }
+        }
+    }
+
+    return;
     std::unordered_map<int, overmap_special_id> segments{
         // Flat highway
         {0, segment_null},

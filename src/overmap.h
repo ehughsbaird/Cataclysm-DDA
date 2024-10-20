@@ -479,6 +479,8 @@ class overmap
         void place_forest_trailheads();
 
         void place_highways();
+        point_om_omt place_highway( point_om_omt start, om_direction::type dir, int lateral_divergence,
+                                    int length );
         // Whether highway halfs starting at north were placed or not
         std::bitset<4> placed_highways;
         // Replace reserved omts with the appopriate maps now that cities have been placed
