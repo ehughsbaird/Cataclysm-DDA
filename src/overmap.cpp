@@ -800,12 +800,12 @@ double oter_type_t::see_cost_value( oter_type_t::see_costs cost )
         // *INDENT-OFF*
         case oter_type_t::see_costs::all_clear:
         case oter_type_t::see_costs::none: return 0;
-        case oter_type_t::see_costs::low: return 1;
-        case oter_type_t::see_costs::medium: return 2;
-        case oter_type_t::see_costs::spaced_high: return 4;
-        case oter_type_t::see_costs::high: return 5;
-        case oter_type_t::see_costs::full_high: return 10;
-        case oter_type_t::see_costs::opaque: return 999;
+        case oter_type_t::see_costs::low: return 0.05;
+        case oter_type_t::see_costs::medium: return 0.4;
+        case oter_type_t::see_costs::spaced_high: return 0.7;
+        case oter_type_t::see_costs::high: return 0.9;
+        case oter_type_t::see_costs::full_high: return 0.99;
+        case oter_type_t::see_costs::opaque: return 1;
         default: break;
         // *INDENT-ON*
     }
