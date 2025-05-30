@@ -55,8 +55,16 @@ static void view_overmap_line( const tripoint_abs_omt &from, const tripoint_abs_
         if( pt.z() > last_z && !ter->can_see_down_through() ) {
             break;
         }
+        if( vision_level > 0.9 ) {
+            overmap_buffer.set_seen( pt, om_vision_level::full );
+        } else if( vision_level > 0.7 ) {
+            overmap_buffer.set_seen( pt, om_vision_level::details );
+        } else if( vision_level > 0.4 ) {
+            overmap_buffer.set_seen( pt, om_vision_level::outlines );
+        } else {
+            overmap_buffer.set_seen( pt, om_vision_level::vague );
+        }
         vision_level *= ( 1.0 - ter->get_see_cost() );
-        overmap_buffer.set_seen( pt, om_vision_level::full );
 
         last_z = pt.z();
         could_see_vertical_from_last = ter->can_see_down_through();
