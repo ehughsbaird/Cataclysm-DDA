@@ -1,10 +1,11 @@
 #include "avatar.h"
 #include "game.h"
+#include "omcasting.h"
 #include "omdata.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 
-static std::vector<tripoint_abs_omt> edges_around( const tripoint_abs_omt &center, int dist )
+std::vector<tripoint_abs_omt> edges_around( const tripoint_abs_omt &center, int dist )
 {
     std::vector<tripoint_abs_omt> ret;
     tripoint_range<tripoint_abs_omt> candidates = points_in_radius( center, dist );
@@ -30,8 +31,8 @@ static std::vector<tripoint_abs_omt> edges_around( const tripoint_abs_omt &cente
     return ret;
 }
 
-static void view_overmap_line( const tripoint_abs_omt &from, const tripoint_abs_omt &to,
-                               std::unordered_map<tripoint_abs_omt, oter_id> &seen_tiles )
+void view_overmap_line( const tripoint_abs_omt &from, const tripoint_abs_omt &to,
+                        std::unordered_map<tripoint_abs_omt, oter_id> &seen_tiles )
 {
     double vision_level = 1.0;
     // draw a line from the point we're standing to each point that would be the furthest point we can see
@@ -105,34 +106,27 @@ void game::update_overmap_seen()
                                            - ( EARTH_RADIUS * EARTH_RADIUS ) );
 
     const int sight_radius = distance_to_horizon / ( HORIZON_DISTANCE_DIVIDER * TILE_WIDTH );
-    fprintf( stderr, "sight radius (%g) -> (%g)^2 - %g^2 -> %g - %g -> sqrt(%g) ->%g, %d\n",
-             player_eye_height, player_eye_height + EARTH_RADIUS, EARTH_RADIUS,
-             ( ( player_eye_height + EARTH_RADIUS ) * ( player_eye_height * EARTH_RADIUS ) ),
-             EARTH_RADIUS * EARTH_RADIUS, ( ( player_eye_height + EARTH_RADIUS ) *
-                                            ( player_eye_height * EARTH_RADIUS ) ) - ( EARTH_RADIUS * EARTH_RADIUS ), distance_to_horizon,
-             sight_radius );
-    fflush( stderr );
+    printf( "%d\n", sight_radius );
 
     const tripoint_abs_omt ompos = u.pos_abs_omt();
     // We can always see where we're standing
     overmap_buffer.set_seen( ompos, om_vision_level::full );
 
-    std::unordered_map<tripoint_abs_omt, oter_id> seen_tiles_acc;
-
-    for( int z = OVERMAP_HEIGHT; z >= -OVERMAP_DEPTH; --z ) {
-        std::vector<tripoint_abs_omt> ends;
-        if( z == OVERMAP_HEIGHT || z == OVERMAP_DEPTH ) {
-            tripoint_range<tripoint_abs_omt> points = points_in_radius( tripoint_abs_omt( ompos.xy(), z ),
-                    sight_radius );
-            ends.reserve( points.size() );
-            for( const tripoint_abs_omt &edge : points ) {
-                ends.emplace_back( edge );
-            }
-        } else {
-            ends = edges_around( tripoint_abs_omt( ompos.xy(), z ), sight_radius );
-        }
-        for( const tripoint_abs_omt &edge : ends ) {
-            view_overmap_line( ompos, tripoint_abs_omt( edge.xy(), z ), seen_tiles_acc );
-        }
+    std::array<cata::mdarray<float, point_rel_omt, OMAPX, OMAPY>, OVERMAP_LAYERS>> output;
+    std::array<cata::mdarray<float, point_rel_omt, OMAPX, OMAPY>, OVERMAP_LAYERS>> input;
+    std::array<cata::mdarray<bool, point_rel_omt, OMAPX, OMAPY>, OVERMAP_LAYERS>> floors;
+    for(int z = 0; z < OVERMAP_LAYERS; ++z) {
+	    for(int x = 0; x < OMAPX; ++x) {
+		    for(int y = 0; y < OMAPY; ++y) {
+		    }
+	    }
     }
+
+    std::array<cata::mdarray<float, point_rel_omt, OMAPX, OMAPY> *, OVERMAP_LAYERS> output_caches;
+    std::array<const cata::mdarray<float, point_rel_omt, OMAPX, OMAPY> *, OVERMAP_LAYERS> input_arrays;
+    std::array<const cata::mdarray<bool, point_rel_omt, OMAPX, OMAPY> *, OVERMAP_LAYERS> floor_caches;
+    omcast::cast_zlight<float, omcast::sight_calc, omcast::sight_check, omcast::accumulate_transparency>
+    ( output_caches,
+      input_arrays, floor_caches, ompos, 0, 1.f, omcast::vertical_direction::BOTH );
+
 }

@@ -1,4 +1,4 @@
-#include "shadowcasting.h"
+#include "omcasting.h"
 
 #include <cstdint>
 #include <cstdlib>
@@ -10,6 +10,9 @@
 #include "line.h"
 #include "list.h"
 #include "point.h"
+
+namespace omcast
+{
 
 // historically 8 bits is enough for rise and run, as a shadowcasting radius of 60
 // readily fits within that space. larger shadowcasting volumes may require larger
@@ -166,21 +169,21 @@ void cast_horizontal_zlight_segment(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint_bub_ms &offset, const int offset_distance,
+    const tripoint_rel_omt &offset, const int offset_distance,
     const T numerator )
 {
-    const int radius = MAX_VIEW_DISTANCE - offset_distance;
+    const int radius = OMAPX - offset_distance;
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
-    static half_open_rectangle<point_bub_ms> bounds( point_bub_ms::zero, point_bub_ms( MAPSIZE_X,
-            MAPSIZE_Y ) );
+    point_rel_omt bound_pt( OMAPX / 2, OMAPY / 2 );
+    static half_open_rectangle<point_rel_omt> bounds( offset.xy() - bound_pt, offset.xy() + bound_pt );
 
     slope new_start_minor( 1, 1 );
 
     T last_intensity( 0.0 );
-    tripoint_rel_ms delta;
-    tripoint_bub_ms current;
+    tripoint_rel_omt delta;
+    tripoint_rel_omt current;
 
     // We start out with one span covering the entire horizontal and vertical space
     // we are interested in.  Then as changes in transparency are encountered, we truncate
@@ -299,7 +302,8 @@ void cast_horizontal_zlight_segment(
                         current_transparency = new_transparency;
                     }
 
-                    const int dist = rl_dist( tripoint_rel_ms::zero, delta ) + offset_distance;
+                    // FIXME: SUS
+                    const int dist = rl_dist( tripoint_rel_omt::zero, delta ) + offset_distance;
                     last_intensity = calc( numerator, this_span->cumulative_value, dist );
 
                     if( !floor_block ) {
@@ -363,10 +367,10 @@ void cast_vertical_zlight_segment(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint_bub_ms &offset, const int offset_distance,
+    const tripoint_rel_omt &offset, const int offset_distance,
     const T numerator )
 {
-    const int radius = MAX_VIEW_DISTANCE - offset_distance;
+    const int radius = OMAPX - offset_distance;
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
@@ -374,8 +378,8 @@ void cast_vertical_zlight_segment(
     slope new_start_minor( 1, 1 );
 
     T last_intensity( 0.0 );
-    tripoint_rel_ms delta;
-    tripoint_bub_ms current;
+    tripoint_rel_omt delta;
+    tripoint_rel_omt current;
 
     // We start out with one span covering the entire horizontal and vertical space
     // we are interested in.  Then as changes in transparency are encountered, we truncate
@@ -471,7 +475,8 @@ void cast_vertical_zlight_segment(
                         current_transparency = new_transparency;
                     }
 
-                    const int dist = rl_dist( tripoint_rel_ms::zero, delta ) + offset_distance;
+                    // FIXME: SUS
+                    const int dist = rl_dist( tripoint_rel_omt::zero, delta ) + offset_distance;
                     last_intensity = calc( numerator, this_span->cumulative_value, dist );
 
                     if( !floor_block ) {
@@ -534,7 +539,7 @@ void cast_zlight(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint_bub_ms &origin, const int offset_distance, const T numerator,
+    const tripoint_rel_omt &origin, const int offset_distance, const T numerator,
     vertical_direction dir )
 {
     if( dir == vertical_direction::DOWN || dir == vertical_direction::BOTH ) {
@@ -668,12 +673,7 @@ template void cast_zlight<float, sight_calc, sight_check, accumulate_transparenc
     const array_of_grids_of<float> &output_caches,
     const array_of_grids_of<const float> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint_bub_ms &origin, int offset_distance, float numerator,
+    const tripoint_rel_omt &origin, int offset_distance, float numerator,
     vertical_direction dir );
 
-template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
-    const array_of_grids_of<fragment_cloud> &output_caches,
-    const array_of_grids_of<const fragment_cloud> &input_arrays,
-    const array_of_grids_of<const bool> &floor_caches,
-    const tripoint_bub_ms &origin, int offset_distance, fragment_cloud numerator,
-    vertical_direction dir );
+}

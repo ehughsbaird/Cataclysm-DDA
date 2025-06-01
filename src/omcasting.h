@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_SHADOWCASTING_H
-#define CATA_SRC_SHADOWCASTING_H
+#ifndef CATA_SRC_OMCASTING_H
+#define CATA_SRC_OMCASTING_H
 
 #include <algorithm>
 #include <array>
@@ -14,7 +14,8 @@
 #include "map_scale_constants.h"
 #include "mdarray.h"
 
-struct fragment_cloud;
+namespace omcast
+{
 
 // For light we store four values, depending on the direction that the light
 // comes from.  This allows us to determine whether the side of the wall the
@@ -119,8 +120,8 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
          T( *accumulate )( const T &, const T &, const int & )>
-void castLightAll( cata::mdarray<Out, point_bub_ms> &output_cache,
-                   const cata::mdarray<T, point_bub_ms> &input_array,
+void castLightAll( cata::mdarray<Out, point_rel_omt, OMAPX, OMAPY> &output_cache,
+                   const cata::mdarray<T, point_rel_omt, OMAPX, OMAPY> &input_array,
                    const point_bub_ms &offset, int offsetDistance = 0,
                    T numerator = 1.0 );
 
@@ -128,8 +129,8 @@ template<typename T>
 using array_of_grids_of =
     std::conditional_t <
     std::is_const_v<T>,
-    std::array<const cata::mdarray<std::remove_const_t<T>, point_bub_ms>*, OVERMAP_LAYERS>,
-    std::array<cata::mdarray<T, point_bub_ms>*, OVERMAP_LAYERS>
+    std::array<const cata::mdarray<std::remove_const_t<T>, point_rel_omt, OMAPX, OMAPY>*, OVERMAP_LAYERS>,
+    std::array<cata::mdarray<T, point_rel_omt, OMAPX, OMAPY>*, OVERMAP_LAYERS>
     >;
 
 // TODO: Generalize the floor check, allow semi-transparent floors
@@ -140,7 +141,9 @@ void cast_zlight(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint_bub_ms &origin, int offset_distance, T numerator,
+    const tripoint_rel_omt &origin, int offset_distance, T numerator,
     vertical_direction dir = vertical_direction::BOTH );
 
-#endif // CATA_SRC_SHADOWCASTING_H
+} // omcast
+
+#endif // CATA_SRC_OMCASTING_H
