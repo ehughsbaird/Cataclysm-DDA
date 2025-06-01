@@ -105,28 +105,67 @@ void game::update_overmap_seen()
                                            ( ( player_eye_height + EARTH_RADIUS ) * ( player_eye_height + EARTH_RADIUS ) )
                                            - ( EARTH_RADIUS * EARTH_RADIUS ) );
 
-    const int sight_radius = distance_to_horizon / ( HORIZON_DISTANCE_DIVIDER * TILE_WIDTH );
+    const int sight_radius = std::min<int>( distance_to_horizon / ( HORIZON_DISTANCE_DIVIDER *
+                                            TILE_WIDTH ),
+                                            ( OMAPX / 2 ) - 1 );
     printf( "%d\n", sight_radius );
 
     const tripoint_abs_omt ompos = u.pos_abs_omt();
     // We can always see where we're standing
     overmap_buffer.set_seen( ompos, om_vision_level::full );
 
-    std::array<cata::mdarray<float, point_rel_omt, OMAPX, OMAPY>, OVERMAP_LAYERS>> output;
-    std::array<cata::mdarray<float, point_rel_omt, OMAPX, OMAPY>, OVERMAP_LAYERS>> input;
-    std::array<cata::mdarray<bool, point_rel_omt, OMAPX, OMAPY>, OVERMAP_LAYERS>> floors;
-    for(int z = 0; z < OVERMAP_LAYERS; ++z) {
-	    for(int x = 0; x < OMAPX; ++x) {
-		    for(int y = 0; y < OMAPY; ++y) {
-		    }
-	    }
+    std::array<cata::mdarray<float, point_rel_omt, OMAPX, OMAPY>, OVERMAP_LAYERS> output;
+    std::array<cata::mdarray<float, point_rel_omt, OMAPX, OMAPY>, OVERMAP_LAYERS> input;
+    std::array<cata::mdarray<bool, point_rel_omt, OMAPX, OMAPY>, OVERMAP_LAYERS> floors;
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        input[z].fill( 0.f );
+        floors[z].fill( false );
+        output[z].fill( 0.f );
+        for( int x = -sight_radius; x <= sight_radius; ++x ) {
+            for( int y = -sight_radius; y <= sight_radius; ++y ) {
+                point_rel_omt index( x + sight_radius, y + sight_radius );
+                tripoint_abs_omt loc( ompos.x() + x, ompos.y() + y, z );
+                oter_id ter = overmap_buffer.ter( loc );
+                input[z][index] = ter->get_see_cost();
+                floors[z][index] = ter->can_see_down_through();
+            }
+        }
     }
 
     std::array<cata::mdarray<float, point_rel_omt, OMAPX, OMAPY> *, OVERMAP_LAYERS> output_caches;
     std::array<const cata::mdarray<float, point_rel_omt, OMAPX, OMAPY> *, OVERMAP_LAYERS> input_arrays;
     std::array<const cata::mdarray<bool, point_rel_omt, OMAPX, OMAPY> *, OVERMAP_LAYERS> floor_caches;
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        output_caches[z] = &output[z];
+        input_arrays[z] = &input[z];
+        floor_caches[z] = &floors[z];
+    }
+
     omcast::cast_zlight<float, omcast::sight_calc, omcast::sight_check, omcast::accumulate_transparency>
     ( output_caches,
-      input_arrays, floor_caches, ompos, 0, 1.f, omcast::vertical_direction::BOTH );
+      input_arrays, floor_caches, tripoint_rel_omt( sight_radius, sight_radius, ompos.z() ), 0, 1.f,
+      omcast::vertical_direction::BOTH );
 
+    FILE *fp = fopen( "draw.log", "w" );
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        float min = 19819;
+        float max = -18919;
+        fprintf( fp, "Z: %d\n", z - OVERMAP_DEPTH );
+        for( int x = 0; x < OMAPX; ++x ) {
+            for( int y = 0; y < OMAPY; ++y ) {
+                float val = ( *output_caches[z] )[x][y];
+                min = std::min( val, min );
+                max = std::max( val, max );
+                int bucket = static_cast<int>( 9 * std::clamp( val, 0.f, 1.f ) );
+                const char *color = "\033[30m";
+                if( bucket > 0 ) {
+                    color = "\033[32m";
+                }
+                fprintf( fp, "%s%c\033[0m", color, '0' + bucket );
+            }
+            fprintf( fp, "\n" );
+        }
+        fprintf( fp, "Min: %g, Max: %g\n\n", min, max );
+    }
+    fclose( fp );
 }

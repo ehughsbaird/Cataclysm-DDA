@@ -18,7 +18,7 @@ namespace omcast
 // readily fits within that space. larger shadowcasting volumes may require larger
 // storage units; a radius of 120 definitely will not fit.
 struct slope {
-    slope( int_least8_t rise, int_least8_t run ) {
+    slope( int_least32_t rise, int_least32_t run ) {
         // Ensure run is always positive for the inequality operators
         this->run = std::abs( run );
         if( run < 0 ) {
@@ -29,8 +29,8 @@ struct slope {
     }
 
     // see above for commentary on types.
-    int_least8_t rise;
-    int_least8_t run;
+    int_least32_t rise;
+    int_least32_t run;
 };
 
 static bool operator<( const slope &lhs, const slope &rhs )
