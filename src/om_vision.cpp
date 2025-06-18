@@ -1,5 +1,6 @@
 #include "avatar.h"
 #include "game.h"
+#include "messages.h"
 #include "omcasting.h"
 #include "omdata.h"
 #include "overmap.h"
@@ -76,6 +77,33 @@ void view_overmap_line( const tripoint_abs_omt &from, const tripoint_abs_omt &to
     }
 }
 
+static void dump_mdarray( const char *filename,
+                          const std::array<cata::mdarray<float, point_rel_omt, OMAPX, OMAPY>, OVERMAP_LAYERS> &input )
+{
+    FILE *fp = fopen( filename, "w" );
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        float min = 19819;
+        float max = -18919;
+        fprintf( fp, "Z: %d\n", z - OVERMAP_DEPTH );
+        for( int x = 0; x < OMAPX; ++x ) {
+            for( int y = 0; y < OMAPY; ++y ) {
+                float val = input[z][x][y];
+                min = std::min( val, min );
+                max = std::max( val, max );
+                int bucket = static_cast<int>( 9 * std::clamp( val, 0.f, 1.f ) );
+                const char *color = "\033[30m";
+                if( bucket > 0 ) {
+                    color = "\033[32m";
+                }
+                fprintf( fp, "%s%c\033[0m", color, '0' + bucket );
+            }
+            fprintf( fp, "\n" );
+        }
+        fprintf( fp, "Min: %g, Max: %g\n\n", min, max );
+    }
+    fclose( fp );
+}
+
 // called when shifting the map, changing z-levels, generally moving the player
 void game::update_overmap_seen()
 {
@@ -124,13 +152,14 @@ void game::update_overmap_seen()
         for( int x = -sight_radius; x <= sight_radius; ++x ) {
             for( int y = -sight_radius; y <= sight_radius; ++y ) {
                 point_rel_omt index( x + sight_radius, y + sight_radius );
-                tripoint_abs_omt loc( ompos.x() + x, ompos.y() + y, z );
+                tripoint_abs_omt loc( ompos.x() + x, ompos.y() + y, z - OVERMAP_DEPTH );
                 oter_id ter = overmap_buffer.ter( loc );
                 input[z][index] = ter->get_see_cost();
                 floors[z][index] = ter->can_see_down_through();
             }
         }
     }
+    dump_mdarray( "input", input );
 
     std::array<cata::mdarray<float, point_rel_omt, OMAPX, OMAPY> *, OVERMAP_LAYERS> output_caches;
     std::array<const cata::mdarray<float, point_rel_omt, OMAPX, OMAPY> *, OVERMAP_LAYERS> input_arrays;
@@ -145,27 +174,16 @@ void game::update_overmap_seen()
     ( output_caches,
       input_arrays, floor_caches, tripoint_rel_omt( sight_radius, sight_radius, ompos.z() ), 0, 1.f,
       omcast::vertical_direction::BOTH );
-
-    FILE *fp = fopen( "draw.log", "w" );
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
-        float min = 19819;
-        float max = -18919;
-        fprintf( fp, "Z: %d\n", z - OVERMAP_DEPTH );
-        for( int x = 0; x < OMAPX; ++x ) {
-            for( int y = 0; y < OMAPY; ++y ) {
-                float val = ( *output_caches[z] )[x][y];
-                min = std::min( val, min );
-                max = std::max( val, max );
-                int bucket = static_cast<int>( 9 * std::clamp( val, 0.f, 1.f ) );
-                const char *color = "\033[30m";
-                if( bucket > 0 ) {
-                    color = "\033[32m";
+        for( int y = 0; y < OMAPY; ++y ) {
+            for( int x = 0; x < OMAPX; ++x ) {
+                tripoint_rel_omt offset( -sight_radius + x, -sight_radius + y, z - OVERMAP_DEPTH );
+                if( output[z][point_rel_omt( x, y )] > 0.01 ) {
+                    overmap_buffer.set_seen( ompos + offset, om_vision_level::full );
                 }
-                fprintf( fp, "%s%c\033[0m", color, '0' + bucket );
             }
-            fprintf( fp, "\n" );
         }
-        fprintf( fp, "Min: %g, Max: %g\n\n", min, max );
     }
-    fclose( fp );
+    add_msg( m_info, "Casted!" );
+    dump_mdarray( "draw.log", output );
 }

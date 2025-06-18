@@ -799,13 +799,13 @@ double oter_type_t::see_cost_value( oter_type_t::see_costs cost )
     switch( cost ) {
         // *INDENT-OFF*
         case oter_type_t::see_costs::all_clear:
-        case oter_type_t::see_costs::none: return 0;
-        case oter_type_t::see_costs::low: return 0.0;
-        case oter_type_t::see_costs::medium: return 0.1;
-        case oter_type_t::see_costs::spaced_high: return 0.2;
-        case oter_type_t::see_costs::high: return 0.3;
-        case oter_type_t::see_costs::full_high: return 0.5;
-        case oter_type_t::see_costs::opaque: return 1;
+        case oter_type_t::see_costs::none: return LIGHT_TRANSPARENCY_OPEN_AIR;
+        case oter_type_t::see_costs::low: return LIGHT_TRANSPARENCY_OPEN_AIR * 0.9;
+        case oter_type_t::see_costs::medium: return LIGHT_TRANSPARENCY_OPEN_AIR * 0.7;
+        case oter_type_t::see_costs::spaced_high: return LIGHT_TRANSPARENCY_OPEN_AIR * 0.5;
+        case oter_type_t::see_costs::high: return LIGHT_TRANSPARENCY_OPEN_AIR * 0.4;
+        case oter_type_t::see_costs::full_high: return LIGHT_TRANSPARENCY_OPEN_AIR * 0.2;
+        case oter_type_t::see_costs::opaque: return LIGHT_TRANSPARENCY_SOLID;
         default: break;
         // *INDENT-ON*
     }
