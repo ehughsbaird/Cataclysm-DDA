@@ -404,7 +404,7 @@ void cast_vertical_zlight_segment(
                 const slope trailing_edge_major( delta.y() * 2 - 1, delta.z() * 2 + 1 );
                 const slope leading_edge_major( delta.y() * 2 + 1, delta.z() * 2 - 1 );
                 current.y() = offset.y() + delta.y() * y_transform;
-                if( current.y() < 0 || current.y() >= MAPSIZE_Y ) {
+                if( current.y() < 0 || current.y() >= OMAPY ) {
                     // Current tile is out of bounds, advance to the next tile.
                     continue;
                 }
@@ -437,7 +437,7 @@ void cast_vertical_zlight_segment(
                     const slope trailing_edge_minor( delta.x() * 2 - 1, delta.z() * 2 + 1 );
                     const slope leading_edge_minor( delta.x() * 2 + 1, delta.z() * 2 - 1 );
 
-                    if( current.x() < 0 || current.x() >= MAPSIZE_X ||
+                    if( current.x() < 0 || current.x() >= OMAPX ||
                         current.z() > max_z || current.z() < min_z ) {
                         // Current tile is out of bounds, advance to the next tile.
                         continue;

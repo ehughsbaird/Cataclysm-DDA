@@ -2904,6 +2904,7 @@
     "type": "keybinding",
     "name": "Debug menu",
     "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard_char", "key": "`" }, { "input_method": "keyboard_code", "key": "`", "mod": [  ] } ],
     "id": "debug"
   },
   {
