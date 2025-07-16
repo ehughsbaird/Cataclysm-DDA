@@ -115,6 +115,7 @@
 #include "submap.h"
 #include "text_snippets.h"
 #include "tileray.h"
+#include "try_parse_integer.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_type.h"
@@ -4831,6 +4832,32 @@ void field_type_migrations::check()
     }
 }
 
+std::string sm_tile_idx::to_string_writable() const
+{
+    return std::to_string( idx );
+}
+
+sm_tile_idx sm_tile_idx::from_string( const std::string &s )
+{
+    ret_val<int> attempt = try_parse_integer<int>( s, false );
+    // off-by-one upper bound intentional!
+    if( !attempt.success() || attempt.value() < 0 || attempt.value() > SEEX * SEEY ) {
+        debugmsg( "Bad tile idx %s: %s", s, attempt.str() );
+        return sm_tile_idx( SEEX * SEEY );
+    }
+    return attempt.value();
+}
+
+void sm_tile_overlay::deserialize( const JsonObject &jo )
+{
+}
+
+void sm_tile_overlay::serialize( JsonOut &out ) const
+{
+    out.start_object();
+    out.end_object();
+}
+
 void submap::store( JsonOut &jsout ) const
 {
     jsout.member( "turn_last_touched", last_touched );
@@ -4990,6 +5017,8 @@ void submap::store( JsonOut &jsout ) const
         jsout.end_array();
     }
     jsout.end_array();
+
+    jsout.member( "overlays", overlays );
 
     // Output the spawn points
     jsout.member( "spawns" );
@@ -5286,6 +5315,8 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 cosmetic_entry.throw_error( "Too many values for cosmetics" );
             }
         }
+    } else if( member_name == "overlays" ) {
+        jv.read( overlays );
     } else if( member_name == "spawns" ) {
         JsonArray spawns_json = jv;
         for( JsonArray spawn_entry : spawns_json ) {

@@ -143,6 +143,14 @@ void submap::delete_signage( const point_sm_ms &p )
     }
 }
 
+void submap::clear_overlay( const point_sm_ms &p, bool is_ter )
+{
+    // so far, the only values we have are not affected by furniture changing
+    if( is_ter ) {
+        overlays.erase( sm_tile_idx::from_point( p ) );
+    }
+}
+
 bool submap::has_computer( const point_sm_ms &p ) const
 {
     return !is_uniform() && computers.find( p ) != computers.end();

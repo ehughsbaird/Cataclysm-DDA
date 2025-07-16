@@ -1772,7 +1772,8 @@ bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, cons
     }
 
     current_submap->set_furn( l, new_target_furniture );
-    current_submap->set_map_damage( point_sm_ms( l ), 0 );
+    current_submap->set_map_damage( l, 0 );
+    current_submap->clear_overlay( l, false );
 
     // Set the dirty flags
     const furn_t &old_f = old_id.obj();
@@ -1959,6 +1960,35 @@ void map::set_map_damage( const tripoint_bub_ms &p, int dmg )
         return;
     }
     current_submap->set_map_damage( l, dmg );
+}
+
+const sm_tile_overlay *map::get_overlay( const tripoint_bub_ms &p ) const
+{
+    if( !inbounds( p ) ) {
+        return nullptr;
+    }
+
+    point_sm_ms l;
+    const submap *current_submap = unsafe_get_submap_at( p, l );
+    if( current_submap == nullptr ) {
+        return nullptr;
+    }
+    return current_submap->get_overlay( l );
+}
+
+void map::set_overlay( const tripoint_bub_ms &p, const sm_tile_overlay &overlay )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+
+    point_sm_ms l;
+    submap *const current_submap = unsafe_get_submap_at( p, l );
+    if( current_submap == nullptr ) {
+        debugmsg( "Could not set overlay as submap is not loaded" );
+        return;
+    }
+    return current_submap->set_overlay( l, overlay );
 }
 
 uint8_t map::get_known_connections( const tripoint_bub_ms &p,
@@ -2219,7 +2249,8 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
     }
 
     current_submap->set_ter( l, new_terrain );
-    current_submap->set_map_damage( point_sm_ms( l ), 0 );
+    current_submap->set_map_damage( l, 0 );
+    current_submap->clear_overlay( l, true );
 
     // Set the dirty flags
     const ter_t &old_t = old_id.obj();

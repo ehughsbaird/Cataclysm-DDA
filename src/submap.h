@@ -40,6 +40,11 @@ class JsonOut;
 class JsonValue;
 class map;
 
+struct sm_tile_overlay {
+    void deserialize( const JsonObject &jo );
+    void serialize( JsonOut &out ) const;
+};
+
 struct spawn_point {
     point_sm_ms pos;
     int count;
@@ -93,6 +98,9 @@ struct sm_tile_idx {
         }
         return sm_tile_idx( ( p.y() * SEEY ) + p.x() );
     }
+
+    std::string to_string_writable() const;
+    static sm_tile_idx from_string( const std::string & );
 };
 
 template<>
@@ -171,6 +179,20 @@ class submap
         void set_map_damage( const point_sm_ms &p, int dmg ) {
             state[sm_tile_idx::from_point( p )] = { dmg };
         }
+
+        const sm_tile_overlay *get_overlay( const point_sm_ms &p ) const {
+            auto it = overlays.find( sm_tile_idx::from_point( p ) );
+            if( it == overlays.end() ) {
+                return nullptr;
+            }
+            return &it->second;
+        }
+
+        void set_overlay( const point_sm_ms &p, const sm_tile_overlay &values ) {
+            overlays[sm_tile_idx::from_point( p )] = values;
+        }
+
+        void clear_overlay( const point_sm_ms &p, bool is_ter );
 
         ter_id get_ter( const point_sm_ms &p ) const {
             if( is_uniform() ) {
@@ -359,6 +381,7 @@ class submap
 
     private:
         std::unordered_map<sm_tile_idx, tile_state> state;
+        std::unordered_map<sm_tile_idx, sm_tile_overlay> overlays;
         std::map<point_sm_ms, computer> computers;
         std::unique_ptr<maptile_soa> m;
         ter_id uniform_ter = t_null;

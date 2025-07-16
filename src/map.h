@@ -74,6 +74,7 @@ class zone_data;
 struct fragment_cloud;
 struct partial_con;
 struct spawn_data;
+struct sm_tile_overlay;
 struct trap;
 template<typename Tripoint>
 class tripoint_range;
@@ -1561,6 +1562,9 @@ class map
         const field_type_str_id &get_applicable_electricity_field( const tripoint_bub_ms &p ) const;
 
     private:
+        const sm_tile_overlay *get_overlay( const tripoint_bub_ms &p ) const;
+        void set_overlay( const tripoint_bub_ms &p, const sm_tile_overlay &overlay );
+
         // Is called when field intensity is changed.
         // Invalidates relevan map caches, such as transparency cache.
         void on_field_modified( const tripoint_bub_ms &p, const field_type &fd_type );
