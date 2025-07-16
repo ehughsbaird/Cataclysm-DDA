@@ -3357,6 +3357,34 @@ class jmapgen_vehicle : public jmapgen_piece_with_has_vehicle_collision
         }
 };
 /**
+ * Set a map overlay.
+ * "lock_difficulty": how hard it is to lockpick this square - 0-127 type limit, but above 12 not advised
+ */
+class jmapgen_set_overlay : public jmapgen_piece
+{
+    public:
+        jmapgen_int lock_difficulty;
+
+        // todo: this will have optional fields in the future
+        jmapgen_set_overlay( const JsonObject &jsi, std::string_view/*context*/ ) :
+            lock_difficulty( jsi, "lock_difficulty", 0, 12 ) {}
+
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
+                    const std::string &/*context*/ ) const override {
+            dat.m.set_lockpick_difficulty( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ),
+                                           lock_difficulty.get() );
+        }
+
+        void check( const std::string &/*oter_name*/, const mapgen_parameters &/*parameters*/,
+                    const jmapgen_int &/*x*/, const jmapgen_int &/*y*/, const jmapgen_int &/*z*/
+                  ) const override {
+            if( lock_difficulty.val < 0 || lock_difficulty.val > std::numeric_limits<int8_t>::max() ||
+                lock_difficulty.valmax < 0 || lock_difficulty.valmax > std::numeric_limits<int8_t>::max() ) {
+                debugmsg( "Invalid lock difficulty range [%d, %d]", lock_difficulty.val, lock_difficulty.valmax );
+            }
+        }
+};
+/**
  * Place a specific item.
  * "item": id of item type to spawn.
  * "chance": chance of spawning it (1 = always, otherwise one_in(chance)).
@@ -5023,6 +5051,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, std::string_
     new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings, c );
     new_pal.load_place_mapings<jmapgen_ter_furn_transform>( jo, "ter_furn_transforms",
             format_placings, c );
+    new_pal.load_place_mapings<jmapgen_set_overlay>( jo, "overlays", format_placings, c );
 
     for( mapgen_palette::placing_map::value_type &p : format_placings ) {
         p.second.erase(
@@ -5299,6 +5328,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     objects.load_objects<jmapgen_variable>( jo, "place_variables", context_ );
     // Needs to be last as it affects other placed items
     objects.load_objects<jmapgen_faction>( jo, "faction_owner", context_ );
+    objects.load_objects<jmapgen_set_overlay>( jo, "overlays", context_ );
 
     objects.finalize();
 

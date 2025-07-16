@@ -890,6 +890,10 @@ class map
         int get_map_damage( const tripoint_bub_ms &p ) const;
         void set_map_damage( const tripoint_bub_ms &p, int dmg );
 
+        // not const because it can set difficulty if none exists
+        int get_lockpick_difficulty( const tripoint_bub_ms &p );
+        void set_lockpick_difficulty( const tripoint_bub_ms &p, int diff );
+
         // Return a bitfield of the adjacent tiles which connect to the given
         // connect_group.  From least-significant bit the order is south, east,
         // west, north (because that's what cata_tiles expects).

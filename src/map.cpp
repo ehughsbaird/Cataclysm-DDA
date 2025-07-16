@@ -1991,6 +1991,29 @@ void map::set_overlay( const tripoint_bub_ms &p, const sm_tile_overlay &overlay 
     return current_submap->set_overlay( l, overlay );
 }
 
+int map::get_lockpick_difficulty( const tripoint_bub_ms &p )
+{
+    const sm_tile_overlay *overlay = get_overlay( p );
+    if( overlay == nullptr || overlay->lock_quality < 0 ) {
+        sm_tile_overlay copy = overlay ? *overlay : sm_tile_overlay();
+        // 3d5
+        copy.lock_quality = rng( 0, 4 ) + rng( 0, 4 ) + rng( 0, 4 );
+        add_msg_debug( debugmode::DF_ACT_LOCKPICK, "generated difficulty %d.", copy.lock_quality );
+        set_overlay( p, copy );
+        return copy.lock_quality;
+    }
+    add_msg_debug( debugmode::DF_ACT_LOCKPICK, "read difficulty %d.", overlay->lock_quality );
+    return overlay->lock_quality;
+}
+
+void map::set_lockpick_difficulty( const tripoint_bub_ms &p, const int diff )
+{
+    const sm_tile_overlay *overlay_ptr = get_overlay( p );
+    sm_tile_overlay overlay = overlay_ptr ? *overlay_ptr : sm_tile_overlay();
+    overlay.lock_quality = diff;
+    set_overlay( p, overlay );
+}
+
 uint8_t map::get_known_connections( const tripoint_bub_ms &p,
                                     const std::bitset<NUM_TERCONN> &connect_group,
                                     const std::map<tripoint_bub_ms, ter_id> &override ) const

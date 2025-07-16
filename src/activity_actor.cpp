@@ -2681,9 +2681,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     // A standard deviation of 2 means that about 2/3 of rolls will come within 2 points of your mean_roll. Lockpicking
     int pick_roll = std::round( normal_roll( mean_roll, 2 ) );
 
-    // Lock_roll should be replaced with a flat value defined by the door, soon.
-    // In the meantime, let's roll 3d5-3, giving us a range of 0-12.
-    int lock_roll = rng( 0, 4 ) + rng( 0, 4 ) + rng( 0, 4 );
+    int lock_roll = here.get_lockpick_difficulty( target );
 
     add_msg_debug( debugmode::DF_ACT_LOCKPICK, "Rolled %i. Mean_roll %g. Difficulty %i.",
                    pick_roll, mean_roll, lock_roll );

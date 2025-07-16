@@ -4850,11 +4850,13 @@ sm_tile_idx sm_tile_idx::from_string( const std::string &s )
 
 void sm_tile_overlay::deserialize( const JsonObject &jo )
 {
+    jo.read( "lock_quality", lock_quality );
 }
 
 void sm_tile_overlay::serialize( JsonOut &out ) const
 {
     out.start_object();
+    out.member( "lock_quality", lock_quality );
     out.end_object();
 }
 

@@ -41,6 +41,8 @@ class JsonValue;
 class map;
 
 struct sm_tile_overlay {
+    int8_t lock_quality = -1; // how hard to lockpick, -1 is no value
+
     void deserialize( const JsonObject &jo );
     void serialize( JsonOut &out ) const;
 };
