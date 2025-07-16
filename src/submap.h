@@ -71,6 +71,37 @@ struct maptile_soa {
     void swap_soa_tile( const point_sm_ms &p1, const point_sm_ms &p2 );
 };
 
+// for serialize
+struct sm_tile_idx {
+    uint8_t idx;
+    static_assert( SEEX * SEEY < std::numeric_limits<uint8_t>::max() - 1,
+                   "submap state must hold SEEX * SEEY" );
+
+    // for hash
+    bool operator==( const sm_tile_idx &rhs ) const {
+        return idx == rhs.idx;
+    };
+
+    sm_tile_idx() = default;
+    sm_tile_idx( int x ) : idx( x ) {}
+
+    static sm_tile_idx from_point( const point_sm_ms &p ) {
+        if( p.x() < 0 || p.x() >= SEEX || p.y() < 0 || p.y() >= SEEY ) {
+            debugmsg( "Out of bounds point_sm_ms( %d, %d )", p.x(), p.y() );
+            // always out of bounds
+            return sm_tile_idx( SEEX * SEEY );
+        }
+        return sm_tile_idx( ( p.y() * SEEY ) + p.x() );
+    }
+};
+
+template<>
+struct std::hash<sm_tile_idx> {
+    size_t operator()( const sm_tile_idx &idx ) const {
+        return std::hash<uint8_t>()( idx.idx );
+    }
+};
+
 class submap
 {
     public:
@@ -128,16 +159,17 @@ class submap
             ensure_nonuniform();
             std::uninitialized_fill_n( &m->frn[0][0], elements, furn );
         }
+
         int get_map_damage( const point_sm_ms &p ) const {
-            auto it = ephemeral_data.find( p );
-            if( it != ephemeral_data.end() ) {
+            auto it = state.find( sm_tile_idx::from_point( p ) );
+            if( it != state.end() ) {
                 return it->second.damage;
             }
             return 0;
         }
 
         void set_map_damage( const point_sm_ms &p, int dmg ) {
-            ephemeral_data[p] = { dmg };
+            state[sm_tile_idx::from_point( p )] = { dmg };
         }
 
         ter_id get_ter( const point_sm_ms &p ) const {
@@ -320,12 +352,13 @@ class submap
         std::map<tripoint_sm_ms, partial_con> partial_constructions;
         std::unique_ptr<basecamp> camp;  // only allowing one basecamp per submap
 
-        struct tile_data {
+        struct tile_state {
+            // emphemeral: do not save!
             int damage;
         };
 
     private:
-        std::map<point_sm_ms, tile_data> ephemeral_data;
+        std::unordered_map<sm_tile_idx, tile_state> state;
         std::map<point_sm_ms, computer> computers;
         std::unique_ptr<maptile_soa> m;
         ter_id uniform_ter = t_null;
