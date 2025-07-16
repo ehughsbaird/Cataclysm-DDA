@@ -10,6 +10,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "lockpicking_door_test",
+    "vision_levels": "open_land",
+    "travel_cost_type": "field",
+    "see_cost": "low",
+    "name": "generic_cropland",
+    "land_use_code": "cropland"
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_pasture",
     "vision_levels": "open_land",
     "travel_cost_type": "field",

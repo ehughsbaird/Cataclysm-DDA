@@ -1,6 +1,55 @@
 [
   {
     "type": "mapgen",
+    "om_terrain": "lockpicking_door_test",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "-+-|-+-|-+-|-+-|-+-|-+- ",
+        "...  .  ... . . . . ... ",
+        ". . ..    . . . . . .   ",
+        ". .  .   .   .  ...  .. ",
+        "... ... ...  .    . ... ",
+        "                        ",
+        "-+-|-+-|-+-|-+-|-+-|-+- ",
+        "... ... ... ...  .  ... ",
+        "..    . . . . . . . ..  ",
+        ". .  .   .   .. ... . . ",
+        "... .   ...   . . . ... ",
+        "                        ",
+        "-+-                     ",
+        "...                     ",
+        ".                       ",
+        ".                       ",
+        "...                     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "+": "t_door_locked", ".": "t_floor", "-": "t_grass", "|": "t_dirt" },
+      "overlays": [
+        { "x": 1, "y": 0, "lock_difficulty": 0 },
+        { "x": 5, "y": 0, "lock_difficulty": 1 },
+        { "x": 9, "y": 0, "lock_difficulty": 2 },
+        { "x": 13, "y": 0, "lock_difficulty": 3 },
+        { "x": 17, "y": 0, "lock_difficulty": 4 },
+        { "x": 21, "y": 0, "lock_difficulty": 5 },
+        { "x": 1, "y": 6, "lock_difficulty": 6 },
+        { "x": 5, "y": 6, "lock_difficulty": 7 },
+        { "x": 9, "y": 6, "lock_difficulty": 8 },
+        { "x": 13, "y": 6, "lock_difficulty": 9 },
+        { "x": 17, "y": 6, "lock_difficulty": 10 },
+        { "x": 21, "y": 6, "lock_difficulty": 11 },
+        { "x": 1, "y": 12, "lock_difficulty": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": "microlab_generic_hallway_straight",
     "object": {
       "fill_ter": "t_strconc_floor",
