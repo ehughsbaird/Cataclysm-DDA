@@ -45,33 +45,7 @@ struct MonsterGroupEntry {
         return group != mongroup_id();
     }
 
-    MonsterGroupEntry( const mtype_id &new_id, int new_freq, int new_cost, int new_pack_min,
-                       int new_pack_max, const spawn_data &new_data, const time_duration &new_starts,
-                       const time_duration &new_ends, holiday new_event )
-        : mtype( new_id )
-        , frequency( new_freq )
-        , cost_multiplier( new_cost )
-        , pack_minimum( new_pack_min )
-        , pack_maximum( new_pack_max )
-        , data( new_data )
-        , starts( new_starts )
-        , ends( new_ends )
-        , event( new_event ) {
-    }
-
-    MonsterGroupEntry( const mongroup_id &new_id, int new_freq, int new_cost, int new_pack_min,
-                       int new_pack_max, const spawn_data &new_data, const time_duration &new_starts,
-                       const time_duration &new_ends, holiday new_event )
-        : group( new_id )
-        , frequency( new_freq )
-        , cost_multiplier( new_cost )
-        , pack_minimum( new_pack_min )
-        , pack_maximum( new_pack_max )
-        , data( new_data )
-        , starts( new_starts )
-        , ends( new_ends )
-        , event( new_event ) {
-    }
+    void deserialize( const JsonObject &jo );
 };
 
 struct MonsterGroupResult {
@@ -92,6 +66,7 @@ struct MonsterGroupResult {
 */
 struct MonsterGroup {
     mongroup_id id;
+    bool was_loaded = false;
     mtype_id defaultMonster;
     FreqDef monsters;
     bool IsMonsterInGroup( const mtype_id &id ) const;
@@ -111,6 +86,8 @@ struct MonsterGroup {
     // Get the total frequency of entries that are valid for the specified event.
     // This includes entries that have an event of "none". By default, use the current holiday.
     int event_adjusted_freq_total( holiday event = holiday::num_holiday ) const;
+
+    void load( const JsonObject &jo );
 };
 
 /**

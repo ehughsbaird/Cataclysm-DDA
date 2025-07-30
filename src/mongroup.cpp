@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
+#include "generic_factory.h"
 #include "mtype.h"
 #include "options.h"
 #include "rng.h"
@@ -450,123 +451,95 @@ std::map<mongroup_id, MonsterGroup> &MonsterGroupManager::Get_all_Groups()
 
 void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
 {
-    float mon_upgrade_factor = get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" );
-
     MonsterGroup g;
-    int freq_total = 0;
-    std::pair<mtype_id, int> max_freq( { mon_null, 0 } );
-
-    //TODO: Remove after 0.I
-    if( !jo.has_string( "id" ) && jo.has_string( "name" ) ) {
-        g.id = mongroup_id( jo.get_string( "name" ) );
-        debugmsg( R"((safely ignorable) monstergroup %s's "name" member should be renamed "id" before 0.I stable, you can use /tools/json-tools/monstergroup_name_to_id.py to automate this change)",
-                  g.id.c_str() );
-    } else {
-        g.id = mongroup_id( jo.get_string( "id" ) );
-    }
-
-    bool extending = false;  //If already a group with that name, add to it instead of overwriting it
+    mandatory( jo, false, "id", g.id );
     if( monsterGroupMap.count( g.id ) != 0 && !jo.get_bool( "override", false ) ) {
         g = monsterGroupMap[g.id];
-        extending = true;
     }
-    bool explicit_def_null = false;
-    if( !extending || jo.has_string( "default" ) ) {
-        g.defaultMonster = mtype_id( jo.get_string( "default", "mon_null" ) );
-        if( jo.has_string( "default" ) && g.defaultMonster == mon_null ) {
-            explicit_def_null = true;
-        }
-    } else if( extending && !jo.has_string( "default" ) && g.defaultMonster == mon_null ) {
-        explicit_def_null = true;
-    }
-    g.is_animal = jo.get_bool( "is_animal", false );
-    if( jo.has_array( "monsters" ) ) {
-        for( JsonObject mon : jo.get_array( "monsters" ) ) {
-            bool isgroup = false;
-            std::string id_name;
-            if( mon.has_string( "group" ) ) {
-                isgroup = true;
-                id_name = mon.get_string( "group" );
-            } else {
-                id_name = mon.get_string( "monster" );
-            }
-
-            holiday event = mon.get_enum_value<holiday>( "event", holiday::none );
-
-            int freq = mon.get_int( "weight", 1 );
-            if( mon.has_int( "freq" ) ) {
-                freq = mon.get_int( "freq" );
-            }
-            if( freq > max_freq.second ) {
-                if( !isgroup && event == holiday::none ) {
-                    max_freq = { mtype_id( id_name ), freq };
-                }
-            }
-            if( event == holiday::none ) {
-                freq_total += freq;
-            }
-            int cost = mon.get_int( "cost_multiplier", 1 );
-            int pack_min = 1;
-            int pack_max = 1;
-            if( mon.has_member( "pack_size" ) ) {
-                JsonArray packarr = mon.get_array( "pack_size" );
-                pack_min = packarr.next_int();
-                pack_max = packarr.next_int();
-            }
-            const int upgrade_mult = mon_upgrade_factor > 0 ? mon_upgrade_factor : 1;
-            const time_duration starts = mon.has_member( "starts" )
-                                         ? read_from_json_string<time_duration>( mon.get_member( "starts" ),
-                                                 time_duration::units ) * upgrade_mult
-                                         : 0_turns;
-            const time_duration ends = mon.has_member( "ends" )
-                                       ? read_from_json_string<time_duration> ( mon.get_member( "ends" ),
-                                               time_duration::units ) * upgrade_mult
-                                       : 0_turns;
-            spawn_data data;
-            if( mon.has_object( "spawn_data" ) ) {
-                const JsonObject &sd = mon.get_object( "spawn_data" );
-                if( sd.has_array( "ammo" ) ) {
-                    const JsonArray &ammos = sd.get_array( "ammo" );
-                    for( const JsonObject adata : ammos ) {
-                        data.ammo.emplace( itype_id( adata.get_string( "ammo_id" ) ), jmapgen_int( adata, "qty" ) );
-                    }
-                }
-            }
-            MonsterGroupEntry new_mon_group = isgroup ?
-                                              MonsterGroupEntry( mongroup_id( id_name ), freq, cost,
-                                                      pack_min, pack_max, data, starts, ends, event ) :
-                                              MonsterGroupEntry( mtype_id( id_name ), freq, cost, pack_min,
-                                                      pack_max, data, starts, ends, event );
-            if( mon.has_member( "conditions" ) ) {
-                for( const std::string line : mon.get_array( "conditions" ) ) {
-                    new_mon_group.conditions.push_back( line );
-                }
-            }
-
-            g.event_freq[event] += freq;
-            g.monsters.push_back( new_mon_group );
-        }
-        // If no default monster specified, use the highest frequency spawn as the default
-        if( g.defaultMonster == mon_null && !explicit_def_null ) {
-            g.defaultMonster = max_freq.first;
-        }
-    }
-    g.replace_monster_group = jo.get_bool( "replace_monster_group", false );
-    g.new_monster_group = mongroup_id( jo.get_string( "new_monster_group_id",
-                                       mongroup_id::NULL_ID().str() ) );
-    assign( jo, "replacement_time", g.monster_group_time, false, 1_days );
-    g.is_safe = jo.get_bool( "is_safe", false );
-
-    g.freq_total = jo.get_int( "freq_total", ( extending ? g.freq_total : 0 ) + freq_total );
-    if( jo.get_bool( "auto_total", false ) ) { //Fit the max size to the sum of all freqs
-        int total = 0;
-        for( MonsterGroupEntry &mon : g.monsters ) {
-            total += mon.frequency;
-        }
-        g.freq_total = total;
-    }
+    g.load( jo );
+    g.was_loaded = true;
 
     monsterGroupMap[g.id] = g;
+}
+
+void MonsterGroupEntry::deserialize( const JsonObject &jo )
+{
+    float mon_upgrade_factor = get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" );
+
+    // gross
+    if( jo.has_string( "group" ) ) {
+        mandatory( jo, false, "group", group );
+    } else {
+        mandatory( jo, false, "monster", mtype );
+    }
+
+    optional( jo, false, "event", event, holiday::none );
+    //holiday event = mon.get_enum_value<holiday>( "event", holiday::none );
+
+    if( jo.has_member( "weight" ) ) {
+        optional( jo, false, "weight", frequency, 1 );
+    } else {
+        optional( jo, false, "freq", frequency, 1 );
+    }
+    optional( jo, false, "cost_multiplier", cost_multiplier, 1 );
+    // FIXME: make these just a pair
+    if( jo.has_array( "pack_size" ) ) {
+        JsonArray ja = jo.get_array( "pack_size" );
+        if( ja.size() != 2 ) {
+            ja.throw_error( "invalid format" );
+        }
+        pack_minimum = ja[0];
+        pack_maximum = ja[1];
+    } else {
+        pack_minimum = 1;
+        pack_maximum = 1;
+    }
+
+    const int upgrade_mult = mon_upgrade_factor > 0 ? mon_upgrade_factor : 1;
+    optional( jo, false, "starts", starts, 0_turns );
+    optional( jo, false, "ends", ends, 0_turns );
+    // gross
+    starts *= upgrade_mult;
+    ends *= upgrade_mult;
+
+    optional( jo, false, "spawn_data", data );
+    optional( jo, false, "conditions", conditions );
+}
+
+void MonsterGroup::load( const JsonObject &jo )
+{
+    freq_total = 0;
+    std::pair<mtype_id, int> max_freq( { mon_null, 0 } );
+
+    bool explicit_def_null = was_loaded || jo.has_member( "default" );
+    optional( jo, was_loaded, "default", defaultMonster, mtype_id::NULL_ID() );
+    optional( jo, was_loaded, "is_animal", is_animal, false );
+
+    optional( jo, false, "monsters", monsters );
+    // FIXME: move a bunch of this to finalization
+
+    event_freq.clear();
+    for( const MonsterGroupEntry &entry : monsters ) {
+        freq_total += entry.frequency;
+        if( entry.frequency > max_freq.second && !entry.mtype.is_empty() && entry.event == holiday::none ) {
+            max_freq = std::make_pair( entry.mtype, entry.frequency );
+        }
+        if( entry.event == holiday::none ) {
+            freq_total += entry.frequency;
+        }
+        event_freq[entry.event] += entry.frequency;
+    }
+    if( defaultMonster == mon_null && !explicit_def_null ) {
+        defaultMonster = max_freq.first;
+    }
+
+    optional( jo, was_loaded, "replace_monster_group", replace_monster_group, false );
+    optional( jo, was_loaded, "new_monster_group_id", new_monster_group, mongroup_id::NULL_ID() );
+    optional( jo, was_loaded, "replacement_time", monster_group_time );
+    optional( jo, was_loaded, "is_safe", is_safe, false );
+
+    // already tallied up previously
+    optional( jo, was_loaded, "freq_total", freq_total, freq_total );
 }
 
 bool MonsterGroupManager::is_animal( const mongroup_id &group_name )
