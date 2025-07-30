@@ -179,8 +179,8 @@ class sound_iuse : public iuse_actor
         translation sound_message;
 
         int sound_volume = 0;
-        std::string sound_id = "misc";
-        std::string sound_variant = "default";
+        std::string sound_id;
+        std::string sound_variant;
 
         ~sound_iuse() override = default;
         void load( const JsonObject &obj, const std::string & ) override;
@@ -237,6 +237,9 @@ struct effect_data {
     bodypart_id bp;
     bool permanent;
 
+    void deserialize( const JsonObject &jo );
+
+    effect_data() = default;
     effect_data( const efftype_id &nid, const time_duration &dur, bodypart_id nbp, bool perm ) :
         id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {}
 };
@@ -567,22 +570,11 @@ class inscribe_actor : public iuse_actor
         bool material_restricted = true;
 
         // Materials it can write on
-        std::set<material_id> material_whitelist = {
-            material_id( "wood" ),
-            material_id( "clay" ),
-            material_id( "porcelain" ),
-            material_id( "plastic" ),
-            material_id( "glass" ),
-            material_id( "chitin" ),
-            material_id( "iron" ),
-            material_id( "steel" ),
-            material_id( "silver" ),
-            material_id( "bone" )
-        };
+        std::set<material_id> material_whitelist;
 
         // How will the inscription be described
-        translation verb = to_translation( "Carve" );
-        translation gerund = to_translation( "Carved" );
+        translation verb;
+        translation gerund;
 
         bool item_inscription( item &tool, item &cut ) const;
 
@@ -603,8 +595,8 @@ class fireweapon_off_actor : public iuse_actor
 {
     public:
         itype_id target_id;
-        translation success_message = to_translation( "hsss" );
-        translation failure_message = to_translation( "hsss" ); // Due to bad roll
+        translation success_message;
+        translation failure_message; // Due to bad roll
         int noise = 0; // If > 0 success message is a success sound instead
         int moves = 0;
         // Lower is better: rng(0, 10) - item.damage_level() > this variable
@@ -629,7 +621,7 @@ class fireweapon_off_actor : public iuse_actor
 class fireweapon_on_actor : public iuse_actor
 {
     public:
-        translation noise_message = to_translation( "hsss" ); // If noise is 0, message content instead
+        translation noise_message; // If noise is 0, message content instead
         translation charges_extinguish_message;
         translation water_extinguish_message;
         translation auto_extinguish_message;
@@ -651,7 +643,7 @@ class manualnoise_actor : public iuse_actor
 {
     public:
         translation use_message;
-        translation noise_message = to_translation( "hsss" );
+        translation noise_message;
         std::string noise_id;
         std::string noise_variant;
         int noise = 0; // Should work even with no volume, even if it seems impossible
@@ -1002,6 +994,9 @@ class place_trap_actor : public iuse_actor
             /** Move points that are used when placing the trap. */
             int moves = 100;
             void load( const JsonObject &obj );
+            void deserialize( const JsonObject &obj ) {
+                load( obj );
+            }
         };
         /** Whether one can place the trap when underwater. */
         bool allow_underwater = false;
@@ -1171,7 +1166,7 @@ class link_up_actor : public iuse_actor
         /** (Optional) Text displayed in the activation screen, defaults to "Plug in / Manage cables". */
         translation menu_text;
 
-        std::set<link_state> targets = { link_state::no_link, link_state::vehicle_port };
+        std::set<link_state> targets;
         std::set<std::string> can_extend;
 
         std::optional<int> link_to_veh_app( Character *p, item &it, bool to_ports ) const;
