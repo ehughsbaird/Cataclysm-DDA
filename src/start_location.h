@@ -23,15 +23,17 @@ enum class ot_match_type : int;
 struct city;
 
 struct start_location_placement_constraints {
-    numeric_interval<int> city_size{ 0, INT_MAX };
-    numeric_interval<int> city_distance{ 0, INT_MAX };
-    numeric_interval<int> allowed_z_levels{ -OVERMAP_DEPTH, OVERMAP_HEIGHT };
+    numeric_interval<int> city_size;
+    numeric_interval<int> city_distance;
+    numeric_interval<int> allowed_z_levels;
 };
 
 struct omt_types_parameters {
     std::string omt;
     ot_match_type omt_type;
     std::unordered_map<std::string, std::string> parameters;
+
+    void deserialize( const JsonValue &jv );
 };
 
 class start_location
