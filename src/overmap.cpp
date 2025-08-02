@@ -1392,6 +1392,15 @@ tripoint displace( cube_direction d )
     cata_fatal( "Invalid cube_direction" );
 }
 
+void overmap_special_connection::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "point", p );
+    optional( jo, false, "terrain", terrain );
+    optional( jo, false, "existing", existing, false );
+    optional( jo, false, "connection", connection );
+    optional( jo, false, "from", from );
+}
+
 struct special_placement_result {
     std::vector<tripoint_om_omt> omts_used;
     std::vector<std::pair<om_pos_dir, std::string>> joins_used;
